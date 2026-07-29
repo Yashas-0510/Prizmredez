@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: var(--font-jakarta), system-ui, sans-serif;
+    --font-serif: var(--font-serif), Georgia, serif;
+    --font-heading: var(--font-syne), var(--font-jakarta), sans-serif;
+    --font-mono: var(--font-mono), ui-monospace, monospace;
+
+    /* Shrine of the Prism — tokens */
+    --ink: #070708;
+    --ink-soft: #0d0d10;
+    --bone: #f2f0eb;
+    --dim: #8a8a92;
+    /* The one accent: iridescent dispersion */
+    --spectrum: linear-gradient(
+      100deg,
+      #ffd9a0 0%,
+      #ff9ec6 22%,
+      #c99cff 45%,
+      #8ec5ff 68%,
+      #9ff5e0 100%
+    );
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--ink);
+    color: var(--bone);
+    cursor: default;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  ::selection {
+    background: var(--bone);
+    color: var(--ink);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Shrine utilities                                                    */
+/* ------------------------------------------------------------------ */
+
+/* Metadata constellation member */
+.meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+/* Monumental display word */
+.monument {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+}
+
+/* The single spectral accent — a 1px dispersion line */
+.spectrum-line {
+  height: 1px;
+  background: var(--spectrum);
+  border: none;
+}
+
+/* Spectral text — used at most once per screen */
+.spectrum-text {
+  background: var(--spectrum);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hairline rules for gallery-room architecture */
+.rule {
+  background: rgba(242, 240, 235, 0.12);
+}
+
+/* Cinematic drift — 40s breathing zoom for hero objects */
+@keyframes drift {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.08) translate(-1%, -1.5%);
+  }
+}
+.object-drift {
+  animation: drift 40s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+::-webkit-scrollbar-thumb {
+  background: #26262c;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3d3d46;
+}

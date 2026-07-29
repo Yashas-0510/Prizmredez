@@ -1,0 +1,22 @@
+﻿[
+  {
+    "created_at": "2026-07-28T17:01:44.20575Z",
+    "display_name": "GPT Image 2",
+    "id": "dd202754-002b-4a9b-abd9-9b8dcdb00f79",
+    "job_type": "gpt_image_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170144_dd202754-002b-4a9b-abd9-9b8dcdb00f79_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [],
+      "model": "videotape-alpha",
+      "prompt": "Cinematic film still, anamorphic, premium product-film aesthetic: a flawless crystal prism suspended motionless at the heart of a jewel cavern, amethyst crystal terraces and gold formations fading into deep shadow, wet mirror floor with perfect reflections, soft god rays falling from above; the prism is lit like a sacred relic with one bright white glint at its apex; deep amethyst shadow dominates the frame, upper third nearly black empty darkness; restrained and elegant, dozens of crystals not hundreds; deep rich blacks, soft bloom, exquisite detail; no text, no logos, no people",
+      "quality": "high",
+      "reference_elements": [],
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170144_dd202754-002b-4a9b-abd9-9b8dcdb00f79.png",
+    "status": "completed"
+  }
+]

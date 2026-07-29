@@ -1,0 +1,31 @@
+﻿[
+  {
+    "created_at": "2026-07-28T17:04:51.098196Z",
+    "display_name": "GPT Image 2",
+    "id": "5c72b53e-b7de-46f7-a646-2bb7cc7f331a",
+    "job_type": "gpt_image_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170451_5c72b53e-b7de-46f7-a646-2bb7cc7f331a_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [
+        {
+          "data": {
+            "id": "b5492df4-92bc-4130-90b4-b08bb72f8aee",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/b5492df4-92bc-4130-90b4-b08bb72f8aee_resize.jpg"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "videotape-alpha",
+      "prompt": "The exact same black crystal prism, but now the camera is deep inside the glass: a macro refraction tunnel through the crystal interior, caustic light bending through the glass walls; separated strands of cyan, violet, magenta and amber light braid slowly through the interior like a frozen aurora inside stone; deep shadow fills the space between the strands; the strands converge toward a small bright white vanishing point glowing far ahead in the tunnel; macro crystal texture, exquisite detail, deep rich blacks, soft bloom; no text, no logos, no people",
+      "quality": "high",
+      "reference_elements": [],
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170451_5c72b53e-b7de-46f7-a646-2bb7cc7f331a.png",
+    "status": "completed"
+  }
+]

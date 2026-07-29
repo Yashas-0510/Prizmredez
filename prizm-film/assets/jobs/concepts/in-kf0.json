@@ -1,0 +1,22 @@
+﻿[
+  {
+    "created_at": "2026-07-28T17:01:54.130178Z",
+    "display_name": "GPT Image 2",
+    "id": "cf990a9b-6f93-477a-bb2b-94342670fdbe",
+    "job_type": "gpt_image_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170154_cf990a9b-6f93-477a-bb2b-94342670fdbe_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [],
+      "model": "videotape-alpha",
+      "prompt": "Cinematic film still, anamorphic macro: one colossal dark facet of a black crystal prism fills the frame like a monolith; the glass surface holds faint internal caustic veils and a suspended amethyst and teal shimmer glowing deep within; a hairline seam of white light traces one facet edge; cinematic haze; upper two thirds near-total darkness; a faint reflection on the dark glossy ground plane below; deep rich blacks, soft bloom, exquisite detail; no text, no logos, no people",
+      "quality": "high",
+      "reference_elements": [],
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170154_cf990a9b-6f93-477a-bb2b-94342670fdbe.png",
+    "status": "completed"
+  }
+]

@@ -1,0 +1,22 @@
+﻿[
+  {
+    "created_at": "2026-07-28T15:39:09.726798Z",
+    "display_name": "GPT Image 2",
+    "id": "54f92906-a009-4ad4-8377-616f40ab4107",
+    "job_type": "gpt_image_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_153909_54f92906-a009-4ad4-8377-616f40ab4107_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [],
+      "model": "videotape-alpha",
+      "prompt": "Ultra-macro cinematic film still, phantom high-speed camera aesthetic: a vast pool of perfectly still black water in deep ink darkness, the surface carrying a faint opalescent oil-slick sheen; a single glass-like water droplet hangs suspended just above the mirror-calm surface; one thin elegant beam of white light crosses the darkness horizontally and passes through the droplet, a tiny spectral glint glowing inside the glass; soft bloom, deep rich blacks, premium product-film lighting, exquisite detail; no text, no logos, no people",
+      "quality": "high",
+      "reference_elements": [],
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_153909_54f92906-a009-4ad4-8377-616f40ab4107.png",
+    "status": "completed"
+  }
+]

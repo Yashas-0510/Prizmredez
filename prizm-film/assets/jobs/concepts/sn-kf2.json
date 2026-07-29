@@ -1,0 +1,31 @@
+﻿[
+  {
+    "created_at": "2026-07-28T17:04:44.699019Z",
+    "display_name": "GPT Image 2",
+    "id": "e1db86a5-0ad4-47aa-a0ef-9f8541ea7cc1",
+    "job_type": "gpt_image_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170444_e1db86a5-0ad4-47aa-a0ef-9f8541ea7cc1_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [
+        {
+          "data": {
+            "id": "1bc47730-5ff4-4296-9a47-2050c28ac994",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/1bc47730-5ff4-4296-9a47-2050c28ac994_resize.jpg"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "videotape-alpha",
+      "prompt": "The exact same jewel cavern, same wet mirror floor, same palette: but now the suspended prism has detonated in extreme slow motion, a silent bloom of glass and spectrum frozen mid-explosion; door-sized glass shards tumble outward end over end, each single shard trailing exactly one spectral color, one cyan, one violet, one magenta, one amber; dust hangs frozen in the god rays; a white-hot afterglow glows where the prism hung; deep amethyst shadow still dominates the cavern walls; dozens of large shards, not hundreds; phantom high-speed camera aesthetic, deep rich blacks, soft bloom; no text, no logos, no people",
+      "quality": "high",
+      "reference_elements": [],
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170444_e1db86a5-0ad4-47aa-a0ef-9f8541ea7cc1.png",
+    "status": "completed"
+  }
+]

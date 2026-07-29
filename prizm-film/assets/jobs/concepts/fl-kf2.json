@@ -1,0 +1,31 @@
+﻿[
+  {
+    "created_at": "2026-07-28T17:04:33.777242Z",
+    "display_name": "GPT Image 2",
+    "id": "b6fcf7f7-a010-49e8-93c1-b75d11ef4781",
+    "job_type": "gpt_image_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170433_b6fcf7f7-a010-49e8-93c1-b75d11ef4781_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [
+        {
+          "data": {
+            "id": "f1665cb3-12ed-40f1-a0d1-4f27733cf1f5",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/f1665cb3-12ed-40f1-a0d1-4f27733cf1f5_resize.jpg"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "videotape-alpha",
+      "prompt": "The exact same obsidian cathedral cavern, same prism heart, same composition: but now the prism heart has ignited from within, glowing white-hot at its core, and thin veins of cyan and violet light race outward from it through the dark crystal walls like lines of fire; half the cavern still asleep in deep shadow on the left, the right half veined with spreading spectral light; the first soft god ray appears through haze above; shadow still dominates the frame, color lives only in the thin veins and the heart's core; dozens of lit veins, not hundreds; deep rich blacks, soft bloom, exquisite detail; no text, no logos, no people",
+      "quality": "high",
+      "reference_elements": [],
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170433_b6fcf7f7-a010-49e8-93c1-b75d11ef4781.png",
+    "status": "completed"
+  }
+]

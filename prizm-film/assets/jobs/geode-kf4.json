@@ -1,0 +1,29 @@
+﻿[
+  {
+    "created_at": "2026-07-28T14:13:01.792548Z",
+    "display_name": "Nano Banana Pro",
+    "id": "f7799c13-f532-42d5-9ca2-6798d460915a",
+    "job_type": "nano_banana_pro",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_141301_f7799c13-f532-42d5-9ca2-6798d460915a_min.webp",
+    "params": {
+      "application": null,
+      "aspect_ratio": "16:9",
+      "batch_size": 1,
+      "height": 1536,
+      "input_image": null,
+      "input_images": [
+        {
+          "id": "05f9d08c-be42-4db5-be74-88a92c8b6867",
+          "type": "media_input",
+          "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/05f9d08c-be42-4db5-be74-88a92c8b6867_resize.jpg"
+        }
+      ],
+      "prompt": "The same burning crystal geode seen from within a meteor storm: dozens of glass shards streaking slowly outward past the lens like a meteor shower, each shard rim-lit with spectral fire, thin light trails stretching away, the glowing geode cavern behind them, shards becoming sparse at the frame edges, the field visibly thinning; cinematic slow motion; no text, no logos, no people",
+      "resolution": "2k",
+      "surface": null,
+      "width": 2752
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_141301_f7799c13-f532-42d5-9ca2-6798d460915a.png",
+    "status": "completed"
+  }
+]

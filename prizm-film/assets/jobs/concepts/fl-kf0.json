@@ -1,0 +1,22 @@
+﻿[
+  {
+    "created_at": "2026-07-28T17:01:34.130703Z",
+    "display_name": "GPT Image 2",
+    "id": "4320adbe-c0f6-4c83-aef7-5217c91e6cac",
+    "job_type": "gpt_image_2",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170134_4320adbe-c0f6-4c83-aef7-5217c91e6cac_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [],
+      "model": "videotape-alpha",
+      "prompt": "Cinematic film still, anamorphic, premium product-film aesthetic: a vast cathedral cavern of matte black obsidian crystal, dormant and asleep; jagged dark crystal formations frame the foreground; a colossal rough-hewn crystal prism heart stands at center, faint grey, unlit; the upper half of the frame is vast empty darkness with faint atmospheric haze; a thin cold rim light traces only the nearest crystal edges; dark wet cave floor with subtle reflections; deep rich blacks, soft bloom, exquisite detail; no text, no logos, no people",
+      "quality": "high",
+      "reference_elements": [],
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3H83wKtDuBBpBeYFQuMvEe0eUyB/hf_20260728_170134_4320adbe-c0f6-4c83-aef7-5217c91e6cac.png",
+    "status": "completed"
+  }
+]
