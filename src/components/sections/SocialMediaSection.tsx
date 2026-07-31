@@ -9,7 +9,7 @@ import Reveal from "@/components/ui/Reveal";
 export default function SocialMediaSection() {
   return (
     <RoomShell index="06" label="Social Media" id="social" right="FEEDS THAT STOP THUMBS">
-      <div className="relative px-6 md:px-10 pt-32 pb-[36vh]">
+      <div className="relative px-6 md:px-10 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="grid grid-cols-12 gap-8 items-start">
           {/* sovereign post */}
           <Reveal className="col-span-12 md:col-span-5">
@@ -55,14 +55,6 @@ export default function SocialMediaSection() {
             <p className="meta mt-3">FEED 04 — BONKERS CORNER</p>
           </Reveal>
         </div>
-
-        {/* monument */}
-        <h2
-          aria-label="Social"
-          className="monument absolute -bottom-[0.12em] right-0 text-[clamp(6rem,17vw,18rem)] pointer-events-none"
-        >
-          SOCIAL
-        </h2>
       </div>
     </RoomShell>
   );

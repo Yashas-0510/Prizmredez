@@ -1,73 +1,138 @@
-import Image from "next/image";
+"use client";
+
 import RoomShell from "./RoomShell";
 import Reveal from "@/components/ui/Reveal";
+import WordReveal from "@/components/ui/WordReveal";
+import GsapSpinWord from "@/components/ui/GsapSpinWord";
+import { HyperText } from "@/components/ui/hyper-text";
+
+const marquee = [
+  "Web Experience",
+  "Motion Design",
+  "Brand Identity",
+  "Social Systems",
+];
+
+const team = [
+  {
+    id: "rhea",
+    name: "RHEA",
+    role: "CO-FOUNDER",
+    img: "/team/rhea.jpg",
+  },
+  {
+    id: "yash",
+    name: "YASH",
+    role: "CO-FOUNDER",
+    img: "/team/yash.jpg",
+  },
+];
 
 /**
- * Room 02 — Studio. The typographic rest between image rooms:
- * manifesto left, facts constellation right, one small artifact,
- * monumental STUDIO sunk into the bottom fold.
+ * Room 02 — Studio / About.
+ * Manifesto on the left, Rhea & Yash co-founders pop team cards on the right.
+ * Kinetic marquee closing the section.
  */
 export default function AboutSection() {
   return (
-    <RoomShell index="02" label="Studio" id="studio" right="AI-NATIVE SINCE DAY ONE">
-      {/* manifesto */}
-      <div className="absolute left-6 md:left-10 top-[22%] max-w-[46rem] z-20">
-        <Reveal>
-          <p className="meta mb-8">THE PRACTICE</p>
-          <p className="font-heading text-[clamp(1.6rem,3.2vw,2.9rem)] leading-[1.15] font-bold uppercase text-bone">
-            A brief enters white. It leaves as{" "}
-            <span className="spectrum-text">spectrum</span> — sites, ads,
-            creators and feeds, made by a small team directing large models.
-          </p>
+    <RoomShell index="02" label="Studio" id="studio">
+      <div className="relative min-h-screen flex flex-col justify-between px-6 md:px-10 pt-20 md:pt-28 pb-12">
+        {/* Centered section heading — HyperText scramble animation */}
+        <Reveal className="text-center -mt-6 md:-mt-10 mb-20 md:mb-28 flex justify-center">
+          <HyperText
+            as="h2"
+            startOnView
+            animateOnHover
+            interval={5000}
+            duration={1400}
+            className="font-heading font-extrabold uppercase text-[clamp(1.15rem,2.1vw,1.65rem)] tracking-[0.2em] text-dim"
+          >
+            WHO WE ARE
+          </HyperText>
         </Reveal>
-      </div>
 
-      {/* facts constellation — right edge */}
-      <div className="absolute right-6 md:right-10 top-[24%] flex flex-col gap-5 items-end z-20">
-        <Reveal delay={100} className="flex flex-col items-end gap-5">
-          <div className="text-right">
-            <p className="meta">FOUNDED</p>
-            <p className="meta text-white/80 mt-1">2024</p>
+        {/* ---- Main content: Manifesto left, Team cards right ---- */}
+        <div className="grid grid-cols-12 gap-8 lg:gap-12 items-start my-auto">
+          {/* Left: Practice Manifesto */}
+          <div className="col-span-12 lg:col-span-6 xl:col-span-7 flex flex-col justify-between self-stretch">
+            <Reveal className="h-full flex flex-col justify-between">
+              <div>
+                <h3 className="font-heading font-extrabold uppercase text-[clamp(2.2rem,4.2vw,3.6rem)] leading-[1.06] text-bone tracking-tight flex flex-wrap gap-x-[0.25em] gap-y-1 items-baseline">
+                  <GsapSpinWord word="IMAGINATION" />
+                  <span className="text-bone">DRIVEN</span>
+                  <br className="hidden sm:inline" />
+                  <GsapSpinWord word="TECHNOLOGY" />
+                  <span className="text-bone">BUILT</span>
+                </h3>
+              </div>
+              <div className="mt-10 md:mt-14 max-w-[34rem] border-t border-white/10 pt-6">
+                <WordReveal
+                  text="Refracting bold ideas into high-converting web experiences, cinematic motion, and social systems engineered for modern brands."
+                  accent={["refracting"]}
+                  className="font-heading text-[clamp(1.05rem,1.8vw,1.45rem)] leading-[1.38] font-medium uppercase text-dim"
+                />
+              </div>
+            </Reveal>
           </div>
-          <div className="text-right">
-            <p className="meta">BASE</p>
-            <p className="meta text-white/80 mt-1">50.4501° N / 30.5234° E</p>
-          </div>
-          <div className="text-right">
-            <p className="meta">DISCIPLINES</p>
-            <p className="meta text-white/80 mt-1">04 — WEB / ADS / UGC / SOCIAL</p>
-          </div>
-          <div className="text-right">
-            <p className="meta">OUTPUT</p>
-            <p className="meta text-white/80 mt-1">TEXT · IMAGE · FILM</p>
-          </div>
-        </Reveal>
-      </div>
 
-      {/* the artifact — small, framed, captioned */}
-      <Reveal
-        delay={200}
-        className="absolute left-[12%] bottom-[19%] w-[16rem] md:w-[20rem] z-10"
-      >
-        <div className="border border-white/10 p-2 bg-ink-soft">
-          <Image
-            src="/art/in-kf0.png"
-            alt="Raw light — study"
-            width={640}
-            height={360}
-            className="w-full h-auto"
-          />
+          {/* Right: Team cards (Rhea & Yash) */}
+          <div className="col-span-12 lg:col-span-6 xl:col-span-5">
+            <Reveal delay={100}>
+              <div className="grid grid-cols-2 gap-4 md:gap-6">
+                {team.map((member) => (
+                  <div
+                    key={member.id}
+                    className="group relative border border-white/10 hover:border-white/30 p-2.5 bg-ink-soft rounded-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-purple-500/10"
+                  >
+                    <div className="relative overflow-hidden aspect-[3/4] rounded-sm border border-white/5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={member.img}
+                        alt={`${member.name} — ${member.role}`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="mt-3 px-1">
+                      <h3 className="font-heading font-extrabold uppercase text-lg md:text-xl text-bone group-hover:spectrum-text transition-colors">
+                        {member.name}
+                      </h3>
+                      <p className="meta text-white/60 text-[11px] mt-0.5 tracking-wider">
+                        {member.role}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
         </div>
-        <p className="meta mt-3">FIG. 02 — RAW LIGHT</p>
-      </Reveal>
 
-      {/* monument sunk into the fold */}
-      <h2
-        aria-label="Studio"
-        className="monument absolute -bottom-[0.12em] right-0 text-[clamp(6rem,15vw,16rem)] z-10"
-      >
-        STUDIO
-      </h2>
+        {/* Kinetic marquee */}
+        <div className="pt-12 md:pt-16">
+          <div className="-mx-6 md:-mx-10 border-t border-white/5 overflow-hidden py-5 md:py-7 select-none">
+            <div className="marquee-track flex w-max">
+              {[0, 1].map((copy) => (
+                <div
+                  key={copy}
+                  aria-hidden={copy === 1}
+                  className="flex items-center gap-8 md:gap-12 pr-8 md:pr-12"
+                >
+                  {marquee.map((item) => (
+                    <span key={item} className="flex items-center gap-8 md:gap-12">
+                      <span className="font-heading font-extrabold uppercase leading-none text-[clamp(2.2rem,5.5vw,5rem)] text-outline whitespace-nowrap">
+                        {item}
+                      </span>
+                      <span className="spectrum-text text-[clamp(1rem,2vw,1.8rem)]">
+                        ✦
+                      </span>
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </RoomShell>
   );
 }

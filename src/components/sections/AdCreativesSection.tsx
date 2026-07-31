@@ -8,7 +8,7 @@ import Reveal from "@/components/ui/Reveal";
 export default function AdCreativesSection() {
   return (
     <RoomShell index="04" label="Ad Creatives" id="ads" right="PERFORMANCE / PAID SOCIAL">
-      <div className="relative px-6 md:px-10 pt-32 pb-[34vh]">
+      <div className="relative px-6 md:px-10 pt-24 md:pt-32 pb-24 md:pb-32">
         <div className="grid grid-cols-12 gap-8 items-start">
           {/* left — statement + specs + clients */}
           <div className="col-span-12 md:col-span-4">
@@ -64,14 +64,6 @@ export default function AdCreativesSection() {
             </Reveal>
           </div>
         </div>
-
-        {/* monument */}
-        <h2
-          aria-label="Ads"
-          className="monument absolute -bottom-[0.12em] right-0 text-[clamp(8rem,24vw,26rem)] pointer-events-none"
-        >
-          ADS
-        </h2>
       </div>
     </RoomShell>
   );

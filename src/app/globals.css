@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+/* Design tokens registered with Tailwind v4 — without this, utilities like
+   bg-ink-soft / text-bone / font-heading silently don't compile. */
+@theme {
+  --color-ink: #070708;
+  --color-ink-soft: #0d0d10;
+  --color-bone: #f2f0eb;
+  --color-dim: #8a8a92;
+
+  --font-heading: var(--font-syne), var(--font-jakarta), sans-serif;
+}
+
 @layer base {
   :root {
     --font-sans: var(--font-jakarta), system-ui, sans-serif;
@@ -71,8 +82,9 @@
   border: none;
 }
 
-/* Spectral text — used at most once per screen */
-.spectrum-text {
+/* Spectral text — used at most once per screen.
+   Defined as a v4 utility so variants (group-hover:, md:) work too. */
+@utility spectrum-text {
   background: var(--spectrum);
   -webkit-background-clip: text;
   background-clip: text;
@@ -96,6 +108,23 @@
 .object-drift {
   animation: drift 40s ease-in-out infinite alternate;
   will-change: transform;
+}
+
+/* Kinetic marquee — seamless loop, two copies per track */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+}
+
+/* Outlined display text — ghost words for kinetic strips */
+.text-outline {
+  -webkit-text-stroke: 1px rgba(242, 240, 235, 0.35);
+  color: transparent;
 }
 
 /* Custom Scrollbar */

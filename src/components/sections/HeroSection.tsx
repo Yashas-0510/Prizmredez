@@ -1,86 +1,184 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+const FRAME_COUNT = 121;
+// loader hands off once this many frames are ready; the rest stream in
+const READY_THRESHOLD = 40;
+const frameSrc = (i: number) =>
+  `/prizmframes-hd/frame-${String(i + 1).padStart(3, "0")}.webp`;
+
 export default function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const loadedRef = useRef<boolean[]>(new Array(FRAME_COUNT).fill(false));
+  const lastDrawnRef = useRef(-1);
+
+  const progressRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
+
+  const [loadedCount, setLoadedCount] = useState(0);
+  const ready = loadedCount >= READY_THRESHOLD;
+
+  /* ---------------- preload ---------------- */
+  useEffect(() => {
+    let cancelled = false;
+    const images: HTMLImageElement[] = new Array(FRAME_COUNT);
+
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      const img = new Image();
+      img.src = frameSrc(i);
+      img.decoding = "async";
+      img.onload = () => {
+        if (cancelled) return;
+        loadedRef.current[i] = true;
+        lastDrawnRef.current = -1; // a fresher frame is available
+        setLoadedCount((c) => c + 1);
+      };
+      images[i] = img;
+    }
+    imagesRef.current = images;
+
+    return () => {
+      cancelled = true;
+      imagesRef.current = [];
+    };
+  }, []);
+
+  /* ---------------- loader fade-out ---------------- */
+  useEffect(() => {
+    const loader = loaderRef.current;
+    if (!loader || !ready) return;
+    loader.style.opacity = "0";
+    loader.style.pointerEvents = "none";
+  }, [ready]);
+
+  /* ---------------- scroll scrub + draw loop ---------------- */
+  useEffect(() => {
+    let raf = 0;
+
+    const sizeCanvas = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.round(window.innerWidth * dpr);
+      const h = Math.round(window.innerHeight * dpr);
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+        lastDrawnRef.current = -1; // resizing wipes the buffer — force redraw
+      }
+    };
+
+    const draw = (index: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      if (!ctxRef.current) {
+        ctxRef.current = canvas.getContext("2d");
+      }
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+
+      // nearest loaded frame, preferring earlier ones
+      let pick = -1;
+      for (let i = index; i >= 0; i--) {
+        if (loadedRef.current[i]) {
+          pick = i;
+          break;
+        }
+      }
+      if (pick === -1) {
+        for (let i = index + 1; i < FRAME_COUNT; i++) {
+          if (loadedRef.current[i]) {
+            pick = i;
+            break;
+          }
+        }
+      }
+      if (pick === -1 || pick === lastDrawnRef.current) return;
+
+      const img = imagesRef.current[pick];
+      if (!img || !img.naturalWidth) return;
+
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const dw = iw * scale;
+      const dh = ih * scale;
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+      lastDrawnRef.current = pick;
+    };
+
+    const loop = () => {
+      const section = sectionRef.current;
+      if (section) {
+        sizeCanvas();
+
+        const rect = section.getBoundingClientRect();
+        const total = rect.height - window.innerHeight;
+        const p = Math.min(1, Math.max(0, -rect.top / total));
+
+        draw(Math.min(FRAME_COUNT - 1, Math.floor(p * FRAME_COUNT)));
+
+        // spectrum progress line
+        if (progressRef.current) {
+          progressRef.current.style.transform = `scaleX(${p})`;
+        }
+      }
+      raf = requestAnimationFrame(loop);
+    };
+
+    raf = requestAnimationFrame(loop);
+    window.addEventListener("resize", sizeCanvas);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", sizeCanvas);
+    };
+  }, []);
+
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-[#070708] select-none">
-      {/* Layer 0 — the monumental word. Bleeds off the bottom-left corner.
-          Sits in the section's root stacking context so the image blends over it. */}
-      <h1
-        className="monument absolute -bottom-[0.14em] left-1/2 -translate-x-1/2 text-[clamp(8rem,17vw,18rem)] whitespace-nowrap"
-        aria-label="PRIZM"
-      >
-        PRIZM
-      </h1>
+    <section ref={sectionRef} className="relative h-[480vh] bg-[#070708]">
+      {/* sticky cinema viewport */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden select-none">
+        {/* first frame as instant poster + insurance if canvas ever fails */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={frameSrc(0)}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Layer 1 — the sovereign object. Screen blend: black vanishes into ink,
-          the crystal burst burns THROUGH the letters. Core pushed right so the
-          wordmark lives in the dark field. Mask crushes the object's own edges
-          back to ink — the letters stay bone-bright beneath it. */}
-      <img
-        src="/art/sn-kf2.png"
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover mix-blend-screen pointer-events-none"
-        style={{
-          objectPosition: "62% 42%",
-          maskImage:
-            "radial-gradient(ellipse 78% 68% at 58% 40%, black 42%, rgba(0,0,0,0.55) 66%, transparent 92%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 78% 68% at 58% 40%, black 42%, rgba(0,0,0,0.55) 66%, transparent 92%)",
-        }}
-      />
-
-      {/* Layer 3 — metadata constellation */}
-      <div className="absolute inset-0 z-20 pointer-events-none">
-        {/* top-left */}
-        <div className="absolute top-24 left-6 md:left-10 flex flex-col gap-1.5">
-          <span className="meta text-white/80">AI Creative Studio</span>
-          <span className="meta">Est. 2024 — V_2.0</span>
+        {/* ------- spectrum progress line ------- */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10 z-30">
+          <div
+            ref={progressRef}
+            className="h-full w-full origin-left"
+            style={{
+              background: "var(--spectrum)",
+              transform: "scaleX(0)",
+            }}
+          />
         </div>
 
-        {/* top-right — coordinates */}
-        <div className="absolute top-24 right-6 md:right-10 text-right flex flex-col gap-1.5">
-          <span className="meta">50.4501° N / 30.5234° E</span>
-          <span className="meta">Kyiv — Worldwide</span>
-        </div>
-
-        {/* right edge — service index */}
-        <div className="absolute right-6 md:right-10 top-1/2 -translate-y-1/2 flex flex-col items-end gap-3">
-          <span className="meta text-white/70">01 Web Design</span>
-          <span className="meta">02 Ad Creatives</span>
-          <span className="meta">03 AI UGC</span>
-          <span className="meta">04 Social Media</span>
-        </div>
-
-        {/* left edge — scroll cue */}
-        <div className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 flex flex-col items-center gap-4">
-          <span className="meta [writing-mode:vertical-lr] rotate-180">Scroll</span>
-          <span className="w-px h-16 bg-white/15" />
-        </div>
-
-        {/* the one spectral statement — left column, dark water zone */}
-        <div className="absolute left-6 md:left-10 bottom-[27%]">
-          <p className="meta spectrum-text text-[11px] font-bold">
-            Light in. Spectrum out.
-          </p>
-        </div>
-      </div>
-
-      {/* Layer 4 — the single CTA, right edge on the same baseline as the tagline */}
-      <div className="absolute bottom-[27%] right-6 md:right-10 z-30">
-        <a
-          href="#contact"
-          className="group flex flex-col gap-2"
-          data-cursor
-          data-cursor-text="START"
+        {/* ------- loader ------- */}
+        <div
+          ref={loaderRef}
+          className="absolute inset-0 z-40 bg-[#070708] flex items-center justify-center transition-opacity duration-700"
         >
-          <span className="meta text-white group-hover:text-white/80 transition-colors">
-            Start a project ↗
+          <span className="meta">
+            Loading sequence —{" "}
+            {Math.round((loadedCount / FRAME_COUNT) * 100)}%
           </span>
-          <span className="spectrum-line w-full origin-left scale-x-100 group-hover:scale-x-110 transition-transform duration-500" />
-        </a>
-      </div>
-
-      {/* bottom-left room label */}
-      <div className="absolute bottom-10 left-6 md:left-10 z-30">
-        <span className="meta">01 — Origin</span>
+        </div>
       </div>
     </section>
   );

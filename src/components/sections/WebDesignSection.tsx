@@ -18,7 +18,7 @@ const projects = [
 export default function WebDesignSection() {
   return (
     <RoomShell index="03" label="Web Design" id="work" right="NEXT.JS / MOTION / SHIPPED">
-      <div className="relative px-6 md:px-10 pt-32 pb-[38vh]">
+      <div className="relative px-6 md:px-10 pt-24 md:pt-32 pb-24 md:pb-32">
         {/* band 1 — sovereign build + index */}
         <div className="grid grid-cols-12 gap-8 items-start">
           <Reveal className="col-span-12 md:col-span-7 relative">
@@ -73,14 +73,6 @@ export default function WebDesignSection() {
             <p className="meta mt-3">FIG. 06 — BARBELL CARTEL</p>
           </Reveal>
         </div>
-
-        {/* monument */}
-        <h2
-          aria-label="Web"
-          className="monument absolute -bottom-[0.12em] left-0 text-[clamp(8rem,22vw,24rem)] pointer-events-none"
-        >
-          WEB
-        </h2>
       </div>
     </RoomShell>
   );

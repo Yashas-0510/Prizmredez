@@ -8,7 +8,7 @@ import Reveal from "@/components/ui/Reveal";
 export default function UgcSection() {
   return (
     <RoomShell index="05" label="AI UGC" id="ugc" right="NO SHOOTS. NO CREWS. NO RETAKES.">
-      <div className="relative px-6 md:px-10 pt-32 pb-[36vh]">
+      <div className="relative px-6 md:px-10 pt-24 md:pt-32 pb-24 md:pb-32">
         <Reveal className="max-w-[30rem]">
           <p className="font-heading text-[clamp(1.4rem,2.4vw,2.1rem)] leading-[1.15] font-bold uppercase text-bone">
             Creators who never miss a deadline — because they&apos;re made of
@@ -36,14 +36,6 @@ export default function UgcSection() {
             <p className="meta mt-3">CREATOR 03 — WHOLE TRUTH</p>
           </Reveal>
         </div>
-
-        {/* monument */}
-        <h2
-          aria-label="UGC"
-          className="monument absolute -bottom-[0.12em] left-1/2 -translate-x-1/2 text-[clamp(9rem,26vw,28rem)] pointer-events-none whitespace-nowrap"
-        >
-          UGC
-        </h2>
       </div>
     </RoomShell>
   );
