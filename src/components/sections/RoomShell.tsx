@@ -23,7 +23,7 @@ export default function RoomShell({
     <section
       id={id}
       className={twMerge(
-        "relative min-h-screen overflow-hidden border-t border-white/5",
+        "relative min-h-screen border-t border-white/5",
         className
       )}
     >

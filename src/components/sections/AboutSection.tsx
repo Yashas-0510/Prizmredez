@@ -5,6 +5,7 @@ import Reveal from "@/components/ui/Reveal";
 import WordReveal from "@/components/ui/WordReveal";
 import GsapSpinWord from "@/components/ui/GsapSpinWord";
 import { HyperText } from "@/components/ui/hyper-text";
+import CofoundersZDepth from "@/components/ui/CofoundersZDepth";
 
 const marquee = [
   "Web Experience",
@@ -18,13 +19,13 @@ const team = [
     id: "rhea",
     name: "RHEA",
     role: "CO-FOUNDER",
-    img: "/team/rhea.jpg",
+    img: "/rheaprizm.png",
   },
   {
     id: "yash",
     name: "YASH",
     role: "CO-FOUNDER",
-    img: "/team/yash.jpg",
+    img: "/yashprizm.png",
   },
 ];
 
@@ -75,35 +76,9 @@ export default function AboutSection() {
             </Reveal>
           </div>
 
-          {/* Right: Team cards (Rhea & Yash) */}
+          {/* Right: Team cards (Rhea & Yash) with 3D Z-axis depth push-forward reveal */}
           <div className="col-span-12 lg:col-span-6 xl:col-span-5">
-            <Reveal delay={100}>
-              <div className="grid grid-cols-2 gap-4 md:gap-6">
-                {team.map((member) => (
-                  <div
-                    key={member.id}
-                    className="group relative border border-white/10 hover:border-white/30 p-2.5 bg-ink-soft rounded-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-purple-500/10"
-                  >
-                    <div className="relative overflow-hidden aspect-[3/4] rounded-sm border border-white/5">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={member.img}
-                        alt={`${member.name} — ${member.role}`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                    <div className="mt-3 px-1">
-                      <h3 className="font-heading font-extrabold uppercase text-lg md:text-xl text-bone group-hover:spectrum-text transition-colors">
-                        {member.name}
-                      </h3>
-                      <p className="meta text-white/60 text-[11px] mt-0.5 tracking-wider">
-                        {member.role}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
+            <CofoundersZDepth />
           </div>
         </div>
 

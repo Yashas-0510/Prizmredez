@@ -1,0 +1,275 @@
+"use client";
+
+import { useRef, useState } from "react";
+import Image from "next/image";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+
+/**
+ * WebExperiencesStickyScroll — Relay Pass-Through Gallery inspired by Nudot Studio.
+ * Pins the viewport while scrolling 400vh. Central headline copy stays fixed while
+ * 5 cards travel strictly from bottom (+100vh) up to top (-100vh) in an overlapping relay sequence.
+ * Clicking any card opens a live modal popup with an interactive iframe preview.
+ */
+export default function WebExperiencesStickyScroll() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeModal, setActiveModal] = useState<{ title: string; url: string } | null>(null);
+
+  // Track scroll progress throughout the 400vh container
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Physics spring for silky smooth scroll motion
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 25,
+    restDelta: 0.001,
+  });
+
+  // --- CARD 1 (Left Side — Oval Box) --- Range: [0.00, 0.32]
+  const c1Y = useTransform(smoothProgress, [0.0, 0.15, 0.32], ["100vh", "0vh", "-100vh"]);
+  const c1Opacity = useTransform(smoothProgress, [0.0, 0.08, 0.24, 0.32], [0, 1, 1, 0]);
+
+  // --- CARD 2 (Right Side — Tattoo Sutra) --- Range: [0.18, 0.50]
+  const c2Y = useTransform(smoothProgress, [0.18, 0.33, 0.50], ["100vh", "0vh", "-100vh"]);
+  const c2Opacity = useTransform(smoothProgress, [0.18, 0.26, 0.42, 0.50], [0, 1, 1, 0]);
+
+  // --- CARD 3 (Left Side — GM Celebration) --- Range: [0.36, 0.68]
+  const c3Y = useTransform(smoothProgress, [0.36, 0.51, 0.68], ["100vh", "0vh", "-100vh"]);
+  const c3Opacity = useTransform(smoothProgress, [0.36, 0.44, 0.60, 0.68], [0, 1, 1, 0]);
+
+  // --- CARD 4 (Right Side — Barbell Cartel) --- Range: [0.54, 0.86]
+  const c4Y = useTransform(smoothProgress, [0.54, 0.69, 0.86], ["100vh", "0vh", "-100vh"]);
+  const c4Opacity = useTransform(smoothProgress, [0.54, 0.62, 0.78, 0.86], [0, 1, 1, 0]);
+
+  // --- CARD 5 (Center Stage — Push Up) --- Range: [0.72, 1.0]
+  const c5Y = useTransform(smoothProgress, [0.72, 0.87, 1.0], ["100vh", "0vh", "-75vh"]);
+  const c5Opacity = useTransform(smoothProgress, [0.72, 0.80, 0.94, 1.0], [0, 1, 1, 0]);
+
+  return (
+    <div ref={containerRef} className="relative h-[400vh]">
+      {/* Sticky Viewport Stage */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center select-none">
+
+        {/* Central Headline Copy (Nudot Studio Style) */}
+        <div className="relative z-10 text-center pointer-events-none px-4 md:px-8 max-w-[90vw] md:max-w-4xl">
+          <p className="meta text-white/50 text-[11px] md:text-xs tracking-[0.3em] uppercase mb-3">
+            ( DIGITAL VISUAL ENGINE )
+          </p>
+          <h2 className="font-heading font-extrabold uppercase text-[clamp(1.55rem,3.5vw,3.5rem)] leading-[1.02] tracking-tight text-bone drop-shadow-lg my-3">
+            <span className="block">ARCHIVE OF</span>
+            <span className="block">THE SELECTED WORKS</span>
+            <span className="block">
+              BY <span className="spectrum-text">PRIZM</span>
+            </span>
+          </h2>
+          <p className="meta text-white/50 text-[11px] md:text-xs tracking-[0.25em] uppercase mt-4">
+            DIGITAL EXPERIENCES ENGINEERED FOR SCALE
+          </p>
+        </div>
+
+        {/* --- CARD 1 (Left Side — Oval Box) --- */}
+        <motion.div
+          style={{
+            y: c1Y,
+            opacity: c1Opacity,
+          }}
+          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+        >
+          <div
+            onClick={() =>
+              setActiveModal({
+                title: "OVAL BOX — TURF BOOKING",
+                url: "https://ovalboxarena.vercel.app/",
+              })
+            }
+            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+          >
+            <Image
+              src="/posters/web-oval.png"
+              alt="Oval Box — Turf Booking"
+              width={1280}
+              height={800}
+              className="w-full aspect-[16/10] object-cover object-top rounded-sm"
+            />
+          </div>
+        </motion.div>
+
+        {/* --- CARD 2 (Right Side — Tattoo Sutra) --- */}
+        <motion.div
+          style={{
+            y: c2Y,
+            opacity: c2Opacity,
+          }}
+          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+        >
+          <div
+            onClick={() =>
+              setActiveModal({
+                title: "TATTOO SUTRA — STUDIO",
+                url: "https://tattoo-sutra.vercel.app/",
+              })
+            }
+            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+          >
+            <Image
+              src="/posters/web-02.jpg"
+              alt="Tattoo Sutra — Studio"
+              width={1280}
+              height={800}
+              className="w-full aspect-[16/10] object-cover object-top rounded-sm"
+            />
+          </div>
+        </motion.div>
+
+        {/* --- CARD 3 (Left Side — GM Celebration) --- */}
+        <motion.div
+          style={{
+            y: c3Y,
+            opacity: c3Opacity,
+          }}
+          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+        >
+          <div
+            onClick={() =>
+              setActiveModal({
+                title: "GM CELEBRATION — CATERING",
+                url: "https://www.gmcelebrations.in/",
+              })
+            }
+            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+          >
+            <Image
+              src="/posters/web-04.jpg"
+              alt="GM Celebration — Catering"
+              width={1280}
+              height={800}
+              className="w-full aspect-[16/10] object-cover object-top rounded-sm"
+            />
+          </div>
+        </motion.div>
+
+        {/* --- CARD 4 (Right Side — Barbell Cartel) --- */}
+        <motion.div
+          style={{
+            y: c4Y,
+            opacity: c4Opacity,
+          }}
+          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+        >
+          <div
+            onClick={() =>
+              setActiveModal({
+                title: "BARBELL CARTEL — GYM & FITNESS",
+                url: "https://barbell-cartel-wf.vercel.app/",
+              })
+            }
+            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+          >
+            <Image
+              src="/posters/web-03.jpg"
+              alt="Barbell Cartel — Gym & Fitness"
+              width={1280}
+              height={800}
+              className="w-full aspect-[16/10] object-cover object-top rounded-sm"
+            />
+          </div>
+        </motion.div>
+
+        {/* --- CARD 5 (Center Stage — Push Up Fitness) --- */}
+        <motion.div
+          style={{
+            y: c5Y,
+            opacity: c5Opacity,
+          }}
+          className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-30 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+        >
+          <div
+            onClick={() =>
+              setActiveModal({
+                title: "PUSH UP — FITNESS SYSTEM",
+                url: "https://pushup-omega.vercel.app/",
+              })
+            }
+            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.9)] rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+          >
+            <Image
+              src="/posters/web-pushup.png"
+              alt="Push Up — Fitness System"
+              width={1280}
+              height={800}
+              className="w-full aspect-[16/10] object-cover object-top rounded-sm"
+            />
+          </div>
+        </motion.div>
+
+      </div>
+
+      {/* Live Preview Modal Popup */}
+      <AnimatePresence>
+        {activeModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/85 backdrop-blur-md"
+            onClick={() => setActiveModal(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 260 }}
+              className="relative w-full max-w-5xl h-[82vh] bg-ink-soft border border-white/20 rounded-lg overflow-hidden flex flex-col shadow-[0_30px_80px_rgba(0,0,0,0.95)]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Window Top Browser Header */}
+              <div className="flex items-center justify-between px-4 py-3 bg-ink border-b border-white/10 select-none">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                </div>
+
+                {/* Address Bar preview */}
+                <div className="flex items-center px-4 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/70 font-mono max-w-xs sm:max-w-sm truncate">
+                  <span className="text-emerald-400 mr-2">🔒</span>
+                  <span className="truncate">{activeModal.url}</span>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <a
+                    href={activeModal.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-bone/70 hover:text-bone underline underline-offset-4 tracking-wider flex items-center gap-1 transition-colors"
+                  >
+                    Open Tab ↗
+                  </a>
+                  <button
+                    onClick={() => setActiveModal(null)}
+                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-sm transition-colors"
+                    aria-label="Close modal"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              {/* Live Preview Iframe */}
+              <div className="flex-1 w-full bg-black relative">
+                <iframe
+                  src={activeModal.url}
+                  title={activeModal.title}
+                  className="w-full h-full border-0"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
