@@ -5,10 +5,10 @@ import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 const REELS = [
+  { id: "sleepyowl", title: "SLEEPY OWL — 15S", src: "/ad-creatives/sleepyowlad.mp4" },
   { id: "bella", title: "BELLA — 15S", src: "/ad-creatives/bellaad.mp4" },
   { id: "boat", title: "BOAT — 15S", src: "/ad-creatives/boattad.mp4" },
   { id: "poppi", title: "POPPI — 15S", src: "/ad-creatives/poppiad.mp4" },
-  { id: "sleepyowl", title: "SLEEPY OWL — 15S", src: "/ad-creatives/sleepyowlad.mp4" },
 ];
 
 export default function AdCreativesStickyScroll() {
@@ -30,23 +30,30 @@ export default function AdCreativesStickyScroll() {
     restDelta: 0.001,
   });
 
-  // Scale: 1.0 (full screen 100vw) -> 0.40 (shrunk cinema screen)
-  const videoScale = useTransform(smoothProgress, [0.0, 0.75], [1.0, 0.40]);
+  // Scale: 1.20 (full bleed edge-to-edge entrance) -> 0.34 (exact target shrunk cinema screen)
+  const videoScale = useTransform(smoothProgress, [0.0, 0.75], [1.20, 0.34]);
 
-  // Border Radius: 0px (edge-to-edge) -> 16px (rounded screen)
+  // Vertical offset: 0px (centered entrance) -> 16px (lowered target card position)
+  const videoY = useTransform(smoothProgress, [0.0, 0.75], ["0px", "16px"]);
+
+  // Border Radius: 0px (edge-to-edge entrance) -> 16px (rounded target screen)
   const borderRadius = useTransform(smoothProgress, [0.0, 0.75], ["0px", "16px"]);
 
   // Controls Opacity: 0 -> 1 as screen shrinks
   const controlsOpacity = useTransform(smoothProgress, [0.25, 0.65], [0, 1]);
 
-  // Keep videos synced with muted state
+  // Copy Opacity & Y translation: 0 -> 1 fade-in and slide-up as screen shrinks
+  const copyOpacity = useTransform(smoothProgress, [0.35, 0.70], [0, 1]);
+  const copyY = useTransform(smoothProgress, [0.35, 0.70], ["24px", "0px"]);
+
+  // Keep videos synced with muted state — ONLY the active video is unmuted
   useEffect(() => {
-    videoRefs.current.forEach((vid) => {
+    videoRefs.current.forEach((vid, idx) => {
       if (vid) {
-        vid.muted = isMuted;
+        vid.muted = idx === activeIndex ? isMuted : true;
       }
     });
-  }, [isMuted]);
+  }, [isMuted, activeIndex]);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? REELS.length - 1 : prev - 1));
@@ -70,13 +77,24 @@ export default function AdCreativesStickyScroll() {
           className="object-cover pointer-events-none select-none z-0 opacity-100"
         />
 
+        {/* --- NARRATIVE MANIFESTO HEADLINE (CAMERAS OFF. CREATIVE ON.) --- */}
+        <motion.div
+          style={{ opacity: copyOpacity, y: copyY }}
+          className="absolute top-28 md:top-36 lg:top-40 z-30 max-w-2xl text-center px-6 pointer-events-none"
+        >
+          <h2 className="text-xl md:text-3xl lg:text-4xl font-extrabold tracking-wider text-white uppercase font-sans drop-shadow-md">
+            CAMERAS OFF. <span className="text-white/70">CREATIVE ON.</span>
+          </h2>
+        </motion.div>
+
         {/* --- MAIN CINEMA SCREEN VIDEO CONTAINER --- */}
         <motion.div
           style={{
             scale: videoScale,
+            y: videoY,
             borderRadius: borderRadius,
           }}
-          className="relative z-20 w-full h-full max-w-[100vw] max-h-[100vh] border border-white/20 shadow-[0_30px_90px_rgba(0,0,0,0.95)] overflow-hidden bg-black flex items-center justify-center"
+          className="relative z-20 w-full h-full max-w-[92vw] max-h-[105vh] border border-white/20 shadow-[0_30px_90px_rgba(0,0,0,0.95)] overflow-hidden bg-black flex items-center justify-center"
         >
           {REELS.map((reel, idx) => (
             <video
@@ -87,7 +105,7 @@ export default function AdCreativesStickyScroll() {
               src={reel.src}
               autoPlay
               loop
-              muted={isMuted}
+              muted={idx === activeIndex ? isMuted : true}
               playsInline
               className={`w-full h-full object-cover transition-opacity duration-500 ${
                 idx === activeIndex ? "opacity-100 relative z-10" : "opacity-0 absolute inset-0 z-0 pointer-events-none"
@@ -120,10 +138,10 @@ export default function AdCreativesStickyScroll() {
           <div className="absolute inset-0 z-15 pointer-events-none shadow-[inset_0_0_120px_rgba(0,0,0,0.6)]" />
         </motion.div>
 
-        {/* Bottom Reel Navigation Arrows (Subtle & Minimalist) */}
+        {/* --- REEL NAVIGATION ARROWS --- */}
         <motion.div
           style={{ opacity: controlsOpacity }}
-          className="absolute bottom-6 md:bottom-8 z-30 flex items-center justify-center space-x-3 pointer-events-auto"
+          className="absolute bottom-8 md:bottom-12 z-30 flex items-center justify-center space-x-3 pointer-events-auto"
         >
           <button
             onClick={handlePrev}
