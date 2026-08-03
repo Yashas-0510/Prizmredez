@@ -20,7 +20,7 @@ export default function UgcSection() {
             duration={1400}
             className="font-heading font-extrabold uppercase text-[clamp(1.15rem,2.1vw,1.65rem)] tracking-[0.2em] text-dim"
           >
-            CREATOR ENGINE
+            CREATOR  ENGINE
           </HyperText>
         </Reveal>
 
