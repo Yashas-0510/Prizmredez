@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { TextAnimate } from "@/components/ui/text-animate";
 
 /**
  * WebExperiencesStickyScroll — Relay Pass-Through Gallery inspired by Nudot Studio.
@@ -47,23 +48,79 @@ export default function WebExperiencesStickyScroll() {
   const c5Y = useTransform(smoothProgress, [0.72, 0.87, 1.0], ["100vh", "0vh", "-75vh"]);
   const c5Opacity = useTransform(smoothProgress, [0.72, 0.80, 0.94, 1.0], [0, 1, 1, 0]);
 
+  // --- CENTRAL HEADLINE 3D DEPTH PARALLAX & STAGGERED MASK REVEAL ---
+  const line1Y = useTransform(smoothProgress, [0.00, 0.10], ["115%", "0%"]);
+  const line2Y = useTransform(smoothProgress, [0.03, 0.13], ["115%", "0%"]);
+  const line3Y = useTransform(smoothProgress, [0.06, 0.16], ["115%", "0%"]);
+  const line4Y = useTransform(smoothProgress, [0.09, 0.19], ["115%", "0%"]);
+  const textOpacity = useTransform(smoothProgress, [0.00, 0.08], [0, 1]);
+
+  // Depth scale & subtle opacity pulse when cards cross center stage
+  const textScale = useTransform(smoothProgress, [0.0, 0.35, 0.50, 0.75, 1.0], [1.0, 0.93, 1.0, 0.93, 1.0]);
+  const textDepthOpacity = useTransform(smoothProgress, [0.0, 0.30, 0.50, 0.70, 1.0], [1.0, 0.85, 1.0, 0.85, 1.0]);
+
   return (
     <div ref={containerRef} className="relative h-[400vh]">
       {/* Sticky Viewport Stage */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center select-none">
 
-        {/* Central Headline Copy (Nudot Studio Style) */}
+        {/* Central Headline Copy (Option 3: Staggered Blur-In Up) */}
         <div className="relative z-10 text-center pointer-events-none px-4 md:px-8 max-w-[90vw] md:max-w-4xl">
           <p className="meta text-white/50 text-[11px] md:text-xs tracking-[0.3em] uppercase mb-3">
             ( DIGITAL VISUAL ENGINE )
           </p>
-          <h2 className="font-heading font-extrabold uppercase text-[clamp(1.55rem,3.5vw,3.5rem)] leading-[1.02] tracking-tight text-bone drop-shadow-lg my-3">
-            <span className="block">ARCHIVE OF</span>
-            <span className="block">THE SELECTED WORKS</span>
-            <span className="block">
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false }}
+            className="font-heading font-extrabold uppercase text-[clamp(1.55rem,3.5vw,3.5rem)] leading-[1.02] tracking-tight text-bone drop-shadow-lg my-3 flex flex-col items-center"
+          >
+            <motion.span
+              variants={{
+                hidden: { opacity: 0, filter: "blur(12px)", y: 18 },
+                show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 0.5 } },
+              }}
+              className="block"
+            >
+              ARCHIVE OF
+            </motion.span>
+            <motion.span
+              variants={{
+                hidden: { opacity: 0, filter: "blur(12px)", y: 18 },
+                show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 0.5 } },
+              }}
+              className="block"
+            >
+              THE SELECTED
+            </motion.span>
+            <motion.span
+              variants={{
+                hidden: { opacity: 0, filter: "blur(12px)", y: 18 },
+                show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 0.5 } },
+              }}
+              className="block"
+            >
+              WORKS
+            </motion.span>
+            <motion.span
+              variants={{
+                hidden: { opacity: 0, filter: "blur(12px)", y: 18 },
+                show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 0.5 } },
+              }}
+              className="block"
+            >
               BY <span className="spectrum-text">PRIZM</span>
-            </span>
-          </h2>
+            </motion.span>
+          </motion.h2>
           <p className="meta text-white/50 text-[11px] md:text-xs tracking-[0.25em] uppercase mt-4">
             DIGITAL EXPERIENCES ENGINEERED FOR SCALE
           </p>

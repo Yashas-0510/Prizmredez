@@ -5,10 +5,12 @@ import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 const REELS = [
+  { id: "lenskart", title: "LENSKART — 15S", src: "/ad-creatives/Lenskartad.mp4" },
+  { id: "laneige", title: "LANEIGE — 15S", src: "/ad-creatives/laneigead.mp4" },
+  { id: "skincare", title: "SKINCARE — 15S", src: "/ad-creatives/skincaread.mp4" },
   { id: "sleepyowl", title: "SLEEPY OWL — 15S", src: "/ad-creatives/sleepyowlad.mp4" },
-  { id: "bella", title: "BELLA — 15S", src: "/ad-creatives/bellaad.mp4" },
+  { id: "perfume", title: "PERFUME — 15S", src: "/ad-creatives/perfumead.mp4" },
   { id: "boat", title: "BOAT — 15S", src: "/ad-creatives/boattad.mp4" },
-  { id: "poppi", title: "POPPI — 15S", src: "/ad-creatives/poppiad.mp4" },
 ];
 
 export default function AdCreativesStickyScroll() {
@@ -42,9 +44,10 @@ export default function AdCreativesStickyScroll() {
   // Controls Opacity: 0 -> 1 as screen shrinks
   const controlsOpacity = useTransform(smoothProgress, [0.25, 0.65], [0, 1]);
 
-  // Copy Opacity & Y translation: 0 -> 1 fade-in and slide-up as screen shrinks
-  const copyOpacity = useTransform(smoothProgress, [0.35, 0.70], [0, 1]);
-  const copyY = useTransform(smoothProgress, [0.35, 0.70], ["24px", "0px"]);
+  // Copy Opacity & 3D Mask Clip Reveal transforms as screen shrinks
+  const copyOpacity = useTransform(smoothProgress, [0.30, 0.65], [0, 1]);
+  const maskY1 = useTransform(smoothProgress, [0.30, 0.65], ["115%", "0%"]);
+  const maskY2 = useTransform(smoothProgress, [0.38, 0.72], ["115%", "0%"]);
 
   // Keep videos synced with muted state — ONLY the active video is unmuted
   useEffect(() => {
@@ -77,13 +80,22 @@ export default function AdCreativesStickyScroll() {
           className="object-cover pointer-events-none select-none z-0 opacity-100"
         />
 
-        {/* --- NARRATIVE MANIFESTO HEADLINE (CAMERAS OFF. CREATIVE ON.) --- */}
+        {/* --- NARRATIVE MANIFESTO HEADLINE (CAMERAS OFF. CREATIVE ON.) WITH 3D MASK CLIP REVEAL --- */}
         <motion.div
-          style={{ opacity: copyOpacity, y: copyY }}
-          className="absolute top-28 md:top-36 lg:top-40 z-30 max-w-2xl text-center px-6 pointer-events-none"
+          style={{ opacity: copyOpacity }}
+          className="absolute top-28 md:top-36 lg:top-40 z-30 max-w-3xl text-center px-6 pointer-events-none"
         >
-          <h2 className="text-xl md:text-3xl lg:text-4xl font-extrabold tracking-wider text-white uppercase font-sans drop-shadow-md">
-            CAMERAS OFF. <span className="text-white/70">CREATIVE ON.</span>
+          <h2 className="text-xl md:text-3xl lg:text-4xl font-extrabold tracking-wider text-white uppercase font-sans drop-shadow-md flex flex-wrap justify-center gap-x-3 gap-y-1">
+            <span className="inline-block overflow-hidden py-1">
+              <motion.span style={{ y: maskY1 }} className="inline-block">
+                CAMERAS OFF.
+              </motion.span>
+            </span>
+            <span className="inline-block overflow-hidden py-1">
+              <motion.span style={{ y: maskY2 }} className="inline-block text-white/70">
+                CREATIVE ON.
+              </motion.span>
+            </span>
           </h2>
         </motion.div>
 
@@ -107,9 +119,8 @@ export default function AdCreativesStickyScroll() {
               loop
               muted={idx === activeIndex ? isMuted : true}
               playsInline
-              className={`w-full h-full object-cover transition-opacity duration-500 ${
-                idx === activeIndex ? "opacity-100 relative z-10" : "opacity-0 absolute inset-0 z-0 pointer-events-none"
-              }`}
+              className={`w-full h-full object-cover transition-opacity duration-500 ${idx === activeIndex ? "opacity-100 relative z-10" : "opacity-0 absolute inset-0 z-0 pointer-events-none"
+                }`}
             />
           ))}
 
@@ -159,9 +170,8 @@ export default function AdCreativesStickyScroll() {
               <button
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
-                className={`transition-all duration-300 rounded-full cursor-pointer ${
-                  idx === activeIndex ? "w-3 h-1 bg-bone" : "w-1 h-1 bg-white/30 hover:bg-white/60"
-                }`}
+                className={`transition-all duration-300 rounded-full cursor-pointer ${idx === activeIndex ? "w-3 h-1 bg-bone" : "w-1 h-1 bg-white/30 hover:bg-white/60"
+                  }`}
                 aria-label={`Go to reel ${idx + 1}`}
               />
             ))}
