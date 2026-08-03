@@ -32,11 +32,11 @@ export default function AdCreativesStickyScroll() {
     restDelta: 0.001,
   });
 
-  // Scale: 1.20 (full bleed edge-to-edge entrance) -> 0.34 (exact target shrunk cinema screen)
-  const videoScale = useTransform(smoothProgress, [0.0, 0.75], [1.20, 0.34]);
+  // Scale: 1.20 (full bleed edge-to-edge entrance) -> 0.38 (exact target shrunk cinema screen, increased by additional 5%)
+  const videoScale = useTransform(smoothProgress, [0.0, 0.75], [1.20, 0.38]);
 
-  // Vertical offset: 0px (centered entrance) -> 16px (lowered target card position)
-  const videoY = useTransform(smoothProgress, [0.0, 0.75], ["0px", "16px"]);
+  // Vertical offset: 0px (centered entrance) -> -6px (target card position balanced inside archway)
+  const videoY = useTransform(smoothProgress, [0.0, 0.75], ["0px", "-6px"]);
 
   // Border Radius: 0px (edge-to-edge entrance) -> 16px (rounded target screen)
   const borderRadius = useTransform(smoothProgress, [0.0, 0.75], ["0px", "16px"]);
@@ -70,14 +70,24 @@ export default function AdCreativesStickyScroll() {
     <div ref={containerRef} className="relative h-[250vh]">
       {/* Sticky Viewport Container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center select-none bg-ink">
-        {/* Background Image (adbg.png) */}
+        {/* Desktop Background Image (adbg.png) */}
         <Image
           src="/adbg.png?v=2"
           alt="Ad Creatives Stage Background"
           fill
           priority
           unoptimized
-          className="object-cover pointer-events-none select-none z-0 opacity-100"
+          className="hidden md:block object-cover pointer-events-none select-none z-0 opacity-100"
+        />
+
+        {/* Mobile Background Image (adbgmob.png) */}
+        <Image
+          src="/adbgmob.png?v=2"
+          alt="Ad Creatives Mobile Stage Background"
+          fill
+          priority
+          unoptimized
+          className="block md:hidden object-cover object-[center_30%] pointer-events-none select-none z-0 opacity-100"
         />
 
         {/* --- NARRATIVE MANIFESTO HEADLINE (CAMERAS OFF. CREATIVE ON.) WITH 3D MASK CLIP REVEAL --- */}

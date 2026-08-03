@@ -397,17 +397,6 @@ export default function UgcReelsPhone() {
           style={{ opacity: copyOpacity }}
           className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl"
         >
-          {/* Sub-tag */}
-          <motion.div
-            style={{ y: subTagY }}
-            className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-4 backdrop-blur-md"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[11px] font-mono text-white/70 uppercase tracking-wider">
-              No cameras. No location permits. No ghosting creators.
-            </span>
-          </motion.div>
-
           {/* Headline with 3D Mask Clip & Lens Blur-In Reveal */}
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-wider text-white uppercase font-sans leading-tight drop-shadow-md flex flex-col items-center lg:items-start">
             <span className="block overflow-hidden py-1">

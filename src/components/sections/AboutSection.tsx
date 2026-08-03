@@ -37,9 +37,9 @@ const team = [
 export default function AboutSection() {
   return (
     <RoomShell index="02" label="Studio" id="studio">
-      <div className="relative min-h-screen flex flex-col justify-between px-6 md:px-10 pt-20 md:pt-28 pb-12">
+      <div className="relative min-h-screen flex flex-col justify-between px-4 sm:px-6 md:px-10 pt-16 md:pt-28 pb-12">
         {/* Centered section heading — HyperText scramble animation */}
-        <Reveal className="text-center -mt-6 md:-mt-10 mb-20 md:mb-28 flex justify-center">
+        <Reveal className="text-center -mt-6 md:-mt-10 mb-10 md:mb-28 flex justify-center">
           <HyperText
             as="h2"
             startOnView
@@ -58,7 +58,7 @@ export default function AboutSection() {
           <div className="col-span-12 lg:col-span-6 xl:col-span-7 flex flex-col justify-between self-stretch">
             <Reveal className="h-full flex flex-col justify-between">
               <div>
-                <h3 className="font-heading font-extrabold uppercase text-[clamp(2.2rem,4.2vw,3.6rem)] leading-[1.06] text-bone tracking-tight flex flex-wrap gap-x-[0.25em] gap-y-1 items-baseline">
+                <h3 className="font-heading font-extrabold uppercase text-[clamp(1.25rem,5.2vw,3.6rem)] leading-[1.06] text-bone tracking-tight flex flex-wrap gap-x-[0.25em] gap-y-1 items-baseline max-w-full overflow-hidden">
                   <GsapSpinWord word="IMAGINATION" />
                   <span className="text-bone">DRIVEN</span>
                   <br className="hidden sm:inline" />
@@ -66,11 +66,11 @@ export default function AboutSection() {
                   <span className="text-bone">BUILT</span>
                 </h3>
               </div>
-              <div className="mt-10 md:mt-14 max-w-[34rem] border-t border-white/10 pt-6">
+              <div className="mt-6 md:mt-14 max-w-[34rem] border-t border-white/10 pt-6">
                 <WordReveal
                   text="Refracting bold ideas into high-converting web experiences, cinematic motion, and social systems engineered for modern brands."
                   accent={["refracting"]}
-                  className="font-heading text-[clamp(1.05rem,1.8vw,1.45rem)] leading-[1.38] font-medium uppercase text-dim"
+                  className="font-heading text-[clamp(1.0rem,1.8vw,1.45rem)] leading-[1.38] font-medium uppercase text-dim"
                 />
               </div>
             </Reveal>

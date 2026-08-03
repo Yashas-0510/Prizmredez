@@ -73,13 +73,6 @@ export default function SocialMediaSection() {
 
         {/* Narrative Copy Block */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 px-6">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-4 backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[11px] font-mono text-white/70 uppercase tracking-wider">
-              Grids. Reels. Stories. One Sovereign Visual System.
-            </span>
-          </div>
-
           <h3 className="text-3xl sm:text-5xl font-extrabold tracking-wider text-white uppercase font-sans leading-tight drop-shadow-md">
             <span className="spectrum-text">CULTURE</span> IS THE CURRENCY.
           </h3>

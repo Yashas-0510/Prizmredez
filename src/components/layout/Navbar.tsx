@@ -75,7 +75,7 @@ export default function Navbar() {
             : "opacity-0 -translate-y-6 pointer-events-none"
         }`}
       >
-        <div className="bg-[#0d0d10]/90 backdrop-blur-xl border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.8)] rounded-full px-5 py-2.5 flex items-center justify-between gap-8 min-w-[260px] sm:min-w-[320px]">
+        <div className="relative bg-black/45 backdrop-blur-2xl backdrop-saturate-150 border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.85),inset_0_1px_1px_rgba(255,255,255,0.3)] rounded-full px-6 py-2.5 flex items-center justify-between gap-8 min-w-[260px] sm:min-w-[340px] transition-all duration-300">
           {/* Left: Mail icon button */}
           <a
             href="#contact"

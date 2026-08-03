@@ -72,6 +72,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
                   src={src || "/placeholder.svg"}
                   alt={alt || `Parallax image ${index + 1}`}
                   fill
+                  unoptimized={typeof src === "string" && src.startsWith("http")}
                   sizes="(max-width: 768px) 50vw, 35vw"
                   className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
