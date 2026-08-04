@@ -4,6 +4,7 @@ import RoomShell from "./RoomShell";
 import Reveal from "@/components/ui/Reveal";
 import { HyperText } from "@/components/ui/hyper-text";
 import { ZoomParallax, ZoomParallaxImage } from "@/components/ui/zoom-parallax";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 const socialImages: ZoomParallaxImage[] = [
   {
@@ -56,7 +57,7 @@ const socialImages: ZoomParallaxImage[] = [
 export default function SocialMediaSection() {
   return (
     <RoomShell index="06" label="Social Systems" id="social" right="FEEDS THAT STOP THUMBS">
-      <div className="relative pt-16 md:pt-24">
+      <div className="relative pt-16 md:pt-24 min-h-screen">
         {/* Centered top section heading — HyperText scramble animation */}
         <Reveal className="text-center -mt-6 md:-mt-10 mb-6 md:mb-8 flex justify-center px-6">
           <HyperText
@@ -71,19 +72,27 @@ export default function SocialMediaSection() {
           </HyperText>
         </Reveal>
 
-        {/* Narrative Copy Block */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 px-6">
-          <h3 className="text-3xl sm:text-5xl font-extrabold tracking-wider text-white uppercase font-sans leading-tight drop-shadow-md">
-            <span className="spectrum-text">CULTURE</span> IS THE CURRENCY.
-          </h3>
+        {/* Narrative Copy Block: Split Layout (Headline Left, Subheadline Right) */}
+        <div className="relative z-20 grid grid-cols-12 gap-6 md:gap-8 items-end w-full mt-6 sm:mt-10 md:mt-16 mb-2 px-4 sm:px-8 md:px-12 lg:px-16 pointer-events-none">
+          {/* Left Side: Headline */}
+          <div className="col-span-12 lg:col-span-7 text-left pointer-events-auto pl-4 sm:pl-8 lg:pl-12">
+            <h3 className="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-wider text-white uppercase font-sans leading-tight drop-shadow-md max-w-xl">
+              STRATEGY. CONTENT. COMMUNITY.
+            </h3>
+          </div>
 
-          <p className="mt-3 text-xs sm:text-sm md:text-base text-white/70 font-light leading-relaxed max-w-xl">
-            Scroll down to watch our social design systems expand in full 3D zoom parallax.
-          </p>
+          {/* Right Side: Subheadline */}
+          <div className="col-span-12 lg:col-span-5 text-left lg:text-right pb-1 lg:pr-20 pointer-events-auto">
+            <p className="text-xs sm:text-sm md:text-base text-white/70 font-light leading-relaxed max-w-[260px] sm:max-w-[280px] lg:ml-auto translate-y-12 sm:translate-y-16 lg:translate-y-24">
+              Full-funnel social media management, campaign strategy, graphic design, bespoke content creation, and active community building engineered for cult followings.
+            </p>
+          </div>
         </div>
 
-        {/* 3D Zoom Parallax Component */}
-        <ZoomParallax images={socialImages} />
+        {/* 3D Zoom Parallax Component — Lifted Higher */}
+        <div className="-mt-16 sm:-mt-24 md:-mt-32 relative z-10 w-full">
+          <ZoomParallax images={socialImages} />
+        </div>
       </div>
     </RoomShell>
   );

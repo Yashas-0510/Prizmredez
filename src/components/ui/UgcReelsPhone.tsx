@@ -179,7 +179,7 @@ export default function UgcReelsPhone() {
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center py-12 md:py-16 px-4 md:px-8 select-none bg-ink"
+      className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center py-12 md:py-16 px-4 md:px-8 select-none bg-transparent"
     >
       {/* Main Split Layout: Phone Left on PC, Copy & Controls Right on PC */}
       <div className="relative z-20 w-full max-w-6xl flex flex-col lg:flex-row items-center lg:items-center justify-between gap-10 lg:gap-16 my-auto">

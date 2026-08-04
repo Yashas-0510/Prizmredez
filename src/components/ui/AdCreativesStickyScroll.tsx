@@ -18,6 +18,17 @@ export default function AdCreativesStickyScroll() {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Measure window width for mobile vs desktop responsive transforms
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Track scroll progress across the 250vh track
   const { scrollYProgress } = useScroll({
@@ -32,11 +43,19 @@ export default function AdCreativesStickyScroll() {
     restDelta: 0.001,
   });
 
-  // Scale: 1.20 (full bleed edge-to-edge entrance) -> 0.38 (exact target shrunk cinema screen, increased by additional 5%)
-  const videoScale = useTransform(smoothProgress, [0.0, 0.75], [1.20, 0.38]);
+  // Responsive target scale: 0.38 for Mobile (5%+ enlarged), 0.34 for PC/Laptop (restored 2 commits back)
+  const videoScale = useTransform(
+    smoothProgress,
+    [0.0, 0.75],
+    [1.20, isMobile ? 0.38 : 0.34]
+  );
 
-  // Vertical offset: 0px (centered entrance) -> -6px (target card position balanced inside archway)
-  const videoY = useTransform(smoothProgress, [0.0, 0.75], ["0px", "-6px"]);
+  // Responsive vertical offset: "-6px" for Mobile, "16px" for PC/Laptop (restored 2 commits back)
+  const videoY = useTransform(
+    smoothProgress,
+    [0.0, 0.75],
+    ["0px", isMobile ? "-6px" : "16px"]
+  );
 
   // Border Radius: 0px (edge-to-edge entrance) -> 16px (rounded target screen)
   const borderRadius = useTransform(smoothProgress, [0.0, 0.75], ["0px", "16px"]);
@@ -129,8 +148,9 @@ export default function AdCreativesStickyScroll() {
               loop
               muted={idx === activeIndex ? isMuted : true}
               playsInline
-              className={`w-full h-full object-cover transition-opacity duration-500 ${idx === activeIndex ? "opacity-100 relative z-10" : "opacity-0 absolute inset-0 z-0 pointer-events-none"
-                }`}
+              className={`w-full h-full object-cover transition-opacity duration-500 ${
+                idx === activeIndex ? "opacity-100 relative z-10" : "opacity-0 absolute inset-0 z-0 pointer-events-none"
+              }`}
             />
           ))}
 
@@ -180,8 +200,9 @@ export default function AdCreativesStickyScroll() {
               <button
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
-                className={`transition-all duration-300 rounded-full cursor-pointer ${idx === activeIndex ? "w-3 h-1 bg-bone" : "w-1 h-1 bg-white/30 hover:bg-white/60"
-                  }`}
+                className={`transition-all duration-300 rounded-full cursor-pointer ${
+                  idx === activeIndex ? "w-3 h-1 bg-bone" : "w-1 h-1 bg-white/30 hover:bg-white/60"
+                }`}
                 aria-label={`Go to reel ${idx + 1}`}
               />
             ))}

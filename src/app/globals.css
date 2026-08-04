@@ -23,6 +23,17 @@
     --ink-soft: #0d0d10;
     --bone: #f2f0eb;
     --dim: #8a8a92;
+
+    /* Aurora color variables */
+    --white: #ffffff;
+    --black: #000000;
+    --transparent: transparent;
+    --blue-500: #3b82f6;
+    --indigo-300: #a5b4fc;
+    --blue-300: #93c5fd;
+    --violet-200: #ddd6fe;
+    --blue-400: #60a5fa;
+
     /* The one accent: iridescent dispersion */
     --spectrum: linear-gradient(
       100deg,
@@ -141,3 +152,17 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #3d3d46;
 }
+
+/* Aurora Background Animation */
+@keyframes aurora {
+  from {
+    background-position: 50% 50%, 50% 50%;
+  }
+  to {
+    background-position: 350% 50%, 350% 50%;
+  }
+}
+.animate-aurora {
+  animation: aurora 60s linear infinite;
+}
+
