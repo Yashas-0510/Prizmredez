@@ -7,11 +7,13 @@ import UgcSection from "@/components/sections/UgcSection";
 import SocialMediaSection from "@/components/sections/SocialMediaSection";
 import ContactSection from "@/components/sections/ContactSection";
 import { AuroraBackground } from "@/components/ui/aurora-background";
+import TubesCursor from "@/components/ui/tubes-cursor";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-[#070708] overflow-x-clip">
       <Navbar />
+      <TubesCursor />
       <AuroraBackground showRadialGradient={false} className="min-h-screen">
         <HeroSection />
         <AboutSection />

@@ -2,53 +2,69 @@ import RoomShell from "./RoomShell";
 import Reveal from "@/components/ui/Reveal";
 
 /**
- * Room 07 — Contact. One invitation, one spectrum line, and the
- * wordmark bookend sunk into the bottom of the page.
+ * Room 07 — Redesigned Contact Section
+ * Inspired by reference designs:
+ * - Sub-tag: "Got An Idea?"
+ * - Centered headline: "Let's craft brilliance together!"
+ * - Red glowing pill CTA button: "Get A Free Audit ↗"
+ * - Clean bottom footer row with hello@prizm.studio, socials, and copyright.
  */
 export default function ContactSection() {
   return (
     <RoomShell index="07" label="Contact" id="contact" right="KYIV — WORLDWIDE">
-      <div className="relative px-6 md:px-10 pt-36 pb-[30vh]">
-        <Reveal>
-          <p className="meta mb-10">GOT A BRIEF?</p>
+      <div className="relative min-h-[85vh] w-full flex flex-col items-center justify-between px-6 md:px-12 py-16 md:py-24 text-center">
+        
+        {/* Main Content Block (Centered) */}
+        <div className="my-auto flex flex-col items-center justify-center max-w-4xl mx-auto space-y-8 md:space-y-10">
+          
+          {/* Sub-heading / Tag */}
+          <Reveal>
+            <p className="meta text-xs sm:text-sm md:text-base text-white/60 tracking-[0.25em] uppercase font-mono">
+              Got An Idea?
+            </p>
+          </Reveal>
+
+          {/* Centered Massive Title */}
+          <Reveal delay={100}>
+            <h2 className="font-heading font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.1] max-w-3xl">
+              Let’s craft <span className="spectrum-text">brilliance</span> together!
+            </h2>
+          </Reveal>
+
+          {/* Red / Spectrum Glowing Pill Button */}
+          <Reveal delay={200}>
+            <a
+              href="mailto:hello@prizm.studio"
+              className="group relative inline-flex items-center justify-center px-8 py-4 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider text-rose-400 border border-rose-500/60 bg-rose-500/10 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-rose-500 hover:text-white hover:border-rose-500 hover:shadow-[0_0_40px_rgba(244,63,94,0.6)]"
+              data-cursor
+              data-cursor-text="CONTACT"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                Get A Free Audit
+                <span className="group-hover:translate-x-1 transition-transform duration-300">↗</span>
+              </span>
+            </a>
+          </Reveal>
+        </div>
+
+        {/* Footer Meta Row */}
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-6 pt-12 text-xs text-white/50 z-20">
           <a
             href="mailto:hello@prizm.studio"
-            className="group inline-flex flex-col gap-4"
-            data-cursor
-            data-cursor-text="GO"
+            className="meta text-white/70 hover:text-white transition-colors"
           >
-            <span className="font-heading font-extrabold uppercase text-[clamp(2.2rem,6vw,5.5rem)] leading-none text-bone group-hover:translate-x-3 transition-transform duration-500">
-              Start a project ↗
-            </span>
-            <span className="spectrum-line w-full origin-left scale-x-100 group-hover:scale-x-110 transition-transform duration-500" />
+            hello@prizm.studio
           </a>
-        </Reveal>
 
-        <Reveal delay={150} className="mt-14 flex flex-col gap-2">
-          <a href="mailto:hello@prizm.studio" className="meta text-white/80 hover:text-white transition-colors w-fit">
-            HELLO@PRIZM.STUDIO
-          </a>
-          <span className="meta">REPLIES WITHIN 24H</span>
-        </Reveal>
-
-        {/* footer meta row — interwoven with the wordmark via blend */}
-        <div className="absolute bottom-10 inset-x-6 md:inset-x-10 flex flex-wrap items-baseline justify-between gap-4 z-30 mix-blend-difference">
-          <span className="meta">© 2026 PRIZM STUDIO</span>
-          <div className="flex gap-8">
+          <div className="flex items-center gap-6 sm:gap-8">
             <a href="#" className="meta hover:text-white transition-colors">INSTAGRAM ↗</a>
             <a href="#" className="meta hover:text-white transition-colors">TELEGRAM ↗</a>
             <a href="#" className="meta hover:text-white transition-colors">LINKEDIN ↗</a>
           </div>
-          <span className="meta">50.4501° N / 30.5234° E — V_2.0</span>
+
+          <span className="meta">© 2026 PRIZM STUDIO</span>
         </div>
 
-        {/* wordmark bookend */}
-        <h2
-          aria-label="Prizm"
-          className="monument absolute -bottom-[0.14em] left-1/2 -translate-x-1/2 text-[clamp(8rem,17vw,18rem)] pointer-events-none whitespace-nowrap"
-        >
-          PRIZM
-        </h2>
       </div>
     </RoomShell>
   );
