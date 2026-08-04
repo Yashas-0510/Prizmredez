@@ -82,15 +82,15 @@ export default function SocialMediaSection() {
           </div>
 
           {/* Right Side: Subheadline */}
-          <div className="col-span-12 lg:col-span-5 text-left lg:text-right pb-1 lg:pr-20 pointer-events-auto">
-            <p className="text-xs sm:text-sm md:text-base text-white/70 font-light leading-relaxed max-w-[260px] sm:max-w-[280px] lg:ml-auto translate-y-12 sm:translate-y-16 lg:translate-y-24">
+          <div className="col-span-12 lg:col-span-5 text-left lg:text-right pb-1 pl-4 sm:pl-8 lg:pl-0 lg:pr-20 pointer-events-auto">
+            <p className="text-xs sm:text-sm md:text-base text-white/70 font-light leading-relaxed max-w-[280px] sm:max-w-[300px] lg:ml-auto translate-y-0 sm:translate-y-12 lg:translate-y-24">
               Full-funnel social media management, campaign strategy, graphic design, bespoke content creation, and active community building engineered for cult followings.
             </p>
           </div>
         </div>
 
-        {/* 3D Zoom Parallax Component — Lifted Higher */}
-        <div className="-mt-16 sm:-mt-24 md:-mt-32 relative z-10 w-full">
+        {/* 3D Zoom Parallax Component */}
+        <div className="mt-4 sm:-mt-16 md:-mt-32 relative z-10 w-full">
           <ZoomParallax images={socialImages} />
         </div>
       </div>

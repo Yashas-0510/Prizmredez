@@ -43,11 +43,11 @@ export default function AdCreativesStickyScroll() {
     restDelta: 0.001,
   });
 
-  // Responsive target scale: 0.38 for Mobile (5%+ enlarged), 0.34 for PC/Laptop (restored 2 commits back)
+  // Responsive target scale: 0.36 for Mobile (reduced by 5%), 0.34 for PC/Laptop
   const videoScale = useTransform(
     smoothProgress,
     [0.0, 0.75],
-    [1.20, isMobile ? 0.38 : 0.34]
+    [1.20, isMobile ? 0.36 : 0.34]
   );
 
   // Responsive vertical offset: "-6px" for Mobile, "16px" for PC/Laptop (restored 2 commits back)
