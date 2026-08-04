@@ -9,10 +9,12 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
-    { index: "01", name: "Work", href: "#work" },
-    { index: "02", name: "Studio", href: "#studio" },
-    { index: "03", name: "Services", href: "#services" },
-    { index: "04", name: "Contact", href: "#contact" },
+    { index: "01", name: "Studio", href: "#studio" },
+    { index: "02", name: "Web Experiences", href: "#work" },
+    { index: "03", name: "Ad Creatives", href: "#ads" },
+    { index: "04", name: "UGC", href: "#ugc" },
+    { index: "05", name: "Social Systems", href: "#social" },
+    { index: "06", name: "Contact", href: "#contact" },
   ];
 
   useEffect(() => {
@@ -138,7 +140,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        <div className="flex flex-col gap-6 my-auto max-w-xl">
+        <div className="flex flex-col gap-3 sm:gap-5 my-auto max-w-2xl">
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -147,7 +149,7 @@ export default function Navbar() {
               className="group flex items-baseline gap-4 text-bone hover:spectrum-text transition-all duration-300"
             >
               <span className="meta text-xs opacity-50">{link.index}</span>
-              <span className="font-heading font-extrabold text-4xl sm:text-6xl uppercase tracking-tight group-hover:translate-x-3 transition-transform">
+              <span className="font-heading font-extrabold text-2xl sm:text-4xl md:text-5xl uppercase tracking-tight group-hover:translate-x-3 transition-transform">
                 {link.name}
               </span>
             </a>
