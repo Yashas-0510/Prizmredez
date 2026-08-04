@@ -157,7 +157,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center justify-between border-t border-white/10 pt-6 text-xs text-white/50">
-          <span>hello@prizm.studio</span>
+          <span>hello@prizmstudio.in</span>
           <span>© 2026 PRIZM STUDIO</span>
         </div>
       </div>
