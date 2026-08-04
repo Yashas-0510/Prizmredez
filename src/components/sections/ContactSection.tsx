@@ -19,7 +19,7 @@ export default function ContactSection() {
           
           {/* Centered Massive Title — Monument Extended Futuristic Typography */}
           <Reveal delay={100}>
-            <h2 className="monument text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl uppercase tracking-wider text-white leading-[1.2] max-w-4xl">
+            <h2 className="monument text-[28px] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl uppercase tracking-wider text-white leading-[1.2] max-w-4xl">
               LET’S CRAFT <span className="spectrum-text">BRILLIANCE</span> TOGETHER!
             </h2>
           </Reveal>
