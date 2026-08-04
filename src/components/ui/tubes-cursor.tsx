@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-interface TubesCursorProps {
-  className?: string;
-}
-
-export default function TubesCursor({ className }: TubesCursorProps) {
+export default function TubesCursor() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const appRef = useRef<any>(null);
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
   const randomColors = (count: number) => {
     return new Array(count)
@@ -16,21 +13,50 @@ export default function TubesCursor({ className }: TubesCursorProps) {
       .map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0"));
   };
 
+  // Measure device capability & screen width
   useEffect(() => {
+    const checkIsDesktop = () => {
+      const isMin768 = window.innerWidth >= 768;
+      const isPointerFine = window.matchMedia("(pointer: fine)").matches;
+      return isMin768 && isPointerFine;
+    };
+
+    const handleCheck = () => {
+      const desktop = checkIsDesktop();
+      setIsDesktop(desktop);
+      if (!desktop && appRef.current) {
+        if (typeof appRef.current.dispose === "function") {
+          try {
+            appRef.current.dispose();
+          } catch (e) {}
+        }
+        appRef.current = null;
+      }
+    };
+
+    handleCheck();
+    window.addEventListener("resize", handleCheck);
+    return () => window.removeEventListener("resize", handleCheck);
+  }, []);
+
+  // Initialize Three.js Tubes animation ONLY if isDesktop is true
+  useEffect(() => {
+    if (!isDesktop) return;
     let isMounted = true;
 
     const initTimer = setTimeout(() => {
-      // Dynamic import function bypassing TS static module check
+      if (!canvasRef.current || !isMounted) return;
+
       const loadTubesModule = new Function(
         `return import("https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js")`
       );
 
       loadTubesModule()
         .then((module: any) => {
-          if (!isMounted) return;
+          if (!isMounted || !canvasRef.current) return;
           const TubesCursorImpl = module.default;
 
-          if (canvasRef.current) {
+          if (!appRef.current) {
             const app = TubesCursorImpl(canvasRef.current, {
               tubes: {
                 colors: ["#5e72e4", "#8965e0", "#f5365c"],
@@ -66,15 +92,21 @@ export default function TubesCursor({ className }: TubesCursorProps) {
       isMounted = false;
       clearTimeout(initTimer);
       window.removeEventListener("click", handleGlobalClick);
-      if (appRef.current && typeof appRef.current.dispose === "function") {
-        try {
-          appRef.current.dispose();
-        } catch (e) {
-          // ignore cleanup error
+      if (appRef.current) {
+        if (typeof appRef.current.dispose === "function") {
+          try {
+            appRef.current.dispose();
+          } catch (e) {}
         }
+        appRef.current = null;
       }
     };
-  }, []);
+  }, [isDesktop]);
+
+  // Completely unmount canvas from DOM on mobile
+  if (!isDesktop) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
