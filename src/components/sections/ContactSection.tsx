@@ -57,7 +57,7 @@ export default function ContactSection() {
           <div className="flex items-center gap-5 sm:gap-6">
             {/* Instagram */}
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/prizmstudio.in/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 hover:scale-110"
@@ -72,7 +72,7 @@ export default function ContactSection() {
 
             {/* X / Twitter */}
             <a
-              href="https://x.com"
+              href="https://www.instagram.com/prizmstudio.in/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-all duration-300 hover:scale-110"
@@ -85,7 +85,7 @@ export default function ContactSection() {
 
             {/* WhatsApp */}
             <a
-              href="https://whatsapp.com"
+              href="https://wa.me/917975323635"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 rounded-full text-white/60 hover:text-emerald-400 hover:bg-white/10 transition-all duration-300 hover:scale-110"
@@ -98,7 +98,7 @@ export default function ContactSection() {
 
             {/* Facebook */}
             <a
-              href="https://facebook.com"
+              href="https://www.instagram.com/prizmstudio.in/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 rounded-full text-white/60 hover:text-blue-400 hover:bg-white/10 transition-all duration-300 hover:scale-110"
