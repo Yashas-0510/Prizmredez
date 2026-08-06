@@ -274,7 +274,7 @@ export function GradientOrb({
 
   return (
     <div className={`w-full h-full ${className}`} style={{ background: config.background }}>
-      <Canvas gl={{ antialias: true, alpha: true }}>
+      <Canvas dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }}>
         <GradientScene config={config} />
       </Canvas>
     </div>

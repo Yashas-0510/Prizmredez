@@ -41,7 +41,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
             <motion.div
               key={index}
               style={{ scale }}
-              className={`absolute top-0 flex h-full w-full items-center justify-center ${
+              className={`absolute top-0 flex h-full w-full items-center justify-center will-change-transform ${
                 index === 1
                   ? "[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]"
                   : ""

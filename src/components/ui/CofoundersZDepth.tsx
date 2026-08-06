@@ -70,6 +70,7 @@ export default function CofoundersZDepth() {
             <img
               src="/rheaprizm.png"
               alt="RHEA — CO-FOUNDER"
+              decoding="async"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_25px_40px_rgba(0,0,0,0.85)]"
             />
           </div>
@@ -110,6 +111,7 @@ export default function CofoundersZDepth() {
             <img
               src="/yashprizm.png"
               alt="YASH — CO-FOUNDER"
+              decoding="async"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)]"
             />
           </div>

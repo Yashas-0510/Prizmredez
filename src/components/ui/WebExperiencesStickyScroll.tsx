@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
-import { TextAnimate } from "@/components/ui/text-animate";
 
 /**
  * WebExperiencesStickyScroll — Relay Pass-Through Gallery inspired by Nudot Studio.
@@ -132,7 +131,7 @@ export default function WebExperiencesStickyScroll() {
             y: c1Y,
             opacity: c1Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -141,13 +140,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://ovalboxarena.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-oval.png"
               alt="Oval Box — Turf Booking"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>
@@ -159,7 +160,7 @@ export default function WebExperiencesStickyScroll() {
             y: c2Y,
             opacity: c2Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -168,13 +169,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://tattoo-sutra.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-02.jpg"
               alt="Tattoo Sutra — Studio"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>
@@ -186,7 +189,7 @@ export default function WebExperiencesStickyScroll() {
             y: c3Y,
             opacity: c3Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -195,13 +198,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://www.gmcelebrations.in/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-04.jpg"
               alt="GM Celebration — Catering"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>
@@ -213,7 +218,7 @@ export default function WebExperiencesStickyScroll() {
             y: c4Y,
             opacity: c4Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -222,13 +227,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://barbell-cartel-wf.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-03.jpg"
               alt="Barbell Cartel — Gym & Fitness"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>
@@ -240,7 +247,7 @@ export default function WebExperiencesStickyScroll() {
             y: c5Y,
             opacity: c5Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-30 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-30 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -249,13 +256,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://pushup-omega.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.9)] rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-[0_25px_60px_rgba(0,0,0,0.9)] rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-pushup.png"
               alt="Push Up — Fitness System"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>

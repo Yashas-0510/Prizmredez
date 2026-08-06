@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const FRAME_COUNT = 121;
-// loader hands off once this many frames are ready; the rest stream in
-const READY_THRESHOLD = 40;
+const READY_THRESHOLD = 30;
+const INITIAL_BATCH = 30;
+
 const frameSrc = (i: number) =>
   `/prizmframes-hd/frame-${String(i + 1).padStart(3, "0")}.webp`;
 
@@ -15,45 +16,86 @@ export default function HeroSection() {
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const loadedRef = useRef<boolean[]>(new Array(FRAME_COUNT).fill(false));
   const lastDrawnRef = useRef(-1);
+  const loadedCountRef = useRef(0);
+  const readyRef = useRef(false);
 
   const progressRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
 
-  const [loadedCount, setLoadedCount] = useState(0);
-  const ready = loadedCount >= READY_THRESHOLD;
-
-  /* ---------------- preload ---------------- */
+  /* ---------------- Chunked Preload Strategy (30 Frames First) ---------------- */
   useEffect(() => {
     let cancelled = false;
     const images: HTMLImageElement[] = new Array(FRAME_COUNT);
-
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      img.src = frameSrc(i);
-      img.decoding = "async";
-      img.onload = () => {
-        if (cancelled) return;
-        loadedRef.current[i] = true;
-        lastDrawnRef.current = -1; // a fresher frame is available
-        setLoadedCount((c) => c + 1);
-      };
-      images[i] = img;
-    }
     imagesRef.current = images;
+
+    const handleFrameLoad = (index: number) => {
+      if (cancelled) return;
+      if (!loadedRef.current[index]) {
+        loadedRef.current[index] = true;
+        loadedCountRef.current++;
+        lastDrawnRef.current = -1; // force redraw with newest available frame
+
+        const count = loadedCountRef.current;
+        const pct = Math.round((count / FRAME_COUNT) * 100);
+
+        if (textRef.current) {
+          textRef.current.textContent = `Loading sequence — ${pct}%`;
+        }
+
+        if (!readyRef.current && count >= READY_THRESHOLD) {
+          readyRef.current = true;
+          if (loaderRef.current) {
+            loaderRef.current.style.opacity = "0";
+            loaderRef.current.style.pointerEvents = "none";
+          }
+        }
+      }
+    };
+
+    const loadFrame = (i: number) => {
+      if (cancelled || images[i]) return;
+      const img = new Image();
+      img.decoding = "async";
+      img.src = frameSrc(i);
+      img.onload = () => handleFrameLoad(i);
+      images[i] = img;
+    };
+
+    // Phase 1: Load critical initial 30 frames immediately
+    for (let i = 0; i < INITIAL_BATCH; i++) {
+      loadFrame(i);
+    }
+
+    // Phase 2: Stream remaining frames in background idle chunks
+    let current = INITIAL_BATCH;
+    const loadNextChunk = () => {
+      if (cancelled || current >= FRAME_COUNT) return;
+      const end = Math.min(current + 10, FRAME_COUNT);
+      for (let i = current; i < end; i++) {
+        loadFrame(i);
+      }
+      current = end;
+      if (current < FRAME_COUNT) {
+        if (typeof window.requestIdleCallback === "function") {
+          window.requestIdleCallback(loadNextChunk, { timeout: 200 });
+        } else {
+          setTimeout(loadNextChunk, 35);
+        }
+      }
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(loadNextChunk, { timeout: 300 });
+    } else {
+      setTimeout(loadNextChunk, 60);
+    }
 
     return () => {
       cancelled = true;
       imagesRef.current = [];
     };
   }, []);
-
-  /* ---------------- loader fade-out ---------------- */
-  useEffect(() => {
-    const loader = loaderRef.current;
-    if (!loader || !ready) return;
-    loader.style.opacity = "0";
-    loader.style.pointerEvents = "none";
-  }, [ready]);
 
   /* ---------------- scroll scrub + draw loop ---------------- */
   useEffect(() => {
@@ -76,7 +118,7 @@ export default function HeroSection() {
       const canvas = canvasRef.current;
       if (!canvas) return;
       if (!ctxRef.current) {
-        ctxRef.current = canvas.getContext("2d");
+        ctxRef.current = canvas.getContext("2d", { alpha: false });
       }
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -137,7 +179,7 @@ export default function HeroSection() {
     };
 
     raf = requestAnimationFrame(loop);
-    window.addEventListener("resize", sizeCanvas);
+    window.addEventListener("resize", sizeCanvas, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", sizeCanvas);
@@ -169,17 +211,17 @@ export default function HeroSection() {
           />
         </div>
 
-        {/* ------- loader ------- */}
+        {/* ------- preloader overlay ------- */}
         <div
           ref={loaderRef}
-          className="absolute inset-0 z-40 bg-[#070708] flex items-center justify-center transition-opacity duration-700"
+          className="absolute inset-0 z-40 bg-[#070708] flex items-center justify-center transition-opacity duration-700 pointer-events-auto"
         >
-          <span className="meta">
-            Loading sequence —{" "}
-            {Math.round((loadedCount / FRAME_COUNT) * 100)}%
+          <span ref={textRef} className="meta">
+            Loading sequence — 0%
           </span>
         </div>
       </div>
     </section>
   );
 }
+
