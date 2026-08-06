@@ -50,6 +50,9 @@
     background-color: var(--ink);
     color: var(--bone);
     cursor: default;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    touch-action: manipulation;
   }
 
   h1, h2, h3, h4, h5, h6 {

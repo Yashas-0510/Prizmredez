@@ -8,7 +8,6 @@ import {
   type RefAttributes,
 } from "react";
 import {
-  AnimatePresence,
   motion,
   type HTMLMotionProps,
   type MotionProps,
@@ -192,22 +191,20 @@ export function HyperText({
       onMouseEnter={handleMouseEnter}
       {...props}
     >
-      <AnimatePresence>
-        {displayText.map((letter, index) => {
-          const isScrambling = isAnimating && index > iterationCount.current;
-          return (
-            <motion.span
-              key={index}
-              className={cn(
-                letter === " " ? "w-[0.25em]" : "",
-                isScrambling ? "opacity-75 text-bone/70 font-mono text-[0.88em]" : ""
-              )}
-            >
-              {letter.toUpperCase()}
-            </motion.span>
-          );
-        })}
-      </AnimatePresence>
+      {displayText.map((letter, index) => {
+        const isScrambling = isAnimating && index > iterationCount.current;
+        return (
+          <span
+            key={index}
+            className={cn(
+              letter === " " ? "w-[0.25em]" : "",
+              isScrambling ? "opacity-75 text-bone/70 font-mono text-[0.88em]" : ""
+            )}
+          >
+            {letter.toUpperCase()}
+          </span>
+        );
+      })}
     </MotionComponent>
   );
 }

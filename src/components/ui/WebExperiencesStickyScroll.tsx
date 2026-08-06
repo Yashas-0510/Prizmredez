@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
-import { TextAnimate } from "@/components/ui/text-animate";
 
 /**
  * WebExperiencesStickyScroll — Relay Pass-Through Gallery inspired by Nudot Studio.
@@ -64,7 +63,7 @@ export default function WebExperiencesStickyScroll() {
       {/* Sticky Viewport Stage */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center select-none">
 
-        {/* Central Headline Copy (Option 3: Staggered Blur-In Up) */}
+        {/* Central Headline Copy */}
         <div className="relative z-10 text-center pointer-events-none px-4 md:px-8 max-w-[90vw] md:max-w-4xl">
           <p className="meta text-white/50 text-[11px] md:text-xs tracking-[0.3em] uppercase mb-3">
             ( DIGITAL VISUAL ENGINE )
@@ -75,7 +74,7 @@ export default function WebExperiencesStickyScroll() {
               show: {
                 opacity: 1,
                 transition: {
-                  staggerChildren: 0.1,
+                  staggerChildren: 0.08,
                 },
               },
             }}
@@ -86,37 +85,37 @@ export default function WebExperiencesStickyScroll() {
           >
             <motion.span
               variants={{
-                hidden: { opacity: 0, filter: "blur(12px)", y: 18 },
-                show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 0.5 } },
+                hidden: { opacity: 0, y: 16 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
               }}
-              className="block"
+              className="block will-change-transform"
             >
               ARCHIVE OF
             </motion.span>
             <motion.span
               variants={{
-                hidden: { opacity: 0, filter: "blur(12px)", y: 18 },
-                show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 0.5 } },
+                hidden: { opacity: 0, y: 16 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
               }}
-              className="block"
+              className="block will-change-transform"
             >
               THE SELECTED
             </motion.span>
             <motion.span
               variants={{
-                hidden: { opacity: 0, filter: "blur(12px)", y: 18 },
-                show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 0.5 } },
+                hidden: { opacity: 0, y: 16 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
               }}
-              className="block"
+              className="block will-change-transform"
             >
               WORKS
             </motion.span>
             <motion.span
               variants={{
-                hidden: { opacity: 0, filter: "blur(12px)", y: 18 },
-                show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 0.5 } },
+                hidden: { opacity: 0, y: 16 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
               }}
-              className="block"
+              className="block will-change-transform"
             >
               BY <span className="spectrum-text">PRIZM</span>
             </motion.span>
@@ -132,7 +131,7 @@ export default function WebExperiencesStickyScroll() {
             y: c1Y,
             opacity: c1Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -141,13 +140,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://ovalboxarena.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-oval.png"
               alt="Oval Box — Turf Booking"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>
@@ -159,7 +160,7 @@ export default function WebExperiencesStickyScroll() {
             y: c2Y,
             opacity: c2Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -168,13 +169,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://tattoo-sutra.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-02.jpg"
               alt="Tattoo Sutra — Studio"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>
@@ -186,7 +189,7 @@ export default function WebExperiencesStickyScroll() {
             y: c3Y,
             opacity: c3Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -195,13 +198,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://www.gmcelebrations.in/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-04.jpg"
               alt="GM Celebration — Catering"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>
@@ -213,7 +218,7 @@ export default function WebExperiencesStickyScroll() {
             y: c4Y,
             opacity: c4Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -222,13 +227,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://barbell-cartel-wf.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-03.jpg"
               alt="Barbell Cartel — Gym & Fitness"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>
@@ -240,7 +247,7 @@ export default function WebExperiencesStickyScroll() {
             y: c5Y,
             opacity: c5Opacity,
           }}
-          className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-30 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw]"
+          className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-30 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
           <div
             onClick={() =>
@@ -249,13 +256,15 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://pushup-omega.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-ink-soft/95 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.9)] rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-[0_25px_60px_rgba(0,0,0,0.9)] rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
           >
             <Image
               src="/posters/web-pushup.png"
               alt="Push Up — Fitness System"
               width={1280}
               height={800}
+              sizes="(max-width: 768px) 84vw, (max-width: 1024px) 40vw, 34vw"
+              quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
           </div>

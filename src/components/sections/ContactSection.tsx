@@ -23,9 +23,9 @@ export default function ContactSection() {
   // Copy feedback notification toast state
   const [copyToast, setCopyToast] = useState<string | null>(null);
 
-  // Magnetic mouse position offset state for 3D Orb on Desktop
+  // Magnetic mouse position ref for 3D Orb on Desktop
   const orbContainerRef = useRef<HTMLDivElement>(null);
-  const [orbOffset, setOrbOffset] = useState({ x: 0, y: 0 });
+  const orbWrapperRef = useRef<HTMLDivElement>(null);
 
   const toggleService = (service: string) => {
     setSelectedServices((prev) =>
@@ -44,17 +44,19 @@ export default function ContactSection() {
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!orbContainerRef.current) return;
+    if (!orbContainerRef.current || !orbWrapperRef.current) return;
     const rect = orbContainerRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     const deltaX = (e.clientX - centerX) * 0.22;
     const deltaY = (e.clientY - centerY) * 0.22;
-    setOrbOffset({ x: deltaX, y: deltaY });
+    orbWrapperRef.current.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0)`;
   };
 
   const handleMouseLeave = () => {
-    setOrbOffset({ x: 0, y: 0 });
+    if (orbWrapperRef.current) {
+      orbWrapperRef.current.style.transform = `translate3d(0px, 0px, 0)`;
+    }
   };
 
   const mailtoSubject = encodeURIComponent(
@@ -187,10 +189,8 @@ export default function ContactSection() {
             className="col-span-5 flex flex-col items-center justify-center relative p-8 cursor-pointer"
           >
             <div
+              ref={orbWrapperRef}
               className="relative transition-transform duration-200 ease-out flex items-center justify-center"
-              style={{
-                transform: `translate3d(${orbOffset.x}px, ${orbOffset.y}px, 0)`,
-              }}
             >
               {/* Grand 3D Gradient Orb Link */}
               <a
