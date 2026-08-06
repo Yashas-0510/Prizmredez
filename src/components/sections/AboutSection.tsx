@@ -60,10 +60,10 @@ export default function AboutSection() {
               <div>
                 <h3 className="font-heading font-extrabold uppercase text-[clamp(1.25rem,5.2vw,3.6rem)] leading-[1.06] text-bone tracking-tight flex flex-wrap gap-x-[0.25em] gap-y-1 items-baseline max-w-full overflow-hidden">
                   <GsapSpinWord word="IMAGINATION" />
-                  <span className="text-bone">DRIVEN</span>
+                  <span className="text-bone">DRIVEN.</span>
                   <br className="hidden sm:inline" />
-                  <GsapSpinWord word="TECHNOLOGY" />
-                  <span className="text-bone">BUILT</span>
+                  <GsapSpinWord word="PRECISION" />
+                  <span className="text-bone">CRAFTED.</span>
                 </h3>
               </div>
               <div className="mt-6 md:mt-14 max-w-[34rem] border-t border-white/10 pt-6">
