@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Syne, Plus_Jakarta_Sans, Instrument_Serif, Space_Mono } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/providers/LenisProvider";
+import CustomCursor from "@/components/ui/CustomCursor";
+import NoiseOverlay from "@/components/ui/NoiseOverlay";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -48,6 +50,8 @@ export default function RootLayout({
     >
       <body suppressHydrationWarning className="bg-[#070708] text-white font-sans min-h-full flex flex-col overflow-x-hidden">
         <LenisProvider>
+          <NoiseOverlay />
+          <CustomCursor />
           {children}
         </LenisProvider>
       </body>

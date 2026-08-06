@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useSpring, useTransform, useMotionValue } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 
 const UGC_REELS = [
   {
@@ -80,26 +80,23 @@ export default function UgcReelsPhone() {
   const [likedMap, setLikedMap] = useState<{ [key: number]: boolean }>({});
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Interactive Mouse Parallax Gyroscope (Zero-re-render MotionValues)
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  // Interactive Mouse Parallax Gyroscope
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
-    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMousePos({ x, y });
   };
 
-  const mouseScaledX = useTransform(mouseX, [-0.5, 0.5], [-11, 11]);
-  const mouseScaledY = useTransform(mouseY, [-0.5, 0.5], [11, -11]);
-  const shadowScaledX = useTransform(mouseX, [-0.5, 0.5], [12, -12]);
-  const shadowScaledY = useTransform(mouseY, [-0.5, 0.5], [0.95, 1.05]);
+  const gyroRotateY = useSpring(mousePos.x * 22, { stiffness: 110, damping: 20 });
+  const gyroRotateX = useSpring(mousePos.y * -22, { stiffness: 110, damping: 20 });
 
-  const gyroRotateY = useSpring(mouseScaledX, { stiffness: 110, damping: 20 });
-  const gyroRotateX = useSpring(mouseScaledY, { stiffness: 110, damping: 20 });
-  const shadowX = useSpring(shadowScaledX, { stiffness: 100, damping: 20 });
-  const shadowScaleX = useSpring(shadowScaledY, { stiffness: 100, damping: 20 });
+  // 3D Floor Shadow Parallax
+  const shadowX = useSpring(mousePos.x * -24, { stiffness: 100, damping: 20 });
+  const shadowScaleX = useSpring(1 - Math.abs(mousePos.y) * 0.1, { stiffness: 100, damping: 20 });
 
   // Scroll Progress Tracking for 3D Docking & Text Sequence
   const { scrollYProgress } = useScroll({

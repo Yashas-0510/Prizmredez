@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 
 /**
  * CofoundersZDepth — 3D Z-Axis Push-Forward Reveal.
- * Rhea & Yash start deep in 3D back-space (scaled down, low opacity)
- * and zoom forward on the Z-axis into focus as the user scrolls into view.
+ * Rhea & Yash start deep in 3D back-space (scaled down, blurred, low opacity)
+ * and zoom forward on the Z-axis into sharp focus as the user scrolls into view.
  */
 export default function CofoundersZDepth() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,8 +44,9 @@ export default function CofoundersZDepth() {
         <motion.div
           initial={{
             opacity: 0,
-            scale: 0.8,
-            z: -160,
+            scale: 0.45,
+            z: -250,
+            filter: "blur(12px)",
           }}
           animate={
             inView
@@ -53,23 +54,22 @@ export default function CofoundersZDepth() {
                   opacity: 1,
                   scale: 1,
                   z: 20,
+                  filter: "blur(0px)",
                 }
               : {}
           }
           transition={{
-            duration: 0.9,
-            delay: 0.15,
+            duration: 1.1,
+            delay: 0.2,
             ease: [0.16, 1, 0.3, 1], // Custom cubic bezier smooth deceleration
           }}
-          className="group relative z-10 w-[56%] transition-transform duration-300 hover:z-20 hover:-translate-y-2 [transform-style:preserve-3d] will-change-transform"
+          className="group relative z-10 w-[56%] transition-transform duration-300 hover:z-20 hover:-translate-y-2 [transform-style:preserve-3d]"
         >
           <div className="relative aspect-[3/4] flex items-end justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/rheaprizm.png"
               alt="RHEA — CO-FOUNDER"
-              decoding="async"
-              loading="lazy"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_25px_40px_rgba(0,0,0,0.85)]"
             />
           </div>
@@ -84,8 +84,9 @@ export default function CofoundersZDepth() {
         <motion.div
           initial={{
             opacity: 0,
-            scale: 0.75,
-            z: -200,
+            scale: 0.4,
+            z: -320,
+            filter: "blur(16px)",
           }}
           animate={
             inView
@@ -93,23 +94,22 @@ export default function CofoundersZDepth() {
                   opacity: 1,
                   scale: 1,
                   z: 0,
+                  filter: "blur(0px)",
                 }
               : {}
           }
           transition={{
-            duration: 0.85,
+            duration: 1.0,
             delay: 0.05,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="group relative z-0 w-[56%] -ml-[31%] transition-transform duration-300 hover:z-20 hover:-translate-y-2 [transform-style:preserve-3d] will-change-transform"
+          className="group relative z-0 w-[56%] -ml-[31%] transition-transform duration-300 hover:z-20 hover:-translate-y-2 [transform-style:preserve-3d]"
         >
           <div className="relative aspect-[3/4] flex items-end justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/yashprizm.png"
               alt="YASH — CO-FOUNDER"
-              decoding="async"
-              loading="lazy"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)]"
             />
           </div>
@@ -123,4 +123,3 @@ export default function CofoundersZDepth() {
     </div>
   );
 }
-

@@ -68,22 +68,11 @@ export default function AdCreativesStickyScroll() {
   const maskY1 = useTransform(smoothProgress, [0.30, 0.65], ["115%", "0%"]);
   const maskY2 = useTransform(smoothProgress, [0.38, 0.72], ["115%", "0%"]);
 
-  // Keep videos synced with muted state — ONLY the active video is unmuted & playing
+  // Keep videos synced with muted state — ONLY the active video is unmuted
   useEffect(() => {
     videoRefs.current.forEach((vid, idx) => {
       if (vid) {
         vid.muted = idx === activeIndex ? isMuted : true;
-        if (idx === activeIndex) {
-          const playPromise = vid.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {});
-          }
-        } else {
-          vid.pause();
-          try {
-            vid.currentTime = 0;
-          } catch (_) {}
-        }
       }
     });
   }, [isMuted, activeIndex]);
@@ -146,7 +135,7 @@ export default function AdCreativesStickyScroll() {
             y: videoY,
             borderRadius: borderRadius,
           }}
-          className="relative z-20 w-full h-full max-w-[92vw] max-h-[105vh] border border-white/20 shadow-[0_30px_90px_rgba(0,0,0,0.95)] overflow-hidden bg-black flex items-center justify-center will-change-transform"
+          className="relative z-20 w-full h-full max-w-[92vw] max-h-[105vh] border border-white/20 shadow-[0_30px_90px_rgba(0,0,0,0.95)] overflow-hidden bg-black flex items-center justify-center"
         >
           {REELS.map((reel, idx) => (
             <video

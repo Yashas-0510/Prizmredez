@@ -18,33 +18,28 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
-    let raf = 0;
-
-    const checkScroll = () => {
+    const handleScroll = () => {
       const studioEl = document.getElementById("studio");
       if (studioEl) {
         const rect = studioEl.getBoundingClientRect();
-        setScrolled(rect.top <= window.innerHeight * 0.6);
+        // Show pill navbar ONLY when user has scrolled past hero sequence and entered Studio/About section
+        if (rect.top <= window.innerHeight * 0.6) {
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
       } else {
-        setScrolled(window.scrollY > window.innerHeight * 3.8);
-      }
-    };
-
-    const handleScroll = () => {
-      if (!raf) {
-        raf = requestAnimationFrame(() => {
-          checkScroll();
-          raf = 0;
-        });
+        if (window.scrollY > window.innerHeight * 3.8) {
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    checkScroll();
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
