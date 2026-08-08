@@ -8,10 +8,12 @@ import SocialMediaSection from "@/components/sections/SocialMediaSection";
 import ContactSection from "@/components/sections/ContactSection";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import TubesCursor from "@/components/ui/tubes-cursor";
+import Preloader from "@/components/Preloader";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-[#070708] overflow-x-clip">
+      <Preloader />
       <Navbar />
       <TubesCursor />
       <AuroraBackground showRadialGradient={false} className="min-h-screen">
