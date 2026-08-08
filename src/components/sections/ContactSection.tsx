@@ -113,7 +113,7 @@ export default function ContactSection() {
 
               {/* Centered Clean Text Inside Orb */}
               <span className="relative z-10 font-extrabold uppercase tracking-widest text-white text-xs sm:text-sm drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] flex items-center gap-2 transition-transform duration-300 group-hover:scale-105">
-                Let's work
+                Let&apos;s work
                 <span className="group-hover:translate-x-1.5 transition-transform duration-300">↗</span>
               </span>
             </a>
@@ -210,7 +210,7 @@ export default function ContactSection() {
                       : "READY TO COLLABORATE"}
                   </span>
                   <span className="font-extrabold uppercase tracking-widest text-white text-base xl:text-lg drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] flex items-center gap-2 group-hover:spectrum-text transition-all duration-300">
-                    LET'S WORK
+                    LET&apos;S WORK
                     <span className="group-hover:translate-x-2 group-hover:-translate-y-1 transition-transform duration-300">↗</span>
                   </span>
                 </div>

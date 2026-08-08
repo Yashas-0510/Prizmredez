@@ -83,12 +83,12 @@ export function HyperText({
     children.split("")
   );
   const [isAnimating, setIsAnimating] = useState(false);
-  const iterationCount = useRef(-2);
+  const [iterationCount, setIterationCount] = useState(-2);
   const elementRef = useRef<HTMLElement | null>(null);
 
   const triggerAnimation = () => {
     if (!isAnimating) {
-      iterationCount.current = -2;
+      setIterationCount(-2);
       setIsAnimating(true);
     }
   };
@@ -155,7 +155,7 @@ export function HyperText({
 
         // Progress offset ensures index 0 ('W') scrambles for at least 30% of total duration
         const resolvedCount = Math.floor(progress * (maxIterations + 4)) - 2;
-        iterationCount.current = resolvedCount;
+        setIterationCount(resolvedCount);
 
         setDisplayText((currentText) =>
           currentText.map((letter, index) =>
@@ -194,7 +194,7 @@ export function HyperText({
     >
       <AnimatePresence>
         {displayText.map((letter, index) => {
-          const isScrambling = isAnimating && index > iterationCount.current;
+          const isScrambling = isAnimating && index > iterationCount;
           return (
             <motion.span
               key={index}

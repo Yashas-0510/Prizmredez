@@ -165,7 +165,7 @@ export default function UgcReelsPhone() {
     setLikedMap((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  const handleDragEnd = (_: any, info: { offset: { y: number }; velocity: { y: number } }) => {
+  const handleDragEnd = (_: unknown, info: { offset: { y: number }; velocity: { y: number } }) => {
     const swipeThreshold = 35;
     if (info.offset.y < -swipeThreshold || info.velocity.y < -200) {
       // Swiped UP -> Next Reel

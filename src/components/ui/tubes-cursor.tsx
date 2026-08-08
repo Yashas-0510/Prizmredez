@@ -2,9 +2,21 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
+interface TubesApp {
+  dispose?: () => void;
+  tubes?: {
+    setColors?: (colors: string[]) => void;
+    setLightsColors?: (colors: string[]) => void;
+  };
+}
+
+type TubesModule = {
+  default: (canvas: HTMLCanvasElement, options: object) => TubesApp;
+};
+
 export default function TubesCursor() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const appRef = useRef<any>(null);
+  const appRef = useRef<TubesApp | null>(null);
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
   const randomColors = (count: number) => {
@@ -28,7 +40,7 @@ export default function TubesCursor() {
         if (typeof appRef.current.dispose === "function") {
           try {
             appRef.current.dispose();
-          } catch (e) {}
+          } catch {}
         }
         appRef.current = null;
       }
@@ -52,7 +64,7 @@ export default function TubesCursor() {
       );
 
       loadTubesModule()
-        .then((module: any) => {
+        .then((module: TubesModule) => {
           if (!isMounted || !canvasRef.current) return;
           const TubesCursorImpl = module.default;
 
@@ -69,7 +81,7 @@ export default function TubesCursor() {
             appRef.current = app;
           }
         })
-        .catch((err: any) => console.error("Failed to load TubesCursor module:", err));
+        .catch((err: unknown) => console.error("Failed to load TubesCursor module:", err));
     }, 150);
 
     const handleGlobalClick = () => {
@@ -96,7 +108,7 @@ export default function TubesCursor() {
         if (typeof appRef.current.dispose === "function") {
           try {
             appRef.current.dispose();
-          } catch (e) {}
+          } catch {}
         }
         appRef.current = null;
       }

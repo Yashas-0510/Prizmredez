@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react", "framer-motion"],
   },
   images: {
+    qualities: [75, 85],
     remotePatterns: [
       {
         protocol: "https",

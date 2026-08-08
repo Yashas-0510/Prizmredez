@@ -112,10 +112,10 @@ export default function SocialMedia3DGallery() {
             if (offset > 1) xOffset = 600;
             if (offset < -1) xOffset = -600;
 
-            let rotateY = offset * -20;
-            let scale = isActive ? 1.05 : 0.82;
-            let opacity = isActive ? 1 : isPrev || isNext ? 0.55 : 0;
-            let zIndex = isActive ? 30 : 20 - Math.abs(offset);
+            const rotateY = offset * -20;
+            const scale = isActive ? 1.05 : 0.82;
+            const opacity = isActive ? 1 : isPrev || isNext ? 0.55 : 0;
+            const zIndex = isActive ? 30 : 20 - Math.abs(offset);
 
             return (
               <motion.div

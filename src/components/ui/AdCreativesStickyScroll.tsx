@@ -101,24 +101,28 @@ export default function AdCreativesStickyScroll() {
       {/* Sticky Viewport Container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center select-none bg-ink">
         {/* Desktop Background Image (adbg.png) */}
-        <Image
-          src="/adbg.png?v=2"
-          alt="Ad Creatives Stage Background"
-          fill
-          priority
-          unoptimized
-          className="hidden md:block object-cover pointer-events-none select-none z-0 opacity-100"
-        />
+        <div className="absolute inset-0 z-0 hidden md:block">
+          <Image
+            src="/adbg.png?v=2"
+            alt="Ad Creatives Stage Background"
+            fill
+            priority
+            unoptimized
+            className="object-cover pointer-events-none select-none opacity-100"
+          />
+        </div>
 
         {/* Mobile Background Image (adbgmob.png) */}
-        <Image
-          src="/adbgmob.png?v=2"
-          alt="Ad Creatives Mobile Stage Background"
-          fill
-          priority
-          unoptimized
-          className="block md:hidden object-cover object-[center_30%] pointer-events-none select-none z-0 opacity-100"
-        />
+        <div className="absolute inset-0 z-0 block md:hidden">
+          <Image
+            src="/adbgmob.png?v=2"
+            alt="Ad Creatives Mobile Stage Background"
+            fill
+            priority
+            unoptimized
+            className="object-cover object-[center_30%] pointer-events-none select-none opacity-100"
+          />
+        </div>
 
         {/* --- NARRATIVE MANIFESTO HEADLINE (CAMERAS OFF. CREATIVE ON.) WITH 3D MASK CLIP REVEAL --- */}
         <motion.div

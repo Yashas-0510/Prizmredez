@@ -386,6 +386,7 @@ export default function Preloader() {
           src={LOGO_SRC}
           alt=""
           draggable={false}
+          fetchPriority="high"
           className="absolute inset-0 w-full h-full object-contain opacity-0"
         />
       </div>

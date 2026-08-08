@@ -8,12 +8,25 @@ interface TextAnimateProps {
   className?: string;
   delay?: number;
   duration?: number;
-  as?: React.ElementType;
+  as?: keyof typeof motionElements;
   animation?: "blurInUp" | "blurIn" | "slideUp" | "fadeIn";
   by?: "word" | "character" | "line";
   startOnView?: boolean;
   once?: boolean;
 }
+
+const motionElements = {
+  article: motion.article,
+  div: motion.div,
+  h1: motion.h1,
+  h2: motion.h2,
+  h3: motion.h3,
+  h4: motion.h4,
+  li: motion.li,
+  p: motion.p,
+  section: motion.section,
+  span: motion.span,
+} as const;
 
 export function TextAnimate({
   children,
@@ -56,7 +69,7 @@ export function TextAnimate({
     },
   };
 
-  const MotionComponent = motion.create(Component as any);
+  const MotionComponent = motionElements[Component] || motion.p;
 
   return (
     <MotionComponent
