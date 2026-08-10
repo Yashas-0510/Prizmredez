@@ -23,11 +23,18 @@ type Dot = {
 
 const LOGO_SRC = "/prizmlogo-transparent.png";
 const LOGO_RATIO = 1024 / 393;
-const MIN_VISIBLE = 4;
-const EXIT_DURATION = 4;
+const MIN_VISIBLE = 3.2;
+const EXIT_DURATION = 1.4;
 const SAFETY_CAP = 9;
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+const getStatusMicrocopy = (p: number) => {
+  if (p < 0.3) return "Gathering light.";
+  if (p < 0.65) return "Refracting spectrum.";
+  if (p < 0.9) return "Synthesizing visual logic.";
+  return "Illuminating Prizm.";
+};
 
 export default function Preloader() {
   const [done, setDone] = useState(false);
@@ -39,6 +46,9 @@ export default function Preloader() {
   const counterRef = useRef<HTMLSpanElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
   const washRef = useRef<HTMLDivElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const metaLeftRef = useRef<HTMLDivElement>(null);
+  const metaRightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (done) return;
@@ -49,7 +59,25 @@ export default function Preloader() {
     const counter = counterRef.current;
     const bar = barRef.current;
     const wash = washRef.current;
-    if (!root || !wrap || !canvas || !counter || !bar || !wash) return;
+    const status = statusRef.current;
+    const metaLeft = metaLeftRef.current;
+    const metaRight = metaRightRef.current;
+    if (!root || !wrap || !canvas || !counter || !bar || !wash || !status) return;
+
+    if (metaLeft && metaRight) {
+      gsap.fromTo(
+        [metaLeft, metaRight],
+        { yPercent: 100, opacity: 0 },
+        {
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.75,
+          stagger: 0.15,
+          ease: "power3.out",
+          delay: 0.12,
+        }
+      );
+    }
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -69,6 +97,7 @@ export default function Preloader() {
     let resolved = false;
     let exiting = false;
     let fontsOk = false;
+    let currentStatusText = "Gathering light.";
     const startT = performance.now() / 1000;
 
     const state = {
@@ -232,58 +261,64 @@ export default function Preloader() {
       const logo = logoRef.current;
       const glow = glowRef.current;
       timeline = gsap.timeline({ onComplete: finish });
+
+      // 1. Logo flash + scale (0.35s)
       timeline.to(
         state,
-        { display: 1, duration: 0.5 * d, ease: "power2.inOut" },
+        { display: 1, duration: 0.25 * d, ease: "power2.inOut" },
         0
       );
       if (logo) {
         timeline.to(
           logo,
-          { opacity: 1, duration: 0.6 * d, ease: "power2.inOut" },
-          0.1 * d
+          { opacity: 1, duration: 0.25 * d, ease: "power2.inOut" },
+          0
         );
       }
       timeline.to(
         wrap,
-        { scale: 1.06, duration: 0.45 * d, ease: "power2.in" },
-        0.7 * d
+        { scale: 1.06, duration: 0.35 * d, ease: "power2.in" },
+        0
       );
       timeline.to(
         canvas,
-        { filter: "brightness(1.9)", duration: 0.45 * d, ease: "power2.in" },
-        0.7 * d
+        { filter: "brightness(1.9)", duration: 0.35 * d, ease: "power2.in" },
+        0
       );
       if (glow) {
         timeline.to(
           glow,
-          { opacity: 1, scale: 1.7, duration: 0.45 * d, ease: "power2.in" },
-          0.7 * d
+          { opacity: 1, scale: 1.7, duration: 0.35 * d, ease: "power2.in" },
+          0
         );
       }
+
+      // 2. Spectrum circle-wash (0.6s) - starts after logo flash at 0.35s
       timeline.to(
         wash,
         {
           clipPath: "circle(140% at 50% 50%)",
-          duration: 1.3 * d,
+          duration: 0.6 * d,
           ease: "power2.inOut",
         },
-        1.15 * d
+        0.35 * d
       );
       timeline.fromTo(
         wash,
         { backgroundPosition: "0% 50%" },
         {
           backgroundPosition: "100% 50%",
-          duration: 2.8 * d,
+          duration: 1.05 * d,
           ease: "none",
         },
-        1.15 * d
+        0.35 * d
       );
+
+      // 3. Slide-up (0.75s, starts during wash at 0.65s)
       timeline.to(
         root,
-        { yPercent: -100, duration: 1.1 * d, ease: "power4.inOut" },
-        2.9 * d
+        { yPercent: -100, duration: 0.75 * d, ease: "power4.inOut" },
+        0.65 * d
       );
     };
 
@@ -293,17 +328,22 @@ export default function Preloader() {
       const t = now / 1000;
 
       if (!exiting) {
-        state.display += (state.raw - state.display) * 0.05;
-        if (state.raw - state.display < 0.0005) state.display = state.raw;
+        const elapsed = t - startT;
+        const targetDisplay = Math.min(
+          state.raw,
+          clamp01(elapsed / (MIN_VISIBLE - EXIT_DURATION))
+        );
+        state.display += (targetDisplay - state.display) * 0.08;
+        if (targetDisplay - state.display < 0.0005)
+          state.display = targetDisplay;
 
         const loaded = getFrameCount();
-        const elapsed = t - startT;
         const contentReady =
           loaded >= FRAME_TOTAL || (loaded >= READY_THRESHOLD && fontsOk);
         if (
           (contentReady &&
             elapsed >= MIN_VISIBLE - EXIT_DURATION &&
-            state.display > 0.985) ||
+            state.display > 0.98) ||
           (loaded >= READY_THRESHOLD && elapsed >= SAFETY_CAP)
         ) {
           beginExit();
@@ -314,24 +354,83 @@ export default function Preloader() {
       counter.textContent = `${String(Math.round(p * 100)).padStart(3, "0")}%`;
       bar.style.transform = `scaleX(${p})`;
 
+      const nextStatusText = getStatusMicrocopy(p);
+      if (nextStatusText !== currentStatusText && status) {
+        currentStatusText = nextStatusText;
+        gsap.to(status, {
+          opacity: 0,
+          duration: 0.15,
+          ease: "power1.out",
+          onComplete: () => {
+            if (status) {
+              status.textContent = nextStatusText;
+              gsap.to(status, { opacity: 1, duration: 0.2, ease: "power1.in" });
+            }
+          },
+        });
+      }
+
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "#f2f0eb";
+
+      // Group dot rendering into 5 alpha buckets to minimize 2D canvas state changes
+      const BUCKETS = 5;
+      const bucketDots: { x: number; y: number; s: number }[][] = [
+        [],
+        [],
+        [],
+        [],
+        [],
+      ];
+
       for (let i = 0; i < dots.length; i++) {
         const dot = dots[i];
-        const kRaw = reduced ? 1 : clamp01((p * 1.18 - dot.th) / 0.18);
+        const kRaw = clamp01((p * 1.18 - dot.th) / 0.18);
         const k = kRaw * kRaw * (3 - 2 * kRaw);
         const wob = 1 - k;
+
+        // Initial dispersion motion when loading
         const jx =
           Math.sin(t * dot.sp * 2 + dot.ph) * 14 * wob +
           Math.sin(t * 0.7 + dot.ph) * 8 * wob;
         const jy = Math.cos(t * dot.sp * 1.7 + dot.ph) * 14 * wob;
-        ctx.globalAlpha = dot.a * (0.22 + 0.78 * k);
-        ctx.fillRect(
-          dot.x + dot.sx * wob + jx,
-          dot.y + dot.sy * wob + jy,
-          dot.s,
-          dot.s
+
+        // Continuous high-visibility organic float (±6px) across the dither grid
+        const floatX =
+          Math.sin(t * 3.2 + dot.ph) * 4.2 +
+          Math.cos(t * 1.8 + dot.x * 0.04) * 2.8;
+        const floatY =
+          Math.cos(t * 2.8 + dot.ph) * 4.2 +
+          Math.sin(t * 1.5 + dot.y * 0.04) * 2.8;
+
+        // Sweeping diagonal light wave & particle pulse
+        const wave = Math.sin(dot.x * 0.015 + dot.y * 0.008 - t * 4.5);
+
+        const finalAlpha = clamp01(dot.a * (0.3 + 0.7 * k) + 0.3 * wave);
+        const finalSize = Math.max(
+          1.0,
+          dot.s * (1 + 0.45 * Math.sin(wave + dot.ph))
         );
+
+        const bIdx = Math.min(
+          BUCKETS - 1,
+          Math.floor(finalAlpha * (BUCKETS - 0.01))
+        );
+        bucketDots[bIdx].push({
+          x: dot.x + dot.sx * wob + jx + floatX,
+          y: dot.y + dot.sy * wob + jy + floatY,
+          s: finalSize,
+        });
+      }
+
+      for (let b = 0; b < BUCKETS; b++) {
+        const list = bucketDots[b];
+        if (list.length === 0) continue;
+        ctx.globalAlpha = (b + 1) / BUCKETS;
+        for (let i = 0; i < list.length; i++) {
+          const pt = list[i];
+          ctx.fillRect(pt.x, pt.y, pt.s, pt.s);
+        }
       }
       ctx.globalAlpha = 1;
     };
@@ -359,10 +458,16 @@ export default function Preloader() {
       ref={rootRef}
       className="fixed inset-0 z-[100] bg-[#070708] flex items-center justify-center select-none"
     >
-      <div className="absolute top-6 left-6 meta">
-        Prizm® — Creative Studio
+      <div className="absolute top-6 left-6 overflow-hidden pointer-events-none z-20">
+        <div ref={metaLeftRef} className="meta opacity-0">
+          Prizm® — Creative Studio
+        </div>
       </div>
-      <div className="absolute top-6 right-6 meta">©2026</div>
+      <div className="absolute top-6 right-6 overflow-hidden pointer-events-none z-20">
+        <div ref={metaRightRef} className="meta opacity-0">
+          ©2026
+        </div>
+      </div>
 
       <div
         ref={glowRef}
@@ -391,12 +496,15 @@ export default function Preloader() {
         />
       </div>
 
-      <div className="absolute bottom-10 left-8 text-bone/90 text-base md:text-xl">
+      <div
+        ref={statusRef}
+        className="absolute bottom-10 left-8 text-bone/90 text-2xl md:text-3xl tracking-wide font-medium"
+      >
         Gathering light.
       </div>
       <span
         ref={counterRef}
-        className="absolute bottom-10 right-8 font-mono text-base md:text-xl tracking-[0.25em] text-bone/90"
+        className="absolute bottom-10 right-8 font-mono text-2xl md:text-3xl tracking-[0.25em] text-bone/90 font-medium"
       >
         000%
       </span>

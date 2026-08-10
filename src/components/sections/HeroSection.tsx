@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { FRAME_TOTAL, reportFrames } from "@/lib/loading";
 
-const INITIAL_BATCH = 30;
+const INITIAL_BATCH = 60;
 
 const frameSrc = (i: number) =>
   `/prizmframes-hd/frame-${String(i + 1).padStart(3, "0")}.webp`;
@@ -17,6 +17,7 @@ export default function HeroSection() {
   const lastDrawnRef = useRef(-1);
   const loadedCountRef = useRef(0);
 
+  const scrollCueRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,36 +40,39 @@ export default function HeroSection() {
       const img = new Image();
       img.decoding = "async";
       img.src = frameSrc(i);
-      img.onload = () => handleFrameLoad(i);
+      if (typeof img.decode === "function") {
+        img
+          .decode()
+          .then(() => handleFrameLoad(i))
+          .catch(() => {
+            img.onload = () => handleFrameLoad(i);
+          });
+      } else {
+        img.onload = () => handleFrameLoad(i);
+      }
       images[i] = img;
     };
 
+    // Load initial 60 frames immediately
     for (let i = 0; i < INITIAL_BATCH; i++) {
       loadFrame(i);
     }
 
+    // Fast aggressive parallel loading of all remaining frames
     let current = INITIAL_BATCH;
     const loadNextChunk = () => {
       if (cancelled || current >= FRAME_TOTAL) return;
-      const end = Math.min(current + 10, FRAME_TOTAL);
+      const end = Math.min(current + 20, FRAME_TOTAL);
       for (let i = current; i < end; i++) {
         loadFrame(i);
       }
       current = end;
       if (current < FRAME_TOTAL) {
-        if (typeof window.requestIdleCallback === "function") {
-          window.requestIdleCallback(loadNextChunk, { timeout: 200 });
-        } else {
-          setTimeout(loadNextChunk, 35);
-        }
+        setTimeout(loadNextChunk, 16);
       }
     };
 
-    if (typeof window.requestIdleCallback === "function") {
-      window.requestIdleCallback(loadNextChunk, { timeout: 300 });
-    } else {
-      setTimeout(loadNextChunk, 60);
-    }
+    setTimeout(loadNextChunk, 40);
 
     return () => {
       cancelled = true;
@@ -78,17 +82,26 @@ export default function HeroSection() {
 
   useEffect(() => {
     let raf = 0;
+    let renderP = 0;
+    let sectionTop = 0;
+    let totalScroll = 1;
 
-    const sizeCanvas = () => {
+    const updateBounds = () => {
+      const section = sectionRef.current;
       const canvas = canvasRef.current;
-      if (!canvas) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = Math.round(window.innerWidth * dpr);
-      const h = Math.round(window.innerHeight * dpr);
-      if (canvas.width !== w || canvas.height !== h) {
-        canvas.width = w;
-        canvas.height = h;
-        lastDrawnRef.current = -1;
+      if (section) {
+        sectionTop = section.offsetTop;
+        totalScroll = Math.max(1, section.offsetHeight - window.innerHeight);
+      }
+      if (canvas) {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w = Math.round(window.innerWidth * dpr);
+        const h = Math.round(window.innerHeight * dpr);
+        if (canvas.width !== w || canvas.height !== h) {
+          canvas.width = w;
+          canvas.height = h;
+          lastDrawnRef.current = -1;
+        }
       }
     };
 
@@ -137,35 +150,48 @@ export default function HeroSection() {
     };
 
     const loop = () => {
-      const section = sectionRef.current;
-      if (section) {
-        sizeCanvas();
+      const currentScroll = window.scrollY || window.pageYOffset || 0;
+      const targetP = Math.min(
+        1,
+        Math.max(0, (currentScroll - sectionTop) / totalScroll)
+      );
 
-        const rect = section.getBoundingClientRect();
-        const total = rect.height - window.innerHeight;
-        const p = Math.min(1, Math.max(0, -rect.top / total));
+      // Smooth 60FPS Lerp Damping
+      renderP += (targetP - renderP) * 0.14;
+      if (Math.abs(targetP - renderP) < 0.0001) renderP = targetP;
 
-        draw(Math.min(FRAME_TOTAL - 1, Math.floor(p * FRAME_TOTAL)));
+      draw(Math.min(FRAME_TOTAL - 1, Math.floor(renderP * FRAME_TOTAL)));
 
-        if (progressRef.current) {
-          progressRef.current.style.transform = `scaleX(${p})`;
-        }
+      // Scroll Cue Fade Out
+      if (scrollCueRef.current) {
+        const cueAlpha = Math.max(0, Math.min(1, 1 - renderP * 12));
+        scrollCueRef.current.style.opacity = `${cueAlpha}`;
+        scrollCueRef.current.style.transform = `translate(-50%, ${
+          renderP * 40
+        }px)`;
+      }
+
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${renderP})`;
       }
       raf = requestAnimationFrame(loop);
     };
 
+    updateBounds();
     raf = requestAnimationFrame(loop);
-    window.addEventListener("resize", sizeCanvas, { passive: true });
+    window.addEventListener("resize", updateBounds, { passive: true });
+    window.addEventListener("scroll", updateBounds, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", sizeCanvas);
+      window.removeEventListener("resize", updateBounds);
+      window.removeEventListener("scroll", updateBounds);
     };
   }, []);
 
   return (
     <section ref={sectionRef} className="relative h-[480vh] bg-[#070708]">
       <div className="sticky top-0 h-screen w-full overflow-hidden select-none">
-        {/* first frame as instant poster + insurance if canvas ever fails */}
+        {/* first frame as instant poster */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={frameSrc(0)}
@@ -174,6 +200,21 @@ export default function HeroSection() {
         />
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
+        {/* Scroll Cue Indicator */}
+        <div
+          ref={scrollCueRef}
+          className="absolute bottom-8 left-1/2 z-30 pointer-events-none flex flex-col items-center gap-2"
+          style={{ transform: "translate(-50%, 0px)" }}
+        >
+          <div className="px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 flex items-center gap-2.5 shadow-lg">
+            <span className="w-2 h-2 rounded-full bg-spectrum animate-pulse" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/80">
+              SCROLL TO DISPERSE
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom Progress Bar */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10 z-30">
           <div
             ref={progressRef}

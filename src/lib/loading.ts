@@ -1,5 +1,5 @@
 export const FRAME_TOTAL = 121;
-export const READY_THRESHOLD = 30;
+export const READY_THRESHOLD = 60;
 
 let loaded = 0;
 const listeners = new Set<(count: number) => void>();
