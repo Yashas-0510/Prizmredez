@@ -99,8 +99,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: [
+      { url: "/prizmfavicon.png" },
+      { url: "/prizmfavicon.png", type: "image/png" },
+    ],
+    shortcut: "/prizmfavicon.png",
+    apple: "/prizmfavicon.png",
   },
 };
 
