@@ -42,16 +42,15 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://prizmstudio.in"),
   title: {
-    default: "PRIZM® — AI Creative Studio",
+    default: "PRIZM® — Creative Studio",
     template: "%s | PRIZM Studio",
   },
   description:
-    "PRIZM is a high-end AI creative studio crafting high-converting web experiences, cinematic 3D motion, performance ad creatives, and AI creator engines.",
+    "PRIZM is a high-end creative studio crafting high-converting web experiences, cinematic 3D motion, performance ad creatives, and creator engines.",
   keywords: [
     "PRIZM Studio",
     "Creative Studio",
     "Web Design Studio",
-    "AI Creative Agency",
     "Next.js Development",
     "Motion Graphics",
     "Ad Creatives",
@@ -69,7 +68,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://prizmstudio.in",
     siteName: "PRIZM Studio",
-    title: "PRIZM® — AI Creative Studio",
+    title: "PRIZM® — Creative Studio",
     description:
       "Dispersing light into digital brilliance. High-converting web experiences, motion design, paid ad creatives, and creator engines.",
     images: [
@@ -83,7 +82,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PRIZM® — AI Creative Studio",
+    title: "PRIZM® — Creative Studio",
     description:
       "High-converting web experiences, motion design, paid ad creatives, and creator engines.",
     images: ["/prizmlogo-transparent.png"],

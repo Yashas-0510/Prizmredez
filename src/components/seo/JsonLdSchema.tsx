@@ -10,7 +10,7 @@ export default function JsonLdSchema() {
         "logo": "https://prizmstudio.in/prizmlogo-transparent.png",
         "email": "hello@prizmstudio.in",
         "description":
-          "PRIZM is a high-end AI creative studio specializing in web design & development, cinematic motion, paid ad creatives, and AI creator engines.",
+          "PRIZM is a high-end creative studio specializing in web design & development, cinematic motion, paid ad creatives, and creator engines.",
         "sameAs": [
           "https://twitter.com/prizmstudio",
           "https://linkedin.com/company/prizmstudio"
