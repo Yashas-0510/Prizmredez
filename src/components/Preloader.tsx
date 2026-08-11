@@ -41,7 +41,6 @@ export default function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const logoRef = useRef<HTMLImageElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
@@ -258,23 +257,15 @@ export default function Preloader() {
       if (exiting) return;
       exiting = true;
       const d = reduced ? 0.35 : 1;
-      const logo = logoRef.current;
       const glow = glowRef.current;
       timeline = gsap.timeline({ onComplete: finish });
 
-      // 1. Logo flash + scale (0.35s)
+      // 1. Particle flash + scale (0.35s)
       timeline.to(
         state,
         { display: 1, duration: 0.25 * d, ease: "power2.inOut" },
         0
       );
-      if (logo) {
-        timeline.to(
-          logo,
-          { opacity: 1, duration: 0.25 * d, ease: "power2.inOut" },
-          0
-        );
-      }
       timeline.to(
         wrap,
         { scale: 1.06, duration: 0.35 * d, ease: "power2.in" },
@@ -484,17 +475,7 @@ export default function Preloader() {
         ref={wrapRef}
         className="relative w-[min(72vw,620px)] pointer-events-none"
         style={{ aspectRatio: `${LOGO_RATIO}` }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          ref={logoRef}
-          src={LOGO_SRC}
-          alt=""
-          draggable={false}
-          fetchPriority="high"
-          className="absolute inset-0 w-full h-full object-contain opacity-0"
-        />
-      </div>
+      />
 
       <div
         ref={statusRef}
