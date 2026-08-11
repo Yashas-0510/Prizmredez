@@ -18,15 +18,37 @@ export interface SocialFeedItem {
 
 export const SOCIAL_FEEDS: SocialFeedItem[] = [
   {
-    id: "kay-beauty",
-    brand: "KAY BEAUTY",
-    category: "BEAUTY & COSMETICS",
-    handle: "@kaybykatrina",
-    src: "/social/kay-beauty.png",
-    reach: "14.2M",
-    engagement: "5.4%",
-    summary: "Sovereign visual identity for Kay Beauty. Cohesive grid strategy, editorial stories, and high-conversion launch reels.",
-    accentColor: "#f43f5e",
+    id: "redbull",
+    brand: "RED BULL",
+    category: "ENERGY & CAMPAIGNS",
+    handle: "@redbull",
+    src: "/social/redbullcen.png",
+    reach: "42.8M",
+    engagement: "8.1%",
+    summary: "High-voltage social media ecosystem for Red Bull. Cinematic campaign visual direction, drop strategy, and active community engagement.",
+    accentColor: "#ef4444",
+  },
+  {
+    id: "noise",
+    brand: "NOISE WEARABLES",
+    category: "SMART TECH",
+    handle: "@gonoise",
+    src: "/social/NoiseLver.png",
+    reach: "18.9M",
+    engagement: "6.1%",
+    summary: "Futuristic tech aesthetic for Noise wearables. High-energy launch assets, carousel breakdowns, and product storytelling.",
+    accentColor: "#3b82f6",
+  },
+  {
+    id: "nike",
+    brand: "NIKE SPORTSWEAR",
+    category: "ATHLETICS & SPORTS",
+    handle: "@nike",
+    src: "/social/nikerightcen.png",
+    reach: "65.4M",
+    engagement: "9.3%",
+    summary: "Iconic athletic brand visual system. Bold typography, high-impact campaign reels, and cultural storytelling.",
+    accentColor: "#f97316",
   },
   {
     id: "myntra",
@@ -40,17 +62,6 @@ export const SOCIAL_FEEDS: SocialFeedItem[] = [
     accentColor: "#ec4899",
   },
   {
-    id: "noise",
-    brand: "NOISE",
-    category: "SMART WEARABLES",
-    handle: "@gonoise",
-    src: "/social/noise.png",
-    reach: "18.9M",
-    engagement: "6.1%",
-    summary: "Futuristic tech aesthetic for Noise wearables. High-energy launch assets, carousel breakdowns, and product storytelling.",
-    accentColor: "#3b82f6",
-  },
-  {
     id: "bonkers-corner",
     brand: "BONKERS CORNER",
     category: "STREETWEAR & APPAREL",
@@ -60,6 +71,17 @@ export const SOCIAL_FEEDS: SocialFeedItem[] = [
     engagement: "7.2%",
     summary: "Bold, raw streetwear social system for Bonkers Corner. Hyper-stylized grid graphics, drop teasers, and community reels.",
     accentColor: "#eab308",
+  },
+  {
+    id: "kay-beauty",
+    brand: "KAY BEAUTY",
+    category: "BEAUTY & COSMETICS",
+    handle: "@kaybykatrina",
+    src: "/social/kay-beauty.png",
+    reach: "14.2M",
+    engagement: "5.4%",
+    summary: "Sovereign visual identity for Kay Beauty. Cohesive grid strategy, editorial stories, and high-conversion launch reels.",
+    accentColor: "#f43f5e",
   },
 ];
 
@@ -91,13 +113,13 @@ export default function SocialMedia3DGallery() {
   };
 
   return (
-    <div className="relative w-full flex flex-col items-center justify-center py-8 select-none">
+    <div className="relative w-full flex flex-col items-center justify-center py-4 select-none">
       {/* 3D Interactive Carousel Stage */}
       <div
         ref={stageRef}
         onMouseMove={handleMouseMove}
-        style={{ perspective: 1200 }}
-        className="relative w-full max-w-6xl min-h-[500px] md:min-h-[580px] flex items-center justify-center py-6 overflow-hidden"
+        style={{ perspective: 1000 }}
+        className="relative w-full max-w-5xl min-h-[460px] sm:min-h-[520px] flex items-center justify-center py-4 overflow-hidden"
       >
         {/* Render Carousel Cards */}
         <div className="relative w-full h-full flex items-center justify-center">
@@ -107,14 +129,14 @@ export default function SocialMedia3DGallery() {
             const isPrev = offset === -1 || (activeIndex === 0 && idx === SOCIAL_FEEDS.length - 1 && SOCIAL_FEEDS.length > 2);
             const isNext = offset === 1 || (activeIndex === SOCIAL_FEEDS.length - 1 && idx === 0 && SOCIAL_FEEDS.length > 2);
 
-            // Compute 3D position & rotatation
-            let xOffset = offset * 280;
-            if (offset > 1) xOffset = 600;
-            if (offset < -1) xOffset = -600;
+            // Compute 3D position & rotation for mobile & desktop
+            let xOffset = offset * 210;
+            if (offset > 1) xOffset = 480;
+            if (offset < -1) xOffset = -480;
 
-            const rotateY = offset * -20;
-            const scale = isActive ? 1.05 : 0.82;
-            const opacity = isActive ? 1 : isPrev || isNext ? 0.55 : 0;
+            const rotateY = offset * -18;
+            const scale = isActive ? 1.02 : 0.82;
+            const opacity = isActive ? 1 : isPrev || isNext ? 0.6 : 0;
             const zIndex = isActive ? 30 : 20 - Math.abs(offset);
 
             return (
@@ -131,8 +153,17 @@ export default function SocialMedia3DGallery() {
                 }}
                 transition={{
                   type: "spring",
-                  stiffness: 120,
-                  damping: 20,
+                  stiffness: 130,
+                  damping: 22,
+                }}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                onDragEnd={(e, { offset: dragOffset, velocity }) => {
+                  if (dragOffset.x < -35 || velocity.x < -200) {
+                    handleNext();
+                  } else if (dragOffset.x > 35 || velocity.x > 200) {
+                    handlePrev();
+                  }
                 }}
                 onClick={() => {
                   if (isActive) {
@@ -141,7 +172,7 @@ export default function SocialMedia3DGallery() {
                     setActiveIndex(idx);
                   }
                 }}
-                className="absolute w-[280px] sm:w-[340px] md:w-[400px] rounded-2xl border border-white/15 bg-black/80 backdrop-blur-md p-3 shadow-2xl cursor-pointer group flex flex-col items-center"
+                className="absolute w-[260px] sm:w-[320px] md:w-[380px] rounded-2xl border border-white/15 bg-black/90 backdrop-blur-md p-3 shadow-2xl cursor-pointer group flex flex-col items-center touch-pan-y"
               >
                 {/* Brand Header Bar */}
                 <div className="w-full flex items-center justify-between px-2 py-1.5 mb-2 border-b border-white/10">

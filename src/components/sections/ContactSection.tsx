@@ -221,16 +221,16 @@ export default function ContactSection() {
         </div>
 
         {/* Footer Meta Row — Strictly Anchored at the Absolute Bottom End */}
-        <div className="absolute bottom-4 sm:bottom-6 inset-x-6 md:inset-x-12 z-30 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
-          <a
-            href="mailto:hello@prizmstudio.in"
-            className="meta text-white/70 hover:text-white transition-colors tracking-widest uppercase font-mono"
-          >
-            hello@prizmstudio.in
-          </a>
+        <div className="absolute bottom-4 sm:bottom-6 inset-x-6 md:inset-x-12 z-30 grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-xs text-white/50">
+          {/* Left Column: Disclaimer */}
+          <div className="text-center md:text-left">
+            <p className="meta text-white/50 tracking-wider uppercase font-mono text-[9px] sm:text-[10px] lg:text-xs">
+              PS: SOME PROJECTS FEATURED ARE CONCEPTUAL CREATIVE EXPLORATIONS.
+            </p>
+          </div>
 
-          {/* Social Media SVG Icon Logos (Instagram, X, WhatsApp, Facebook) */}
-          <div className="flex items-center gap-5 sm:gap-6">
+          {/* Center Column: Social Icons (Perfectly Centered) */}
+          <div className="flex items-center justify-center gap-5 sm:gap-6">
             {/* Instagram */}
             <a
               href="https://www.instagram.com/prizmstudio.in/"
@@ -286,7 +286,10 @@ export default function ContactSection() {
             </a>
           </div>
 
-          <span className="meta">© 2026 PRIZM STUDIO</span>
+          {/* Right Column: Copyright */}
+          <div className="text-center md:text-right">
+            <span className="meta">© 2026 PRIZM STUDIO</span>
+          </div>
         </div>
 
       </div>

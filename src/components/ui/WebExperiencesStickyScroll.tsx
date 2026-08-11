@@ -121,7 +121,7 @@ export default function WebExperiencesStickyScroll() {
             </motion.span>
           </motion.h2>
           <p className="meta text-white/50 text-[11px] md:text-xs tracking-[0.25em] uppercase mt-4">
-            DIGITAL EXPERIENCES ENGINEERED FOR SCALE
+            DIGITAL EXPERIENCES ENGINEERED IN PURE CODE
           </p>
         </div>
 
