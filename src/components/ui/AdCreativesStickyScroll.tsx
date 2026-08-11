@@ -15,7 +15,6 @@ const REELS = [
 
 export default function AdCreativesStickyScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -68,25 +67,18 @@ export default function AdCreativesStickyScroll() {
   const maskY1 = useTransform(smoothProgress, [0.30, 0.65], ["115%", "0%"]);
   const maskY2 = useTransform(smoothProgress, [0.38, 0.72], ["115%", "0%"]);
 
-  // Keep videos synced with muted state — ONLY the active video is unmuted & playing
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Sync active video playback and mute state for single video decoder
   useEffect(() => {
-    videoRefs.current.forEach((vid, idx) => {
-      if (vid) {
-        vid.muted = idx === activeIndex ? isMuted : true;
-        if (idx === activeIndex) {
-          const playPromise = vid.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {});
-          }
-        } else {
-          vid.pause();
-          try {
-            vid.currentTime = 0;
-          } catch (_) {}
-        }
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
       }
-    });
-  }, [isMuted, activeIndex]);
+    }
+  }, [activeIndex, isMuted]);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? REELS.length - 1 : prev - 1));
@@ -152,22 +144,18 @@ export default function AdCreativesStickyScroll() {
           }}
           className="relative z-20 w-full h-full max-w-[92vw] max-h-[105vh] border border-white/20 shadow-[0_30px_90px_rgba(0,0,0,0.95)] overflow-hidden bg-black flex items-center justify-center will-change-transform"
         >
-          {REELS.map((reel, idx) => (
-            <video
-              key={reel.id}
-              ref={(el) => {
-                videoRefs.current[idx] = el;
-              }}
-              src={reel.src}
-              autoPlay
-              loop
-              muted={idx === activeIndex ? isMuted : true}
-              playsInline
-              className={`w-full h-full object-cover transition-opacity duration-500 ${
-                idx === activeIndex ? "opacity-100 relative z-10" : "opacity-0 absolute inset-0 z-0 pointer-events-none"
-              }`}
-            />
-          ))}
+          {/* Single Active Video Player Engine (Only 1 decoder in DOM) */}
+          <video
+            key={REELS[activeIndex].id}
+            ref={videoRef}
+            src={REELS[activeIndex].src}
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            preload="auto"
+            className="w-full h-full object-cover relative z-10 transition-opacity duration-300"
+          />
 
           {/* Interactive Mute / Unmute Icon Button ON the video card */}
           <button
