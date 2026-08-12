@@ -151,8 +151,8 @@ export default function ContactSection() {
                       key={service}
                       onClick={() => toggleService(service)}
                       className={`px-4 py-2 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 border cursor-pointer ${isSelected
-                        ? "border-white text-white shadow-[0_0_15px_rgba(255,255,255,0.2)] bg-white/10 scale-105"
-                        : "border-white/15 text-white/60 hover:border-white/40 hover:text-white bg-transparent"
+                          ? "border-white text-white shadow-[0_0_15px_rgba(255,255,255,0.2)] bg-white/10 scale-105"
+                          : "border-white/15 text-white/60 hover:border-white/40 hover:text-white bg-transparent"
                         }`}
                     >
                       {isSelected ? "✓ " : "+ "}
