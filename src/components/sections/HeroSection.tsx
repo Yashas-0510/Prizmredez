@@ -260,12 +260,12 @@ export default function HeroSection() {
           src={getFrameSrc(isMobile, 0)}
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: isMobile ? "contrast(1.08) saturate(1.15)" : "none" }}
+          style={{ filter: "contrast(1.08) saturate(1.15)" }}
         />
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full"
-          style={{ filter: isMobile ? "contrast(1.08) saturate(1.15)" : "none" }}
+          style={{ filter: "contrast(1.08) saturate(1.15)" }}
         />
 
         {/* Scroll Cue Indicator */}
