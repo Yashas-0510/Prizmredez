@@ -221,15 +221,8 @@ export default function ContactSection() {
         </div>
 
         {/* Footer Meta Row — Strictly Anchored at the Absolute Bottom End */}
-        <div className="absolute bottom-2 sm:bottom-6 inset-x-4 sm:inset-x-6 md:inset-x-12 z-30 grid grid-cols-1 md:grid-cols-3 items-center gap-1.5 sm:gap-4 text-xs text-white/50">
-          {/* Left Column (Desktop) / Bottom (Mobile): Disclaimer */}
-          <div className="text-center md:text-left order-3 md:order-1">
-            <p className="meta text-white/50 tracking-wider uppercase font-mono text-[7.5px] sm:text-[10px] lg:text-xs leading-tight">
-              PS: SOME PROJECTS FEATURED ARE CONCEPTUAL CREATIVE EXPLORATIONS.
-            </p>
-          </div>
-
-          {/* Center Column: Social Icons (Perfectly Centered) */}
+        <div className="absolute bottom-2 sm:bottom-6 inset-x-4 sm:inset-x-6 md:inset-x-12 z-30 flex flex-col md:grid md:grid-cols-3 items-center gap-2 sm:gap-4 text-xs text-white/50">
+          {/* Social Icons — Top on mobile (order-1), Center on desktop (md:order-2) */}
           <div className="flex items-center justify-center gap-5 sm:gap-6 order-1 md:order-2">
             {/* Instagram */}
             <a
@@ -286,9 +279,16 @@ export default function ContactSection() {
             </a>
           </div>
 
-          {/* Right Column (Desktop) / Middle (Mobile): Copyright */}
+          {/* Copyright — Middle on mobile (order-2), Right on desktop (md:order-3) */}
           <div className="text-center md:text-right order-2 md:order-3">
             <span className="meta">© 2026 PRIZM STUDIO</span>
+          </div>
+
+          {/* Disclaimer — Bottom on mobile (order-3), Left on desktop (md:order-1) */}
+          <div className="text-center md:text-left order-3 md:order-1">
+            <p className="meta text-white/50 tracking-wider uppercase font-mono text-[7.5px] sm:text-[10px] lg:text-xs leading-tight">
+              PS: SOME PROJECTS FEATURED ARE CONCEPTUAL CREATIVE EXPLORATIONS.
+            </p>
           </div>
         </div>
 
