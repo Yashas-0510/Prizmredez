@@ -11,7 +11,7 @@ const FRAME_TOTAL_MOBILE = 125;
 
 const getFrameSrc = (isMobile: boolean, i: number) => {
   if (isMobile) {
-    return `/prizmmobheroframes/frame-${String(i + 1).padStart(3, "0")}.webp`;
+    return `/prizmmobheroframes/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`;
   }
   return `/prizmframes-hd/frame-${String(i + 1).padStart(3, "0")}.webp`;
 };
