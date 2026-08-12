@@ -1,29 +1,47 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { FRAME_TOTAL, reportFrames } from "@/lib/loading";
+import { useEffect, useRef, useState } from "react";
+import { reportFrames } from "@/lib/loading";
 
-const INITIAL_BATCH = 60;
+const INITIAL_BATCH_DESKTOP = 40;
+const INITIAL_BATCH_MOBILE = 20;
 
-const frameSrc = (i: number) =>
-  `/prizmframes-hd/frame-${String(i + 1).padStart(3, "0")}.webp`;
+const FRAME_TOTAL_DESKTOP = 121;
+const FRAME_TOTAL_MOBILE = 125;
+
+const getFrameSrc = (isMobile: boolean, i: number) => {
+  if (isMobile) {
+    return `/prizmmobheroframes/frame-${String(i + 1).padStart(3, "0")}.webp`;
+  }
+  return `/prizmframes-hd/frame-${String(i + 1).padStart(3, "0")}.webp`;
+};
 
 export default function HeroSection() {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
-  const loadedRef = useRef<boolean[]>(new Array(FRAME_TOTAL).fill(false));
+  const loadedRef = useRef<boolean[]>([]);
   const lastDrawnRef = useRef(-1);
   const loadedCountRef = useRef(0);
+  const frameTotalRef = useRef(FRAME_TOTAL_DESKTOP);
 
   const scrollCueRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const mobile = window.innerWidth < 768;
+    setIsMobile(mobile);
+    const total = mobile ? FRAME_TOTAL_MOBILE : FRAME_TOTAL_DESKTOP;
+    frameTotalRef.current = total;
+
     let cancelled = false;
-    const images: HTMLImageElement[] = new Array(FRAME_TOTAL);
+    const images: HTMLImageElement[] = new Array(total);
     imagesRef.current = images;
+    loadedRef.current = new Array(total).fill(false);
+    loadedCountRef.current = 0;
+    lastDrawnRef.current = -1;
 
     const handleFrameLoad = (index: number) => {
       if (cancelled) return;
@@ -39,7 +57,7 @@ export default function HeroSection() {
       if (cancelled || images[i]) return;
       const img = new Image();
       img.decoding = "async";
-      img.src = frameSrc(i);
+      img.src = getFrameSrc(mobile, i);
       if (typeof img.decode === "function") {
         img
           .decode()
@@ -53,26 +71,39 @@ export default function HeroSection() {
       images[i] = img;
     };
 
-    // Load initial 60 frames immediately
-    for (let i = 0; i < INITIAL_BATCH; i++) {
+    // Load initial small batch immediately for fast interactive start
+    const initialBatch = mobile ? INITIAL_BATCH_MOBILE : INITIAL_BATCH_DESKTOP;
+    const initialCount = Math.min(initialBatch, total);
+    for (let i = 0; i < initialCount; i++) {
       loadFrame(i);
     }
 
-    // Fast aggressive parallel loading of all remaining frames
-    let current = INITIAL_BATCH;
+    // Smooth idle-priority chunk loading for remaining frames
+    let current = initialCount;
+    const chunkSize = mobile ? 10 : 20;
+
+    const scheduleNext = (fn: () => void) => {
+      if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+        (window as unknown as { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number })
+          .requestIdleCallback(fn, { timeout: 250 });
+      } else {
+        setTimeout(fn, mobile ? 32 : 16);
+      }
+    };
+
     const loadNextChunk = () => {
-      if (cancelled || current >= FRAME_TOTAL) return;
-      const end = Math.min(current + 20, FRAME_TOTAL);
+      if (cancelled || current >= total) return;
+      const end = Math.min(current + chunkSize, total);
       for (let i = current; i < end; i++) {
         loadFrame(i);
       }
       current = end;
-      if (current < FRAME_TOTAL) {
-        setTimeout(loadNextChunk, 16);
+      if (current < total) {
+        scheduleNext(loadNextChunk);
       }
     };
 
-    setTimeout(loadNextChunk, 40);
+    scheduleNext(loadNextChunk);
 
     return () => {
       cancelled = true;
@@ -114,6 +145,7 @@ export default function HeroSection() {
       const ctx = ctxRef.current;
       if (!ctx) return;
 
+      const total = frameTotalRef.current;
       let pick = -1;
       for (let i = index; i >= 0; i--) {
         if (loadedRef.current[i]) {
@@ -122,7 +154,7 @@ export default function HeroSection() {
         }
       }
       if (pick === -1) {
-        for (let i = index + 1; i < FRAME_TOTAL; i++) {
+        for (let i = index + 1; i < total; i++) {
           if (loadedRef.current[i]) {
             pick = i;
             break;
@@ -160,7 +192,8 @@ export default function HeroSection() {
       renderP += (targetP - renderP) * 0.14;
       if (Math.abs(targetP - renderP) < 0.0001) renderP = targetP;
 
-      draw(Math.min(FRAME_TOTAL - 1, Math.floor(renderP * FRAME_TOTAL)));
+      const total = frameTotalRef.current;
+      draw(Math.min(total - 1, Math.floor(renderP * total)));
 
       // Scroll Cue Fade Out
       if (scrollCueRef.current) {
@@ -194,7 +227,7 @@ export default function HeroSection() {
         {/* first frame as instant poster */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={frameSrc(0)}
+          src={getFrameSrc(isMobile, 0)}
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
         />
