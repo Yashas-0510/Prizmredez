@@ -221,7 +221,7 @@ export default function ContactSection() {
         </div>
 
         {/* Footer Meta Row — Strictly Anchored at the Absolute Bottom End */}
-        <div className="absolute bottom-2 sm:bottom-6 inset-x-4 sm:inset-x-6 md:inset-x-12 z-30 flex flex-col md:grid md:grid-cols-3 items-center gap-2 sm:gap-4 text-xs text-white/50">
+        <div className="absolute bottom-1.5 sm:bottom-6 inset-x-4 sm:inset-x-6 md:inset-x-12 z-30 flex flex-col md:grid md:grid-cols-3 items-center gap-1.5 sm:gap-4 text-xs text-white/50">
           {/* Social Icons — Top on mobile (order-1), Center on desktop (md:order-2) */}
           <div className="flex items-center justify-center gap-5 sm:gap-6 order-1 md:order-2">
             {/* Instagram */}
@@ -280,12 +280,12 @@ export default function ContactSection() {
           </div>
 
           {/* Copyright — Middle on mobile (order-2), Right on desktop (md:order-3) */}
-          <div className="text-center md:text-right order-2 md:order-3">
+          <div className="text-center md:text-right order-2 md:order-3 mt-1.5 sm:mt-0">
             <span className="meta">© 2026 PRIZM STUDIO</span>
           </div>
 
           {/* Disclaimer — Bottom on mobile (order-3), Left on desktop (md:order-1) */}
-          <div className="text-center md:text-left order-3 md:order-1 mt-2.5 sm:mt-0">
+          <div className="text-center md:text-left order-3 md:order-1 mt-2 sm:mt-0">
             <p className="font-mono text-white/50 tracking-normal sm:tracking-wider uppercase text-[8px] sm:text-[10px] lg:text-xs leading-relaxed sm:leading-tight whitespace-normal sm:whitespace-nowrap max-w-[92vw] sm:max-w-none mx-auto">
               PS: SOME PROJECTS FEATURED ARE CONCEPTUAL CREATIVE EXPLORATIONS.
             </p>
