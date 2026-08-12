@@ -285,8 +285,8 @@ export default function ContactSection() {
           </div>
 
           {/* Disclaimer — Bottom on mobile (order-3), Left on desktop (md:order-1) */}
-          <div className="text-center md:text-left order-3 md:order-1">
-            <p className="meta text-white/50 tracking-wider uppercase font-mono text-[7.5px] sm:text-[10px] lg:text-xs leading-tight">
+          <div className="text-center md:text-left order-3 md:order-1 mt-2.5 sm:mt-0">
+            <p className="font-mono text-white/50 tracking-normal sm:tracking-wider uppercase text-[8px] sm:text-[10px] lg:text-xs leading-relaxed sm:leading-tight whitespace-normal sm:whitespace-nowrap max-w-[92vw] sm:max-w-none mx-auto">
               PS: SOME PROJECTS FEATURED ARE CONCEPTUAL CREATIVE EXPLORATIONS.
             </p>
           </div>
