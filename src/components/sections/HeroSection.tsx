@@ -117,9 +117,23 @@ export default function HeroSection() {
     let sectionTop = 0;
     let totalScroll = 1;
 
+    let lastWidth = 0;
+
     const updateBounds = () => {
       const section = sectionRef.current;
       const canvas = canvasRef.current;
+      const isMob = window.innerWidth < 768;
+
+      // Ignore address bar height toggling if screen width hasn't changed
+      if (lastWidth > 0 && Math.abs(window.innerWidth - lastWidth) < 10) {
+        if (section) {
+          sectionTop = section.offsetTop;
+          totalScroll = Math.max(1, section.offsetHeight - window.innerHeight);
+        }
+        return;
+      }
+      lastWidth = window.innerWidth;
+
       if (section) {
         sectionTop = section.offsetTop;
         totalScroll = Math.max(1, section.offsetHeight - window.innerHeight);
@@ -127,7 +141,18 @@ export default function HeroSection() {
       if (canvas) {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         const w = Math.round(window.innerWidth * dpr);
-        const h = Math.round(window.innerHeight * dpr);
+
+        // Always compute canvas scale against expanded full screen height on mobile
+        const expandedH = isMob
+          ? Math.max(
+              window.innerHeight,
+              typeof window !== "undefined" && window.screen?.height
+                ? window.screen.height
+                : window.innerHeight
+            )
+          : window.innerHeight;
+        const h = Math.round(expandedH * dpr);
+
         if (canvas.width !== w || canvas.height !== h) {
           canvas.width = w;
           canvas.height = h;
@@ -136,7 +161,7 @@ export default function HeroSection() {
       }
     };
 
-      const draw = (index: number) => {
+    const draw = (index: number) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
       if (!ctxRef.current) {
@@ -220,11 +245,9 @@ export default function HeroSection() {
     updateBounds();
     raf = requestAnimationFrame(loop);
     window.addEventListener("resize", updateBounds, { passive: true });
-    window.addEventListener("scroll", updateBounds, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", updateBounds);
-      window.removeEventListener("scroll", updateBounds);
     };
   }, []);
 
