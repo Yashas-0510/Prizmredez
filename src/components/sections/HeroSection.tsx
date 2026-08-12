@@ -7,7 +7,7 @@ const INITIAL_BATCH_DESKTOP = 40;
 const INITIAL_BATCH_MOBILE = 20;
 
 const FRAME_TOTAL_DESKTOP = 121;
-const FRAME_TOTAL_MOBILE = 125;
+const FRAME_TOTAL_MOBILE = 115;
 
 const getFrameSrc = (isMobile: boolean, i: number) => {
   if (isMobile) {
