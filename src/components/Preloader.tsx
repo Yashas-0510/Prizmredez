@@ -478,18 +478,20 @@ export default function Preloader() {
         style={{ aspectRatio: `${LOGO_RATIO}` }}
       />
 
-      <div
-        ref={statusRef}
-        className="absolute bottom-10 left-8 text-bone/90 text-2xl md:text-3xl tracking-wide font-medium"
-      >
-        Gathering light.
+      <div className="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-8 sm:right-8 flex items-end justify-between gap-4 pointer-events-none z-20">
+        <div
+          ref={statusRef}
+          className="text-sm sm:text-base md:text-2xl lg:text-3xl tracking-wide text-bone/90 font-medium truncate max-w-[65%] sm:max-w-none"
+        >
+          Gathering light.
+        </div>
+        <span
+          ref={counterRef}
+          className="font-mono text-sm sm:text-base md:text-2xl lg:text-3xl tracking-wider sm:tracking-[0.25em] text-bone/90 font-medium shrink-0"
+        >
+          000%
+        </span>
       </div>
-      <span
-        ref={counterRef}
-        className="absolute bottom-10 right-8 font-mono text-2xl md:text-3xl tracking-[0.25em] text-bone/90 font-medium"
-      >
-        000%
-      </span>
 
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/15">
         <div

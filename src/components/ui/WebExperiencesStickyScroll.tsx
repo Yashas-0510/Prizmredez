@@ -30,22 +30,37 @@ export default function WebExperiencesStickyScroll() {
   // --- CARD 1 (Left Side — Oval Box) --- Range: [0.00, 0.32]
   const c1Y = useTransform(smoothProgress, [0.0, 0.15, 0.32], ["100vh", "0vh", "-100vh"]);
   const c1Opacity = useTransform(smoothProgress, [0.0, 0.08, 0.24, 0.32], [0, 1, 1, 0]);
+  const c1Clip = useTransform(smoothProgress, [0.0, 0.15, 0.32], ["inset(0% 0% 100% 0%)", "inset(0% 0% 0% 0%)", "inset(100% 0% 0% 0%)"]);
+  const c1Scale = useTransform(smoothProgress, [0.0, 0.15, 0.32], [0.95, 1.0, 0.95]);
+  const c1Aura = useTransform(smoothProgress, [0.0, 0.15, 0.32], [0, 1, 0]);
 
   // --- CARD 2 (Right Side — Tattoo Sutra) --- Range: [0.18, 0.50]
   const c2Y = useTransform(smoothProgress, [0.18, 0.33, 0.50], ["100vh", "0vh", "-100vh"]);
   const c2Opacity = useTransform(smoothProgress, [0.18, 0.26, 0.42, 0.50], [0, 1, 1, 0]);
+  const c2Clip = useTransform(smoothProgress, [0.18, 0.33, 0.50], ["inset(0% 0% 100% 0%)", "inset(0% 0% 0% 0%)", "inset(100% 0% 0% 0%)"]);
+  const c2Scale = useTransform(smoothProgress, [0.18, 0.33, 0.50], [0.95, 1.0, 0.95]);
+  const c2Aura = useTransform(smoothProgress, [0.18, 0.33, 0.50], [0, 1, 0]);
 
   // --- CARD 3 (Left Side — GM Celebration) --- Range: [0.36, 0.68]
   const c3Y = useTransform(smoothProgress, [0.36, 0.51, 0.68], ["100vh", "0vh", "-100vh"]);
   const c3Opacity = useTransform(smoothProgress, [0.36, 0.44, 0.60, 0.68], [0, 1, 1, 0]);
+  const c3Clip = useTransform(smoothProgress, [0.36, 0.51, 0.68], ["inset(0% 0% 100% 0%)", "inset(0% 0% 0% 0%)", "inset(100% 0% 0% 0%)"]);
+  const c3Scale = useTransform(smoothProgress, [0.36, 0.51, 0.68], [0.95, 1.0, 0.95]);
+  const c3Aura = useTransform(smoothProgress, [0.36, 0.51, 0.68], [0, 1, 0]);
 
   // --- CARD 4 (Right Side — Barbell Cartel) --- Range: [0.54, 0.86]
   const c4Y = useTransform(smoothProgress, [0.54, 0.69, 0.86], ["100vh", "0vh", "-100vh"]);
   const c4Opacity = useTransform(smoothProgress, [0.54, 0.62, 0.78, 0.86], [0, 1, 1, 0]);
+  const c4Clip = useTransform(smoothProgress, [0.54, 0.69, 0.86], ["inset(0% 0% 100% 0%)", "inset(0% 0% 0% 0%)", "inset(100% 0% 0% 0%)"]);
+  const c4Scale = useTransform(smoothProgress, [0.54, 0.69, 0.86], [0.95, 1.0, 0.95]);
+  const c4Aura = useTransform(smoothProgress, [0.54, 0.69, 0.86], [0, 1, 0]);
 
   // --- CARD 5 (Center Stage — Push Up) --- Range: [0.72, 1.0]
   const c5Y = useTransform(smoothProgress, [0.72, 0.87, 1.0], ["100vh", "0vh", "-75vh"]);
   const c5Opacity = useTransform(smoothProgress, [0.72, 0.80, 0.94, 1.0], [0, 1, 1, 0]);
+  const c5Clip = useTransform(smoothProgress, [0.72, 0.87, 1.0], ["inset(0% 0% 100% 0%)", "inset(0% 0% 0% 0%)", "inset(100% 0% 0% 0%)"]);
+  const c5Scale = useTransform(smoothProgress, [0.72, 0.87, 1.0], [0.95, 1.02, 0.95]);
+  const c5Aura = useTransform(smoothProgress, [0.72, 0.87, 1.0], [0, 1, 0]);
 
   // --- CENTRAL HEADLINE 3D DEPTH PARALLAX & STAGGERED MASK REVEAL ---
   const line1Y = useTransform(smoothProgress, [0.00, 0.10], ["115%", "0%"]);
@@ -130,9 +145,20 @@ export default function WebExperiencesStickyScroll() {
           style={{
             y: c1Y,
             opacity: c1Opacity,
+            clipPath: c1Clip,
+            scale: c1Scale,
           }}
           className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
+          {/* Ambient Emerald Aura */}
+          <motion.div
+            className="absolute -inset-4 rounded-2xl pointer-events-none"
+            style={{
+              opacity: c1Aura,
+              background: "radial-gradient(circle, rgba(16,185,129,0.30) 0%, rgba(6,182,212,0.12) 55%, transparent 75%)",
+              filter: "blur(24px)",
+            }}
+          />
           <div
             onClick={() =>
               setActiveModal({
@@ -140,7 +166,7 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://ovalboxarena.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
               src="/posters/web-oval.png"
@@ -151,6 +177,12 @@ export default function WebExperiencesStickyScroll() {
               quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
+            {/* Interactive Click/Tap Badge Indicator */}
+            <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/25 text-bone text-[10px] md:text-xs font-mono tracking-widest uppercase transition-all duration-300 pointer-events-none opacity-90 group-hover:opacity-100 group-hover:scale-105 shadow-lg">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="block md:hidden">TAP TO PREVIEW ↗</span>
+              <span className="hidden md:block">CLICK TO PREVIEW ↗</span>
+            </div>
           </div>
         </motion.div>
 
@@ -159,9 +191,20 @@ export default function WebExperiencesStickyScroll() {
           style={{
             y: c2Y,
             opacity: c2Opacity,
+            clipPath: c2Clip,
+            scale: c2Scale,
           }}
           className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
+          {/* Ambient Crimson Aura */}
+          <motion.div
+            className="absolute -inset-4 rounded-2xl pointer-events-none"
+            style={{
+              opacity: c2Aura,
+              background: "radial-gradient(circle, rgba(244,63,94,0.30) 0%, rgba(225,29,72,0.12) 55%, transparent 75%)",
+              filter: "blur(24px)",
+            }}
+          />
           <div
             onClick={() =>
               setActiveModal({
@@ -169,7 +212,7 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://tattoo-sutra.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
               src="/posters/web-02.jpg"
@@ -180,6 +223,12 @@ export default function WebExperiencesStickyScroll() {
               quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
+            {/* Interactive Click/Tap Badge Indicator */}
+            <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/25 text-bone text-[10px] md:text-xs font-mono tracking-widest uppercase transition-all duration-300 pointer-events-none opacity-90 group-hover:opacity-100 group-hover:scale-105 shadow-lg">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="block md:hidden">TAP TO PREVIEW ↗</span>
+              <span className="hidden md:block">CLICK TO PREVIEW ↗</span>
+            </div>
           </div>
         </motion.div>
 
@@ -188,9 +237,20 @@ export default function WebExperiencesStickyScroll() {
           style={{
             y: c3Y,
             opacity: c3Opacity,
+            clipPath: c3Clip,
+            scale: c3Scale,
           }}
           className="absolute top-1/2 -translate-y-1/2 left-[3%] md:left-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
+          {/* Ambient Warm Amber/Gold Aura */}
+          <motion.div
+            className="absolute -inset-4 rounded-2xl pointer-events-none"
+            style={{
+              opacity: c3Aura,
+              background: "radial-gradient(circle, rgba(245,158,11,0.30) 0%, rgba(217,119,6,0.12) 55%, transparent 75%)",
+              filter: "blur(24px)",
+            }}
+          />
           <div
             onClick={() =>
               setActiveModal({
@@ -198,7 +258,7 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://www.gmcelebrations.in/",
               })
             }
-            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
               src="/posters/web-04.jpg"
@@ -209,6 +269,12 @@ export default function WebExperiencesStickyScroll() {
               quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
+            {/* Interactive Click/Tap Badge Indicator */}
+            <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/25 text-bone text-[10px] md:text-xs font-mono tracking-widest uppercase transition-all duration-300 pointer-events-none opacity-90 group-hover:opacity-100 group-hover:scale-105 shadow-lg">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="block md:hidden">TAP TO PREVIEW ↗</span>
+              <span className="hidden md:block">CLICK TO PREVIEW ↗</span>
+            </div>
           </div>
         </motion.div>
 
@@ -217,9 +283,20 @@ export default function WebExperiencesStickyScroll() {
           style={{
             y: c4Y,
             opacity: c4Opacity,
+            clipPath: c4Clip,
+            scale: c4Scale,
           }}
           className="absolute top-1/2 -translate-y-1/2 right-[3%] md:right-[5%] z-20 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
+          {/* Ambient Electric Sapphire Aura */}
+          <motion.div
+            className="absolute -inset-4 rounded-2xl pointer-events-none"
+            style={{
+              opacity: c4Aura,
+              background: "radial-gradient(circle, rgba(59,130,246,0.30) 0%, rgba(37,99,235,0.12) 55%, transparent 75%)",
+              filter: "blur(24px)",
+            }}
+          />
           <div
             onClick={() =>
               setActiveModal({
@@ -227,7 +304,7 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://barbell-cartel-wf.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
               src="/posters/web-03.jpg"
@@ -238,6 +315,12 @@ export default function WebExperiencesStickyScroll() {
               quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
+            {/* Interactive Click/Tap Badge Indicator */}
+            <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/25 text-bone text-[10px] md:text-xs font-mono tracking-widest uppercase transition-all duration-300 pointer-events-none opacity-90 group-hover:opacity-100 group-hover:scale-105 shadow-lg">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="block md:hidden">TAP TO PREVIEW ↗</span>
+              <span className="hidden md:block">CLICK TO PREVIEW ↗</span>
+            </div>
           </div>
         </motion.div>
 
@@ -246,9 +329,20 @@ export default function WebExperiencesStickyScroll() {
           style={{
             y: c5Y,
             opacity: c5Opacity,
+            clipPath: c5Clip,
+            scale: c5Scale,
           }}
           className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-30 w-[84vw] sm:w-[58vw] md:w-[40vw] lg:w-[34vw] will-change-transform"
         >
+          {/* Ambient Iridescent Violet Aura */}
+          <motion.div
+            className="absolute -inset-4 rounded-2xl pointer-events-none"
+            style={{
+              opacity: c5Aura,
+              background: "radial-gradient(circle, rgba(168,85,247,0.32) 0%, rgba(236,72,153,0.14) 55%, transparent 75%)",
+              filter: "blur(24px)",
+            }}
+          />
           <div
             onClick={() =>
               setActiveModal({
@@ -256,7 +350,7 @@ export default function WebExperiencesStickyScroll() {
                 url: "https://pushup-omega.vercel.app/",
               })
             }
-            className="border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-[0_25px_60px_rgba(0,0,0,0.9)] rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-[0_25px_60px_rgba(0,0,0,0.9)] rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
               src="/posters/web-pushup.png"
@@ -267,6 +361,12 @@ export default function WebExperiencesStickyScroll() {
               quality={85}
               className="w-full aspect-[16/10] object-cover object-top rounded-sm"
             />
+            {/* Interactive Click/Tap Badge Indicator */}
+            <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/25 text-bone text-[10px] md:text-xs font-mono tracking-widest uppercase transition-all duration-300 pointer-events-none opacity-90 group-hover:opacity-100 group-hover:scale-105 shadow-lg">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="block md:hidden">TAP TO PREVIEW ↗</span>
+              <span className="hidden md:block">CLICK TO PREVIEW ↗</span>
+            </div>
           </div>
         </motion.div>
 
