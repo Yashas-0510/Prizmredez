@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import {
-  FRAME_TOTAL,
   READY_THRESHOLD,
   getFrameCount,
+  getFrameTotal,
   onFrames,
 } from "@/lib/loading";
 
@@ -101,11 +101,11 @@ export default function Preloader() {
 
     const state = {
       display: 0,
-      raw: getFrameCount() / FRAME_TOTAL,
+      raw: getFrameCount() / getFrameTotal(),
     };
 
-    const unsub = onFrames((count) => {
-      state.raw = count / FRAME_TOTAL;
+    const unsub = onFrames((count, total) => {
+      state.raw = count / total;
     });
 
     if (document.fonts?.ready) {
@@ -329,8 +329,9 @@ export default function Preloader() {
           state.display = targetDisplay;
 
         const loaded = getFrameCount();
+        const total = getFrameTotal();
         const contentReady =
-          loaded >= FRAME_TOTAL || (loaded >= READY_THRESHOLD && fontsOk);
+          loaded >= total || (loaded >= READY_THRESHOLD && fontsOk);
         if (
           (contentReady &&
             elapsed >= MIN_VISIBLE - EXIT_DURATION &&

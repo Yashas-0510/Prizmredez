@@ -35,6 +35,7 @@ export default function HeroSection() {
     setIsMobile(mobile);
     const total = mobile ? FRAME_TOTAL_MOBILE : FRAME_TOTAL_DESKTOP;
     frameTotalRef.current = total;
+    reportFrames(0, total);
 
     let cancelled = false;
     const images: HTMLImageElement[] = new Array(total);
@@ -49,7 +50,7 @@ export default function HeroSection() {
         loadedRef.current[index] = true;
         loadedCountRef.current++;
         lastDrawnRef.current = -1;
-        reportFrames(loadedCountRef.current);
+        reportFrames(loadedCountRef.current, total);
       }
     };
 
@@ -274,9 +275,9 @@ export default function HeroSection() {
           className="absolute bottom-8 left-1/2 z-30 pointer-events-none flex flex-col items-center gap-2"
           style={{ transform: "translate(-50%, 0px)" }}
         >
-          <div className="px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 flex items-center gap-2.5 shadow-lg">
-            <span className="w-2 h-2 rounded-full bg-spectrum animate-pulse" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-bone/80">
+          <div className="px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 flex items-center gap-2 md:gap-2.5 shadow-lg max-w-[92vw]">
+            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-spectrum animate-pulse shrink-0" />
+            <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.16em] md:tracking-[0.3em] text-bone/80 whitespace-nowrap">
               SCROLL TO DISPERSE
             </span>
           </div>
