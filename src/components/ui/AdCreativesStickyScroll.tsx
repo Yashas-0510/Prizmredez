@@ -35,10 +35,10 @@ export default function AdCreativesStickyScroll() {
     offset: ["start start", "end end"],
   });
 
-  // Smooth spring physics for silky animation
+  // Smooth spring physics synchronized with Lenis
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 25,
+    stiffness: 220,
+    damping: 32,
     restDelta: 0.001,
   });
 
@@ -87,6 +87,15 @@ export default function AdCreativesStickyScroll() {
   const handleNext = () => {
     setActiveIndex((prev) => (prev === REELS.length - 1 ? 0 : prev + 1));
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <div ref={containerRef} className="relative h-[250vh]">

@@ -2,8 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Syne, Plus_Jakarta_Sans, Instrument_Serif, Space_Mono } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/providers/LenisProvider";
-import CustomCursor from "@/components/ui/CustomCursor";
-import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import JsonLdSchema from "@/components/seo/JsonLdSchema";
 
 const syne = Syne({
@@ -73,10 +71,10 @@ export const metadata: Metadata = {
       "Dispersing light into digital brilliance. High-converting web experiences, motion design, paid ad creatives, and creator engines.",
     images: [
       {
-        url: "/prizmlogo-transparent.png",
-        width: 1039,
-        height: 223,
-        alt: "PRIZM Studio",
+        url: "/prizm_og1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "PRIZM Studio — Creative Studio",
       },
     ],
   },
@@ -85,7 +83,7 @@ export const metadata: Metadata = {
     title: "PRIZM® — Creative Studio",
     description:
       "High-converting web experiences, motion design, paid ad creatives, and creator engines.",
-    images: ["/prizmlogo-transparent.png"],
+    images: ["/prizm_og1.jpg"],
   },
   robots: {
     index: true,
@@ -122,8 +120,6 @@ export default function RootLayout({
       <body suppressHydrationWarning className="bg-[#070708] text-white font-sans min-h-full flex flex-col overflow-x-hidden">
         <JsonLdSchema />
         <LenisProvider>
-          <NoiseOverlay />
-          <CustomCursor />
           {children}
         </LenisProvider>
       </body>

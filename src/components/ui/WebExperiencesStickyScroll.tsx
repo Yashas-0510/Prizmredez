@@ -13,6 +13,7 @@ import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "fra
 export default function WebExperiencesStickyScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeModal, setActiveModal] = useState<{ title: string; url: string } | null>(null);
+  const [iframeLoading, setIframeLoading] = useState(true);
 
   // Track scroll progress throughout the 400vh container
   const { scrollYProgress } = useScroll({
@@ -20,12 +21,17 @@ export default function WebExperiencesStickyScroll() {
     offset: ["start start", "end end"],
   });
 
-  // Physics spring for silky smooth scroll motion
+  // Physics spring for responsive, silky smooth scroll motion (synchronized with Lenis)
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 25,
+    stiffness: 220,
+    damping: 32,
     restDelta: 0.001,
   });
+
+  const openPreviewModal = (item: { title: string; url: string }) => {
+    setIframeLoading(true);
+    setActiveModal(item);
+  };
 
   // --- CARD 1 (Left Side — Oval Box) --- Range: [0.00, 0.32]
   const c1Y = useTransform(smoothProgress, [0.0, 0.15, 0.32], ["100vh", "0vh", "-100vh"]);
@@ -61,17 +67,6 @@ export default function WebExperiencesStickyScroll() {
   const c5Clip = useTransform(smoothProgress, [0.72, 0.87, 1.0], ["inset(0% 0% 100% 0%)", "inset(0% 0% 0% 0%)", "inset(100% 0% 0% 0%)"]);
   const c5Scale = useTransform(smoothProgress, [0.72, 0.87, 1.0], [0.95, 1.02, 0.95]);
   const c5Aura = useTransform(smoothProgress, [0.72, 0.87, 1.0], [0, 1, 0]);
-
-  // --- CENTRAL HEADLINE 3D DEPTH PARALLAX & STAGGERED MASK REVEAL ---
-  const line1Y = useTransform(smoothProgress, [0.00, 0.10], ["115%", "0%"]);
-  const line2Y = useTransform(smoothProgress, [0.03, 0.13], ["115%", "0%"]);
-  const line3Y = useTransform(smoothProgress, [0.06, 0.16], ["115%", "0%"]);
-  const line4Y = useTransform(smoothProgress, [0.09, 0.19], ["115%", "0%"]);
-  const textOpacity = useTransform(smoothProgress, [0.00, 0.08], [0, 1]);
-
-  // Depth scale & subtle opacity pulse when cards cross center stage
-  const textScale = useTransform(smoothProgress, [0.0, 0.35, 0.50, 0.75, 1.0], [1.0, 0.93, 1.0, 0.93, 1.0]);
-  const textDepthOpacity = useTransform(smoothProgress, [0.0, 0.30, 0.50, 0.70, 1.0], [1.0, 0.85, 1.0, 0.85, 1.0]);
 
   return (
     <div ref={containerRef} className="relative h-[400vh]">
@@ -161,7 +156,7 @@ export default function WebExperiencesStickyScroll() {
           />
           <div
             onClick={() =>
-              setActiveModal({
+              openPreviewModal({
                 title: "OVAL BOX — TURF BOOKING",
                 url: "https://ovalboxarena.vercel.app/",
               })
@@ -207,7 +202,7 @@ export default function WebExperiencesStickyScroll() {
           />
           <div
             onClick={() =>
-              setActiveModal({
+              openPreviewModal({
                 title: "TATTOO SUTRA — STUDIO",
                 url: "https://tattoo-sutra.vercel.app/",
               })
@@ -253,7 +248,7 @@ export default function WebExperiencesStickyScroll() {
           />
           <div
             onClick={() =>
-              setActiveModal({
+              openPreviewModal({
                 title: "GM CELEBRATION — CATERING",
                 url: "https://www.gmcelebrations.in/",
               })
@@ -299,7 +294,7 @@ export default function WebExperiencesStickyScroll() {
           />
           <div
             onClick={() =>
-              setActiveModal({
+              openPreviewModal({
                 title: "BARBELL CARTEL — GYM & FITNESS",
                 url: "https://barbell-cartel-wf.vercel.app/",
               })
@@ -345,7 +340,7 @@ export default function WebExperiencesStickyScroll() {
           />
           <div
             onClick={() =>
-              setActiveModal({
+              openPreviewModal({
                 title: "PUSH UP — FITNESS SYSTEM",
                 url: "https://pushup-omega.vercel.app/",
               })
@@ -423,11 +418,18 @@ export default function WebExperiencesStickyScroll() {
                 </div>
               </div>
 
-              {/* Live Preview Iframe */}
+              {/* Live Preview Iframe with Loading Indicator & Fallback */}
               <div className="flex-1 w-full bg-black relative">
+                {iframeLoading && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-ink-soft/90 z-10 space-y-3">
+                    <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white animate-spin" />
+                    <p className="font-mono text-xs text-white/60 tracking-wider uppercase">Loading Live Experience...</p>
+                  </div>
+                )}
                 <iframe
                   src={activeModal.url}
                   title={activeModal.title}
+                  onLoad={() => setIframeLoading(false)}
                   className="w-full h-full border-0"
                   sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                 />

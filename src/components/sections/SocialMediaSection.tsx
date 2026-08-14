@@ -4,7 +4,6 @@ import RoomShell from "./RoomShell";
 import Reveal from "@/components/ui/Reveal";
 import { HyperText } from "@/components/ui/hyper-text";
 import { ZoomParallax, ZoomParallaxImage } from "@/components/ui/zoom-parallax";
-import { AuroraBackground } from "@/components/ui/aurora-background";
 
 const socialImages: ZoomParallaxImage[] = [
   {

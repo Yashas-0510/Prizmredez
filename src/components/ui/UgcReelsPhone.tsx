@@ -80,7 +80,6 @@ export default function UgcReelsPhone() {
   const [likedMap, setLikedMap] = useState<{ [key: number]: boolean }>({});
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Interactive Mouse Parallax Gyroscope (Zero-re-render MotionValues)
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -91,13 +90,9 @@ export default function UgcReelsPhone() {
     mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
   };
 
-  const mouseScaledX = useTransform(mouseX, [-0.5, 0.5], [-11, 11]);
-  const mouseScaledY = useTransform(mouseY, [-0.5, 0.5], [11, -11]);
   const shadowScaledX = useTransform(mouseX, [-0.5, 0.5], [12, -12]);
   const shadowScaledY = useTransform(mouseY, [-0.5, 0.5], [0.95, 1.05]);
 
-  const gyroRotateY = useSpring(mouseScaledX, { stiffness: 110, damping: 20 });
-  const gyroRotateX = useSpring(mouseScaledY, { stiffness: 110, damping: 20 });
   const shadowX = useSpring(shadowScaledX, { stiffness: 100, damping: 20 });
   const shadowScaleX = useSpring(shadowScaledY, { stiffness: 100, damping: 20 });
 
@@ -108,8 +103,8 @@ export default function UgcReelsPhone() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 25,
+    stiffness: 220,
+    damping: 32,
     restDelta: 0.001,
   });
 
@@ -121,7 +116,6 @@ export default function UgcReelsPhone() {
 
   // Staggered Right Side Text Sequence
   const copyOpacity = useTransform(smoothProgress, [0.25, 0.75], [0, 1]);
-  const subTagY = useTransform(smoothProgress, [0.25, 0.60], ["-16px", "0px"]);
   const maskY1 = useTransform(smoothProgress, [0.30, 0.65], ["115%", "0%"]);
   const maskY2 = useTransform(smoothProgress, [0.35, 0.70], ["115%", "0%"]);
   const paragraphY = useTransform(smoothProgress, [0.40, 0.75], ["20px", "0px"]);
@@ -145,7 +139,9 @@ export default function UgcReelsPhone() {
           vid.pause();
           try {
             vid.currentTime = 0;
-          } catch (_) {}
+          } catch {
+            // video reset fallback
+          }
         }
       }
     });
@@ -165,7 +161,7 @@ export default function UgcReelsPhone() {
     setLikedMap((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  const handleDragEnd = (_: unknown, info: { offset: { y: number }; velocity: { y: number } }) => {
+  const handleDragEnd = (_e: unknown, info: { offset: { y: number }; velocity: { y: number } }) => {
     const swipeThreshold = 35;
     if (info.offset.y < -swipeThreshold || info.velocity.y < -200) {
       // Swiped UP -> Next Reel
@@ -266,6 +262,7 @@ export default function UgcReelsPhone() {
                     loop
                     muted={idx === activeIndex ? isMuted : true}
                     playsInline
+                    preload={idx === activeIndex ? "auto" : "none"}
                     className="w-full h-full object-cover"
                   />
 

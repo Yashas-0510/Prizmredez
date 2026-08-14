@@ -9,6 +9,8 @@
   --color-dim: #8a8a92;
 
   --font-heading: var(--font-syne), var(--font-jakarta), sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
 }
 
 @layer base {

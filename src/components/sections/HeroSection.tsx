@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useSyncExternalStore, useRef } from "react";
 import { reportFrames } from "@/lib/loading";
 
 const INITIAL_BATCH_DESKTOP = 40;
@@ -16,8 +16,20 @@ const getFrameSrc = (isMobile: boolean, i: number) => {
   return `/prizmframes-hd/frame-${String(i + 1).padStart(3, "0")}.webp`;
 };
 
+function useIsMobile() {
+  return useSyncExternalStore(
+    (callback) => {
+      const mql = window.matchMedia("(max-width: 767px)");
+      mql.addEventListener("change", callback);
+      return () => mql.removeEventListener("change", callback);
+    },
+    () => window.innerWidth < 768,
+    () => false
+  );
+}
+
 export default function HeroSection() {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const isMobile = useIsMobile();
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -32,7 +44,6 @@ export default function HeroSection() {
 
   useEffect(() => {
     const mobile = window.innerWidth < 768;
-    setIsMobile(mobile);
     const total = mobile ? FRAME_TOTAL_MOBILE : FRAME_TOTAL_DESKTOP;
     frameTotalRef.current = total;
     reportFrames(0, total);
@@ -214,7 +225,27 @@ export default function HeroSection() {
       lastDrawnRef.current = pick;
     };
 
+    let isHeroInView = true;
+
+    const startLoop = () => {
+      if (!raf && isHeroInView) {
+        raf = requestAnimationFrame(loop);
+      }
+    };
+
+    const stopLoop = () => {
+      if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+
     const loop = () => {
+      if (!isHeroInView) {
+        raf = 0;
+        return;
+      }
+
       const currentScroll = window.scrollY || window.pageYOffset || 0;
       const targetP = Math.min(
         1,
@@ -222,7 +253,7 @@ export default function HeroSection() {
       );
 
       // Smooth 60FPS Lerp Damping
-      renderP += (targetP - renderP) * 0.14;
+      renderP += (targetP - renderP) * 0.16;
       if (Math.abs(targetP - renderP) < 0.0001) renderP = targetP;
 
       const total = frameTotalRef.current;
@@ -240,14 +271,36 @@ export default function HeroSection() {
       if (progressRef.current) {
         progressRef.current.style.transform = `scaleX(${renderP})`;
       }
+
       raf = requestAnimationFrame(loop);
     };
 
     updateBounds();
-    raf = requestAnimationFrame(loop);
+
+    let observer: IntersectionObserver | null = null;
+    if (sectionRef.current && typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          isHeroInView = entry?.isIntersecting ?? true;
+          if (isHeroInView) {
+            updateBounds();
+            startLoop();
+          } else {
+            stopLoop();
+          }
+        },
+        { rootMargin: "100px 0px" }
+      );
+      observer.observe(sectionRef.current);
+    } else {
+      startLoop();
+    }
+
     window.addEventListener("resize", updateBounds, { passive: true });
     return () => {
-      cancelAnimationFrame(raf);
+      stopLoop();
+      observer?.disconnect();
       window.removeEventListener("resize", updateBounds);
     };
   }, []);
@@ -259,7 +312,10 @@ export default function HeroSection() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={getFrameSrc(isMobile, 0)}
-          alt=""
+          alt="PRIZM Visual Experience"
+          loading="eager"
+          decoding="sync"
+          fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ filter: "contrast(1.08) saturate(1.15)" }}
         />

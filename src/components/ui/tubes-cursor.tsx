@@ -59,29 +59,35 @@ export default function TubesCursor() {
     const initTimer = setTimeout(() => {
       if (!canvasRef.current || !isMounted) return;
 
-      const loadTubesModule = new Function(
-        `return import("https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js")`
-      );
+      try {
+        const loadTubesModule = new Function(
+          `return import("https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js")`
+        );
 
-      loadTubesModule()
-        .then((module: TubesModule) => {
-          if (!isMounted || !canvasRef.current) return;
-          const TubesCursorImpl = module.default;
+        loadTubesModule()
+          .then((module: TubesModule) => {
+            if (!isMounted || !canvasRef.current) return;
+            const TubesCursorImpl = module.default;
 
-          if (!appRef.current) {
-            const app = TubesCursorImpl(canvasRef.current, {
-              tubes: {
-                colors: ["#5e72e4", "#8965e0", "#f5365c"],
-                lights: {
-                  intensity: 200,
-                  colors: ["#21d4fd", "#b721ff", "#f4d03f", "#11cdef"],
+            if (!appRef.current && typeof TubesCursorImpl === "function") {
+              const app = TubesCursorImpl(canvasRef.current, {
+                tubes: {
+                  colors: ["#5e72e4", "#8965e0", "#f5365c"],
+                  lights: {
+                    intensity: 200,
+                    colors: ["#21d4fd", "#b721ff", "#f4d03f", "#11cdef"],
+                  },
                 },
-              },
-            });
-            appRef.current = app;
-          }
-        })
-        .catch((err: unknown) => console.error("Failed to load TubesCursor module:", err));
+              });
+              appRef.current = app;
+            }
+          })
+          .catch(() => {
+            // Graceful fallback if offline or CDN is blocked
+          });
+      } catch {
+        // Fallback for strict CSP environments
+      }
     }, 150);
 
     const handleGlobalClick = () => {
@@ -121,10 +127,10 @@ export default function TubesCursor() {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden" style={{ contain: "strict" }}>
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 w-full h-full pointer-events-none opacity-80"
+        className="fixed inset-0 w-full h-full pointer-events-none opacity-80 transform-gpu will-change-transform"
       />
     </div>
   );

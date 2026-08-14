@@ -14,21 +14,6 @@ const marquee = [
   "Social Systems",
 ];
 
-const team = [
-  {
-    id: "rhea",
-    name: "RHEA",
-    role: "CO-FOUNDER",
-    img: "/rheaprizm.png",
-  },
-  {
-    id: "yash",
-    name: "YASH",
-    role: "CO-FOUNDER",
-    img: "/yashprizm.png",
-  },
-];
-
 /**
  * Room 02 — Studio / About.
  * Manifesto on the left, Rhea & Yash co-founders pop team cards on the right.

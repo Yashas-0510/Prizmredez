@@ -36,7 +36,7 @@ function DesktopZoomParallax({ images }: ZoomParallaxProps) {
   return (
     <div ref={container} className="relative h-[300vh]">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
-        {images.map(({ src, alt, title, category, objectPosition }, index) => {
+        {images.map(({ src, alt, objectPosition }, index) => {
           const scale = scales[index % scales.length];
 
           return (
@@ -122,7 +122,7 @@ function MobileZoomParallax({ images }: ZoomParallaxProps) {
   return (
     <div ref={container} className="relative h-[300vh]">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
-        {images.slice(0, 5).map(({ src, mobileSrc, alt, title, category, objectPosition }, index) => {
+        {images.slice(0, 5).map(({ src, mobileSrc, alt, objectPosition }, index) => {
           const transform = mobileTransforms[index];
           const activeSrc = mobileSrc || src;
 

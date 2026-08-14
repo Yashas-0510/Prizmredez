@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -86,12 +87,12 @@ export function HyperText({
   const [iterationCount, setIterationCount] = useState(-2);
   const elementRef = useRef<HTMLElement | null>(null);
 
-  const triggerAnimation = () => {
+  const triggerAnimation = useCallback(() => {
     if (!isAnimating) {
       setIterationCount(-2);
       setIsAnimating(true);
     }
-  };
+  }, [isAnimating]);
 
   const handleMouseEnter = () => {
     if (animateOnHover) {
@@ -139,7 +140,7 @@ export function HyperText({
       observer.disconnect();
       if (intervalTimer) clearInterval(intervalTimer);
     };
-  }, [delay, startOnView, interval]);
+  }, [delay, startOnView, interval, triggerAnimation]);
 
   // Handle scramble animation loop
   useEffect(() => {

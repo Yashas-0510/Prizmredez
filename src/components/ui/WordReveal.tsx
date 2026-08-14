@@ -26,13 +26,18 @@ export default function WordReveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    let raf = 0;
 
-    const loop = () => {
+    let isVisible = false;
+    let ticking = false;
+
+    const updateWords = () => {
+      if (!isVisible || !el) {
+        ticking = false;
+        return;
+      }
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      // only compute while near the viewport
-      if (rect.bottom > -100 && rect.top < vh + 100) {
+      if (rect.bottom > -50 && rect.top < vh + 50) {
         // sweep runs while the block travels from 88% to 38% viewport height
         const p = Math.min(1, Math.max(0, (vh * 0.88 - rect.top) / (vh * 0.5)));
         const n = wordsRef.current.length;
@@ -45,10 +50,45 @@ export default function WordReveal({
           span.style.transform = `translateY(${(1 - local) * 0.3}em)`;
         }
       }
-      raf = requestAnimationFrame(loop);
+      ticking = false;
     };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
+
+    const handleScroll = () => {
+      if (isVisible && !ticking) {
+        ticking = true;
+        requestAnimationFrame(updateWords);
+      }
+    };
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          isVisible = entry?.isIntersecting ?? false;
+          if (isVisible) {
+            updateWords();
+            window.addEventListener("scroll", handleScroll, { passive: true });
+            window.addEventListener("resize", handleScroll, { passive: true });
+          } else {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("resize", handleScroll);
+          }
+        },
+        { rootMargin: "150px 0px" }
+      );
+      observer.observe(el);
+    } else {
+      isVisible = true;
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      window.addEventListener("resize", handleScroll, { passive: true });
+    }
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, []);
 
   return (

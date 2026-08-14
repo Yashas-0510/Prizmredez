@@ -58,6 +58,7 @@ export default function Navbar() {
               width={1039}
               height={223}
               priority
+              loading="eager"
               className="h-7 md:h-9 w-auto drop-shadow-lg"
             />
           </a>
