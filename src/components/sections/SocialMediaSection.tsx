@@ -14,11 +14,10 @@ const socialImages: ZoomParallaxImage[] = [
     category: "FRAGRANCE & STYLE",
   },
   {
-    src: "/social/apd1.webp",
-    mobileSrc: "/social/belvishmob.webp",
-    alt: "APD — Campaign Direction",
-    title: "APD CAMPAIGN",
-    category: "BRAND ARCHITECTURE",
+    src: "/social/campusmob.webp",
+    alt: "Campus — Footwear Campaign",
+    title: "CAMPUS SHOES",
+    category: "FOOTWEAR & ACTIVEWEAR",
   },
   {
     src: "/social/kalki.webp",
@@ -28,17 +27,22 @@ const socialImages: ZoomParallaxImage[] = [
   },
   {
     src: "/social/belvish1.webp",
-    mobileSrc: "/social/krossanmob.webp",
+    mobileSrc: "/social/belvishmob.webp",
     alt: "Belvish — Visual Identity",
     title: "BELVISH",
     category: "LUXURY AESTHETICS",
   },
   {
     src: "/social/vantara1.webp",
-    mobileSrc: "/social/campusmob.webp",
     alt: "Vantara — Wildlife & Brand",
     title: "VANTARA",
     category: "CAMPAIGN SYSTEM",
+  },
+  {
+    src: "/social/krossanmob.webp",
+    alt: "Krossan — Artisanal Bakery",
+    title: "KROSSAN",
+    category: "ARTISANAL PATISSERIE",
   },
   {
     src: "/social/auric1.webp",
@@ -92,8 +96,8 @@ export default function SocialMediaSection() {
           </div>
         </div>
 
-        {/* 3D Zoom Parallax Component (Desktop + Responsive Mobile Layout) */}
-        <div className="mt-4 sm:-mt-16 md:-mt-32 relative z-10 w-full">
+        {/* 3D Zoom Parallax Component (Desktop) & Kinetic Dual-Column Feed (Mobile) */}
+        <div className="mt-8 sm:-mt-16 md:-mt-32 relative z-10 w-full">
           <ZoomParallax images={socialImages} />
         </div>
       </div>
