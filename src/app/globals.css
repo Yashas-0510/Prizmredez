@@ -9,14 +9,12 @@
   --color-dim: #8a8a92;
 
   --font-heading: var(--font-syne), var(--font-jakarta), sans-serif;
-  --font-serif: var(--font-serif), Georgia, serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
 }
 
 @layer base {
   :root {
     --font-sans: var(--font-jakarta), system-ui, sans-serif;
-    --font-serif: var(--font-serif), Georgia, serif;
     --font-heading: var(--font-syne), var(--font-jakarta), sans-serif;
     --font-mono: var(--font-mono), ui-monospace, monospace;
 
@@ -166,5 +164,22 @@
 }
 .animate-aurora {
   animation: aurora 60s linear infinite;
+}
+
+/* Reduced Motion Overrides */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track,
+  .animate-aurora,
+  .object-drift {
+    animation: none !important;
+  }
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import gsap from "gsap";
 import {
   READY_THRESHOLD,
@@ -37,7 +37,20 @@ const getStatusMicrocopy = (p: number) => {
 };
 
 export default function Preloader() {
+  const isAlreadyLoaded = useSyncExternalStore(
+    () => () => {},
+    () => {
+      try {
+        return typeof window !== "undefined" && sessionStorage.getItem("prizm_loaded") === "true";
+      } catch {
+        return false;
+      }
+    },
+    () => false
+  );
   const [done, setDone] = useState(false);
+  const isComplete = isAlreadyLoaded || done;
+
   const rootRef = useRef<HTMLDivElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -50,7 +63,7 @@ export default function Preloader() {
   const metaRightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (done) return;
+    if (isComplete) return;
 
     const root = rootRef.current;
     const wrap = wrapRef.current;
@@ -250,6 +263,9 @@ export default function Preloader() {
     let timeline: ReturnType<typeof gsap.timeline> | null = null;
 
     const finish = () => {
+      try {
+        sessionStorage.setItem("prizm_loaded", "true");
+      } catch {}
       setDone(true);
     };
 
@@ -441,9 +457,9 @@ export default function Preloader() {
       window.removeEventListener("resize", onResize);
       document.documentElement.style.overflow = prevOverflow;
     };
-  }, [done]);
+  }, [isComplete]);
 
-  if (done) return null;
+  if (isComplete) return null;
 
   return (
     <div

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Syne, Plus_Jakarta_Sans, Instrument_Serif, Space_Mono } from "next/font/google";
+import { Syne, Plus_Jakarta_Sans, Space_Mono } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/providers/LenisProvider";
 import JsonLdSchema from "@/components/seo/JsonLdSchema";
@@ -13,13 +13,6 @@ const syne = Syne({
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-jakarta",
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-serif",
   display: "swap",
 });
 
@@ -40,7 +33,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://prizmstudio.in"),
   title: {
-    default: "PRIZM® — Creative Studio",
+    default: "PRIZM® — Creative Studio | Web, Ad Creatives & UGC",
     template: "%s | PRIZM Studio",
   },
   description:
@@ -66,7 +59,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://prizmstudio.in",
     siteName: "PRIZM Studio",
-    title: "PRIZM® — Creative Studio",
+    title: "PRIZM® — Creative Studio | Web, Ad Creatives & UGC",
     description:
       "Dispersing light into digital brilliance. High-converting web experiences, motion design, paid ad creatives, and creator engines.",
     images: [
@@ -74,13 +67,13 @@ export const metadata: Metadata = {
         url: "/prizm_og1.jpg",
         width: 1200,
         height: 630,
-        alt: "PRIZM Studio — Creative Studio",
+        alt: "PRIZM Studio — Web, Ad Creatives & UGC",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "PRIZM® — Creative Studio",
+    title: "PRIZM® — Creative Studio | Web, Ad Creatives & UGC",
     description:
       "High-converting web experiences, motion design, paid ad creatives, and creator engines.",
     images: ["/prizm_og1.jpg"],
@@ -115,7 +108,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${syne.variable} ${plusJakartaSans.variable} ${instrumentSerif.variable} ${spaceMono.variable} dark h-full antialiased selection:bg-white selection:text-black`}
+      className={`${syne.variable} ${plusJakartaSans.variable} ${spaceMono.variable} dark h-full antialiased selection:bg-white selection:text-black`}
     >
       <body suppressHydrationWarning className="bg-[#070708] text-white font-sans min-h-full flex flex-col overflow-x-hidden">
         <JsonLdSchema />

@@ -66,7 +66,7 @@ export default function ContactSection() {
   const mailtoUrl = `mailto:hello@prizmstudio.in?subject=${mailtoSubject}`;
 
   return (
-    <RoomShell index="07" label="Contact" id="contact" right="KYIV — WORLDWIDE">
+    <RoomShell index="07" label="Contact" id="contact" right="INDIA · MUMBAI · WORLDWIDE">
       <div className="relative min-h-[90vh] md:min-h-screen w-full flex flex-col items-center justify-between px-6 md:px-12 pt-10 pb-24 text-center overflow-hidden">
 
         {/* Kinetic Ambient Marquee Banner (Background) */}

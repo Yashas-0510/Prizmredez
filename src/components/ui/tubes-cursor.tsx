@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useSyncExternalStore } from "react";
 
 interface TubesApp {
   dispose?: () => void;
@@ -14,42 +14,35 @@ type TubesModule = {
   default: (canvas: HTMLCanvasElement, options: object) => TubesApp;
 };
 
+function useIsDesktop() {
+  return useSyncExternalStore(
+    (callback) => {
+      window.addEventListener("resize", callback);
+      return () => window.removeEventListener("resize", callback);
+    },
+    () => {
+      if (typeof window === "undefined") return false;
+      const isMin768 = window.innerWidth >= 768;
+      const isPointerFine =
+        window.matchMedia("(pointer: fine)").matches ||
+        window.matchMedia("(any-pointer: fine)").matches ||
+        !("ontouchstart" in window);
+      return isMin768 && isPointerFine;
+    },
+    () => false
+  );
+}
+
 export default function TubesCursor() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const appRef = useRef<TubesApp | null>(null);
-  const [isDesktop, setIsDesktop] = useState<boolean>(false);
+  const isDesktop = useIsDesktop();
 
   const randomColors = (count: number) => {
     return new Array(count)
       .fill(0)
       .map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0"));
   };
-
-  // Measure device capability & screen width
-  useEffect(() => {
-    const checkIsDesktop = () => {
-      const isMin768 = window.innerWidth >= 768;
-      const isPointerFine = window.matchMedia("(pointer: fine)").matches;
-      return isMin768 && isPointerFine;
-    };
-
-    const handleCheck = () => {
-      const desktop = checkIsDesktop();
-      setIsDesktop(desktop);
-      if (!desktop && appRef.current) {
-        if (typeof appRef.current.dispose === "function") {
-          try {
-            appRef.current.dispose();
-          } catch {}
-        }
-        appRef.current = null;
-      }
-    };
-
-    handleCheck();
-    window.addEventListener("resize", handleCheck);
-    return () => window.removeEventListener("resize", handleCheck);
-  }, []);
 
   // Initialize Three.js Tubes animation ONLY if isDesktop is true
   useEffect(() => {
@@ -82,11 +75,11 @@ export default function TubesCursor() {
               appRef.current = app;
             }
           })
-          .catch(() => {
-            // Graceful fallback if offline or CDN is blocked
+          .catch((err: unknown) => {
+            console.error("Failed to load TubesCursor module:", err);
           });
-      } catch {
-        // Fallback for strict CSP environments
+      } catch (err: unknown) {
+        console.error("Failed to load TubesCursor dynamic import:", err);
       }
     }, 150);
 
@@ -127,7 +120,10 @@ export default function TubesCursor() {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden" style={{ contain: "strict" }}>
+    <div
+      className="fixed inset-0 pointer-events-none z-10 overflow-hidden"
+      style={{ contain: "strict" }}
+    >
       <canvas
         ref={canvasRef}
         className="fixed inset-0 w-full h-full pointer-events-none opacity-80 transform-gpu will-change-transform"

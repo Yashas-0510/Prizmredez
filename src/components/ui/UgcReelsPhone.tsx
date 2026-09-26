@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useScroll, useSpring, useTransform, useMotionV
 const UGC_REELS = [
   {
     id: "shoe",
-    handle: "@hyper.run",
+    handle: "@hyperrun.lab",
     caption: "High-octane sportswear ads. No shoots, no retakes, pure performance. 👟 #Footwear #UGC",
     likes: "320.1K",
     comments: "8.7K",
@@ -17,55 +17,55 @@ const UGC_REELS = [
   },
   {
     id: "dove",
-    handle: "@dove.official",
-    caption: "Real beauty, AI-engineered. High-converting body care UGC reels delivered in hours. 🕊️ #Dove #SkinCare",
+    handle: "@dovelle.skin",
+    caption: "Velvet hydration, AI-engineered. High-converting body care UGC reels delivered in hours. 🕊️ #Dovelle #SkinCare",
     likes: "194.5K",
     comments: "3.8K",
-    brand: "DOVE",
+    brand: "DOVELLE",
     src: "/UGC/doveugc.mp4",
     color: "#0284c7",
     metric: "4.3X ROAS",
   },
   {
     id: "cera",
-    handle: "@cerave.official",
-    caption: "Derma-grade AI UGC created in seconds. Zero camera crew needed. #AIUGC #SkincareAds",
+    handle: "@ceraderm.labs",
+    caption: "Derma-grade AI UGC created in seconds. Zero camera crew needed. ✨ #DermaCare #SkincareAds",
     likes: "148.2K",
     comments: "3.4K",
-    brand: "CERAVE",
+    brand: "CERADERM",
     src: "/UGC/ceraugc.mp4",
     color: "#3b82f6",
     metric: "4.8X ROAS",
   },
   {
     id: "wholetruth",
-    handle: "@wholetruth.co",
-    caption: "Clean label nutrition ads generated overnight. Pure transparency. 🍫 #WholeTruth #AIUGC",
+    handle: "@puretruth.co",
+    caption: "Clean label nutrition ads generated overnight. Pure transparency. 🍫 #PureTruth #AIUGC",
     likes: "189.6K",
     comments: "4.9K",
-    brand: "WHOLE TRUTH",
+    brand: "PURE TRUTH",
     src: "/UGC/ugcwhole.mp4",
     color: "#f97316",
     metric: "+410% CONV",
   },
   {
     id: "jewellery",
-    handle: "@lumina.jewelry",
+    handle: "@lumina.atelier",
     caption: "Luxury aesthetics engineered for high-converting social campaigns. 💎 #JewelryAds #PrizmAI",
     likes: "212.9K",
     comments: "5.1K",
-    brand: "LUMINA",
+    brand: "LUMINA JEWELS",
     src: "/UGC/jewelleryugc.mp4",
     color: "#eab308",
     metric: "+320% CTR",
   },
   {
     id: "minimalist",
-    handle: "@minimalist.skin",
-    caption: "Clean, science-first skincare UGC reels. High ROAS guaranteed. ✨ #Minimalist #BeautyAds",
+    handle: "@minima.derm",
+    caption: "Clean, science-first skincare UGC reels. High performance guaranteed. ✨ #MinimaLab #BeautyAds",
     likes: "175.4K",
     comments: "4.2K",
-    brand: "MINIMALIST",
+    brand: "MINIMA LAB",
     src: "/UGC/ugcminimalist.mp4",
     color: "#a855f7",
     metric: "4.1X ROAS",
@@ -305,7 +305,6 @@ export default function UgcReelsPhone() {
                           />
                         </svg>
                       </div>
-                      <span className="text-[10px] text-white font-medium mt-1 drop-shadow">{reel.likes}</span>
                     </button>
 
                     {/* Play / Pause Toggle Button */}
@@ -441,23 +440,11 @@ export default function UgcReelsPhone() {
             and photorealistic avatars without scheduling a single shoot.
           </motion.p>
 
-          {/* Kinetic Metric Badges */}
+          {/* Kinetic Badges */}
           <motion.div
             style={{ scale: metricsScale }}
             className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 mt-6"
           >
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={currentReel.id}
-                initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                transition={{ duration: 0.22, ease: "easeOut" }}
-                className="px-3.5 py-1.5 rounded-lg bg-black/60 border border-emerald-400/40 text-xs font-mono text-emerald-400 font-bold backdrop-blur-md shadow-[0_0_15px_rgba(52,211,153,0.15)]"
-              >
-                {currentReel.metric}
-              </motion.span>
-            </AnimatePresence>
             <span className="px-3 py-1.5 rounded-lg bg-black/50 border border-white/15 text-xs font-mono text-white/80 backdrop-blur-md">
               OVERNIGHT DELIVERY
             </span>

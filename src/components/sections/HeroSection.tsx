@@ -325,6 +325,11 @@ export default function HeroSection() {
           style={{ filter: "contrast(1.08) saturate(1.15)" }}
         />
 
+        {/* Accessible & SEO Semantic H1 — visually hidden (sr-only) so it does not block the cinematic hero */}
+        <h1 className="sr-only">
+          PRIZM® — Creative Studio | Dispersing Light Into Digital Brilliance
+        </h1>
+
         {/* Scroll Cue Indicator */}
         <div
           ref={scrollCueRef}

@@ -14,6 +14,7 @@ export default function WebExperiencesStickyScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeModal, setActiveModal] = useState<{ title: string; url: string } | null>(null);
   const [iframeLoading, setIframeLoading] = useState(true);
+  const [previewDevice, setPreviewDevice] = useState<"desktop" | "mobile">("desktop");
 
   // Track scroll progress throughout the 400vh container
   const { scrollYProgress } = useScroll({
@@ -30,6 +31,7 @@ export default function WebExperiencesStickyScroll() {
 
   const openPreviewModal = (item: { title: string; url: string }) => {
     setIframeLoading(true);
+    setPreviewDevice("desktop");
     setActiveModal(item);
   };
 
@@ -374,7 +376,7 @@ export default function WebExperiencesStickyScroll() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/85 backdrop-blur-md"
+            className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 md:p-8 bg-black/90 backdrop-blur-xl"
             onClick={() => setActiveModal(null)}
           >
             <motion.div
@@ -382,7 +384,7 @@ export default function WebExperiencesStickyScroll() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.92, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 260 }}
-              className="relative w-full max-w-5xl h-[82vh] bg-ink-soft border border-white/20 rounded-lg overflow-hidden flex flex-col shadow-[0_30px_80px_rgba(0,0,0,0.95)]"
+              className="relative w-full max-w-5xl h-[86vh] bg-ink-soft border border-white/20 rounded-xl overflow-hidden flex flex-col shadow-[0_30px_90px_rgba(0,0,0,0.98)]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Window Top Browser Header */}
@@ -393,9 +395,35 @@ export default function WebExperiencesStickyScroll() {
                   <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 </div>
 
+                {/* Device Switcher (Desktop / Mobile) */}
+                <div className="hidden sm:flex items-center gap-1 bg-white/5 border border-white/10 rounded-full p-0.5">
+                  <button
+                    type="button"
+                    onClick={() => setPreviewDevice("desktop")}
+                    className={`px-3 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider transition-colors ${
+                      previewDevice === "desktop"
+                        ? "bg-white/20 text-white font-semibold"
+                        : "text-white/50 hover:text-white/80"
+                    }`}
+                  >
+                    Desktop
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewDevice("mobile")}
+                    className={`px-3 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider transition-colors ${
+                      previewDevice === "mobile"
+                        ? "bg-white/20 text-white font-semibold"
+                        : "text-white/50 hover:text-white/80"
+                    }`}
+                  >
+                    Mobile
+                  </button>
+                </div>
+
                 {/* Address Bar preview */}
-                <div className="flex items-center px-4 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/70 font-mono max-w-xs sm:max-w-sm truncate">
-                  <span className="text-emerald-400 mr-2">🔒</span>
+                <div className="flex items-center px-3.5 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/70 font-mono max-w-[180px] sm:max-w-xs truncate">
+                  <span className="text-emerald-400 mr-2 shrink-0">🔒</span>
                   <span className="truncate">{activeModal.url}</span>
                 </div>
 
@@ -410,7 +438,7 @@ export default function WebExperiencesStickyScroll() {
                   </a>
                   <button
                     onClick={() => setActiveModal(null)}
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-sm transition-colors"
+                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-sm transition-colors cursor-pointer"
                     aria-label="Close modal"
                   >
                     ✕
@@ -418,21 +446,29 @@ export default function WebExperiencesStickyScroll() {
                 </div>
               </div>
 
-              {/* Live Preview Iframe with Loading Indicator & Fallback */}
-              <div className="flex-1 w-full bg-black relative">
+              {/* Live Preview Iframe with Loading Indicator & Responsive Viewport */}
+              <div className="flex-1 w-full bg-black relative flex items-center justify-center overflow-hidden">
                 {iframeLoading && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-ink-soft/90 z-10 space-y-3">
                     <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white animate-spin" />
                     <p className="font-mono text-xs text-white/60 tracking-wider uppercase">Loading Live Experience...</p>
                   </div>
                 )}
-                <iframe
-                  src={activeModal.url}
-                  title={activeModal.title}
-                  onLoad={() => setIframeLoading(false)}
-                  className="w-full h-full border-0"
-                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                />
+                <div
+                  className={`h-full transition-all duration-300 relative ${
+                    previewDevice === "mobile"
+                      ? "w-[375px] max-w-full my-auto rounded-[24px] border-4 border-white/20 overflow-hidden shadow-2xl bg-black"
+                      : "w-full rounded-none border-0"
+                  }`}
+                >
+                  <iframe
+                    src={activeModal.url}
+                    title={activeModal.title}
+                    onLoad={() => setIframeLoading(false)}
+                    className="w-full h-full border-0"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                  />
+                </div>
               </div>
             </motion.div>
           </motion.div>
