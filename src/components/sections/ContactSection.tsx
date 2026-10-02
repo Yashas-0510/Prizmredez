@@ -66,16 +66,16 @@ export default function ContactSection() {
   const mailtoUrl = `mailto:hello@prizmstudio.in?subject=${mailtoSubject}`;
 
   return (
-    <RoomShell index="07" label="Contact" id="contact" right="INDIA · MUMBAI · WORLDWIDE">
+    <RoomShell index="08" label="Contact" id="contact" right="INDIA · MUMBAI · WORLDWIDE">
       <div className="relative min-h-[90vh] md:min-h-screen w-full flex flex-col items-center justify-between px-6 md:px-12 pt-10 pb-24 text-center overflow-hidden">
 
         {/* Kinetic Ambient Marquee Banner (Background) */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center opacity-[0.035] select-none z-0">
-          <div className="flex w-max marquee-track">
-            <span className="monument text-[13vw] uppercase tracking-tighter whitespace-nowrap px-8 text-bone">
+          <div className="flex w-max marquee-track shrink-0">
+            <span className="monument text-[13vw] uppercase tracking-tighter whitespace-nowrap px-8 text-bone shrink-0">
               PRIZM STUDIO — CRAFTING BRILLIANCE — START A PROJECT —
             </span>
-            <span className="monument text-[13vw] uppercase tracking-tighter whitespace-nowrap px-8 text-bone">
+            <span className="monument text-[13vw] uppercase tracking-tighter whitespace-nowrap px-8 text-bone shrink-0">
               PRIZM STUDIO — CRAFTING BRILLIANCE — START A PROJECT —
             </span>
           </div>

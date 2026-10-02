@@ -40,3 +40,6 @@ dev-server.*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local raw media backups
+public/motion-design/raw/

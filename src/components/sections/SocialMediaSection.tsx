@@ -59,11 +59,11 @@ const socialImages: ZoomParallaxImage[] = [
 ];
 
 /**
- * Room 06 — Social Systems with Zoom Parallax multi-image expansion.
+ * Room 07 — Social Systems with Zoom Parallax multi-image expansion.
  */
 export default function SocialMediaSection() {
   return (
-    <RoomShell index="06" label="Social Systems" id="social" right="FEEDS THAT STOP THUMBS">
+    <RoomShell index="07" label="Social Systems" id="social" right="FEEDS THAT STOP THUMBS">
       <div className="relative pt-16 md:pt-24 min-h-screen">
         {/* Centered top section heading — HyperText scramble animation */}
         <Reveal className="text-center -mt-6 md:-mt-10 mb-6 md:mb-8 flex justify-center px-6">

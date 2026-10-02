@@ -2,6 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import WebDesignSection from "@/components/sections/WebDesignSection";
+import MotionDesignSection from "@/components/sections/MotionDesignSection";
 import AdCreativesSection from "@/components/sections/AdCreativesSection";
 import UgcSection from "@/components/sections/UgcSection";
 import SocialMediaSection from "@/components/sections/SocialMediaSection";
@@ -20,6 +21,7 @@ export default function Home() {
         <HeroSection />
         <AboutSection />
         <WebDesignSection />
+        <MotionDesignSection />
         <div id="services" className="w-full">
           <AdCreativesSection />
           <UgcSection />

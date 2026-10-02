@@ -4,11 +4,11 @@ import { HyperText } from "@/components/ui/hyper-text";
 import UgcReelsPhone from "@/components/ui/UgcReelsPhone";
 
 /**
- * Room 05 — CREATOR ENGINE / AI UGC Section.
+ * Room 06 — CREATOR ENGINE / AI UGC Section.
  */
 export default function UgcSection() {
   return (
-    <RoomShell index="05" label="Creator Engine" id="ugc" right="NO SHOOTS. NO CREWS. NO RETAKES.">
+    <RoomShell index="06" label="Creator Engine" id="ugc" right="NO SHOOTS. NO CREWS. NO RETAKES.">
       <div className="relative px-6 md:px-10 pt-16 md:pt-24 pb-12">
         {/* Centered top section heading — HyperText scramble animation */}
         <Reveal className="text-center -mt-6 md:-mt-10 mb-8 md:mb-12 flex justify-center">

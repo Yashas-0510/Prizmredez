@@ -11,10 +11,11 @@ export default function Navbar() {
   const navLinks = [
     { index: "01", name: "Studio", href: "#studio" },
     { index: "02", name: "Web Experiences", href: "#work" },
-    { index: "03", name: "Ad Creatives", href: "#ads" },
-    { index: "04", name: "UGC", href: "#ugc" },
-    { index: "05", name: "Social Systems", href: "#social" },
-    { index: "06", name: "Contact", href: "#contact" },
+    { index: "03", name: "Motion Design", href: "#motion" },
+    { index: "04", name: "Ad Creatives", href: "#ads" },
+    { index: "05", name: "UGC", href: "#ugc" },
+    { index: "06", name: "Social Systems", href: "#social" },
+    { index: "07", name: "Contact", href: "#contact" },
   ];
 
   useEffect(() => {

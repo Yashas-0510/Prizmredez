@@ -121,14 +121,19 @@
   will-change: transform;
 }
 
-/* Kinetic marquee — seamless loop, two copies per track */
+/* Kinetic marquee — seamless loop, GPU accelerated */
 @keyframes marquee {
-  to {
-    transform: translateX(-50%);
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 .marquee-track {
-  animation: marquee 30s linear infinite;
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite !important;
   will-change: transform;
 }
 
@@ -176,10 +181,15 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .marquee-track,
   .animate-aurora,
   .object-drift {
     animation: none !important;
+  }
+  /* Preserve smooth ticker movement for the brand marquee instead of freezing on cut-off text */
+  .marquee-track,
+  .marquee-track * {
+    animation-duration: 35s !important;
+    animation-iteration-count: infinite !important;
   }
 }
 
