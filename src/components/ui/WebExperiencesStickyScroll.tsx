@@ -166,7 +166,7 @@ export default function WebExperiencesStickyScroll() {
             className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
-              src="/posters/web-oval.png"
+              src="/posters/web-oval.webp"
               alt="Oval Box — Turf Booking"
               width={1280}
               height={800}
@@ -350,7 +350,7 @@ export default function WebExperiencesStickyScroll() {
             className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-[0_25px_60px_rgba(0,0,0,0.9)] rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
-              src="/posters/web-pushup.png"
+              src="/posters/web-pushup.webp"
               alt="Push Up — Fitness System"
               width={1280}
               height={800}

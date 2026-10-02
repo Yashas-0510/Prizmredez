@@ -69,14 +69,39 @@ export default function AdCreativesStickyScroll() {
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Sync active video playback and mute state for single video decoder
+  // Auto-pause video when scrolled away, auto-resume when visible
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = isMuted;
-      const playPromise = videoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {});
-      }
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const inView = entry.isIntersecting;
+        const video = videoRef.current;
+        if (!video) return;
+        if (!inView && !video.paused) {
+          video.pause();
+        } else if (inView && video.paused) {
+          video.play().catch(() => {});
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Sync active video playback and mute state for single persistent video decoder
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = isMuted;
+    const targetSrc = REELS[activeIndex].src;
+    if (!video.src.endsWith(targetSrc)) {
+      video.src = targetSrc;
+    }
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
     }
   }, [activeIndex, isMuted]);
 
@@ -101,26 +126,24 @@ export default function AdCreativesStickyScroll() {
     <div ref={containerRef} className="relative h-[250vh]">
       {/* Sticky Viewport Container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center select-none bg-ink">
-        {/* Desktop Background Image (adbg.png) */}
+        {/* Desktop Background Image (adbg.webp) */}
         <div className="absolute inset-0 z-0 hidden md:block">
           <Image
-            src="/adbg.png?v=2"
+            src="/adbg.webp"
             alt="Ad Creatives Stage Background"
             fill
             priority
-            unoptimized
             className="object-cover pointer-events-none select-none opacity-100"
           />
         </div>
 
-        {/* Mobile Background Image (adbgmob.png) */}
+        {/* Mobile Background Image (adbgmob.webp) */}
         <div className="absolute inset-0 z-0 block md:hidden">
           <Image
-            src="/adbgmob.png?v=2"
+            src="/adbgmob.webp"
             alt="Ad Creatives Mobile Stage Background"
             fill
             priority
-            unoptimized
             className="object-cover object-[center_30%] pointer-events-none select-none opacity-100"
           />
         </div>
@@ -155,7 +178,6 @@ export default function AdCreativesStickyScroll() {
         >
           {/* Single Active Video Player Engine (Only 1 decoder in DOM) */}
           <video
-            key={REELS[activeIndex].id}
             ref={videoRef}
             src={REELS[activeIndex].src}
             autoPlay

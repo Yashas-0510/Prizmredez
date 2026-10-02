@@ -8,7 +8,7 @@ import WebExperiencesStickyScroll from "@/components/ui/WebExperiencesStickyScro
  */
 export default function WebDesignSection() {
   return (
-    <RoomShell index="03" label="Web Design" id="work" right="NEXT.JS / MOTION / SHIPPED">
+    <RoomShell index="02" label="Web Design" id="work" right="NEXT.JS / MOTION / SHIPPED">
       <WebExperiencesStickyScroll />
     </RoomShell>
   );

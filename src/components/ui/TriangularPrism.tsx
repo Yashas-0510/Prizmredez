@@ -227,6 +227,8 @@ export default function TriangularPrism() {
   const [mounted, setMounted] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [inView, setInView] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Mutable state for drag physics to avoid React re-render lag during 60fps drag
   const dragStateRef = useRef({
@@ -247,6 +249,19 @@ export default function TriangularPrism() {
     checkMobile();
     window.addEventListener("resize", checkMobile, { passive: true });
     return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { rootMargin: "200px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   // Pointer Down — start drag/grab
@@ -321,7 +336,10 @@ export default function TriangularPrism() {
   }
 
   return (
-    <div className="relative w-full max-w-[16.5rem] sm:max-w-[22rem] lg:max-w-[28rem] xl:max-w-[30rem] mx-auto lg:ml-auto flex flex-col items-center select-none">
+    <div
+      ref={containerRef}
+      className="relative w-full max-w-[16.5rem] sm:max-w-[22rem] lg:max-w-[28rem] xl:max-w-[30rem] mx-auto lg:ml-auto flex flex-col items-center select-none"
+    >
       {/* 3D WebGL Canvas Container — ZERO backlight, pure dark canvas */}
       <div
         onPointerDown={handlePointerDown}
@@ -333,6 +351,7 @@ export default function TriangularPrism() {
         }`}
       >
         <Canvas
+          frameloop={inView ? "always" : "never"}
           camera={{ position: [0, 0, 4.4], fov: 40 }}
           gl={{
             antialias: true,

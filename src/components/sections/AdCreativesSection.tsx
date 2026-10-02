@@ -7,7 +7,7 @@ import AdCreativesStickyScroll from "@/components/ui/AdCreativesStickyScroll";
  */
 export default function AdCreativesSection() {
   return (
-    <RoomShell index="05" label="Ad Creatives" id="ads" right="PERFORMANCE / PAID SOCIAL">
+    <RoomShell index="04" label="Ad Creatives" id="ads" right="PERFORMANCE / PAID SOCIAL">
       <AdCreativesStickyScroll />
     </RoomShell>
   );

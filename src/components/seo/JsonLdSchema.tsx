@@ -11,24 +11,12 @@ export default function JsonLdSchema() {
         "image": "https://prizmstudio.in/prizm_og1.jpg",
         "email": "hello@prizmstudio.in",
         "description":
-          "PRIZM is a high-end creative studio specializing in web design & development, cinematic motion, paid ad creatives, and creator engines.",
+          "PRIZM is a high-end creative studio specializing in web design & development, cinematic motion design, paid ad creatives, and creator engines.",
         "areaServed": "Worldwide",
-        "founder": [
-          {
-            "@type": "Person",
-            "name": "Rhea",
-            "jobTitle": "Co-Founder"
-          },
-          {
-            "@type": "Person",
-            "name": "Yash",
-            "jobTitle": "Co-Founder"
-          }
-        ],
         "knowsAbout": [
           "Web Design & Development",
           "Next.js Development",
-          "Cinematic 3D Motion",
+          "Cinematic 3D Motion Design",
           "Paid Social Ad Creatives",
           "AI UGC Creator Engine",
           "Social Media Systems"
@@ -55,6 +43,14 @@ export default function JsonLdSchema() {
                 "@type": "Service",
                 "name": "Web Design & Development",
                 "description": "High-converting React & Next.js motion web experiences."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Motion Design & 3D Cinematic Craft",
+                "description": "Photoreal 3D product launches, UI interaction motion, and brand commercials."
               }
             },
             {

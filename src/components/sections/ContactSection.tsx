@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import RoomShell from "./RoomShell";
 import Reveal from "@/components/ui/Reveal";
 import { GradientOrb } from "@/components/ui/gradient-orb";
@@ -19,6 +19,15 @@ export default function ContactSection() {
     "Web Design & Dev",
     "3D & Motion",
   ]);
+
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   // Copy feedback notification toast state
   const [copyToast, setCopyToast] = useState<string | null>(null);
@@ -66,7 +75,7 @@ export default function ContactSection() {
   const mailtoUrl = `mailto:hello@prizmstudio.in?subject=${mailtoSubject}`;
 
   return (
-    <RoomShell index="08" label="Contact" id="contact" right="INDIA · MUMBAI · WORLDWIDE">
+    <RoomShell index="07" label="Contact" id="contact" right="INDIA · MUMBAI · WORLDWIDE">
       <div className="relative min-h-[90vh] md:min-h-screen w-full flex flex-col items-center justify-between px-6 md:px-12 pt-10 pb-24 text-center overflow-hidden">
 
         {/* Kinetic Ambient Marquee Banner (Background) */}
@@ -108,7 +117,9 @@ export default function ContactSection() {
             >
               {/* 3D Shader Gradient Orb */}
               <div className="absolute inset-0 w-full h-full pointer-events-none mix-blend-screen opacity-90 transition-opacity duration-300 group-hover:opacity-100">
-                <GradientOrb config={{ background: "transparent", rotationSpeed: 0.5, noiseScale: 0.7 }} />
+                {!isDesktop && (
+                  <GradientOrb config={{ background: "transparent", rotationSpeed: 0.5, noiseScale: 0.7 }} />
+                )}
               </div>
 
               {/* Centered Clean Text Inside Orb */}
@@ -199,7 +210,9 @@ export default function ContactSection() {
               >
                 {/* 3D Shader Gradient Orb */}
                 <div className="absolute inset-0 w-full h-full pointer-events-none mix-blend-screen opacity-90 transition-opacity duration-300 group-hover:opacity-100">
-                  <GradientOrb config={{ background: "transparent", rotationSpeed: 0.6, noiseScale: 0.8 }} />
+                  {isDesktop && (
+                    <GradientOrb config={{ background: "transparent", rotationSpeed: 0.6, noiseScale: 0.8 }} />
+                  )}
                 </div>
 
                 {/* Dynamic Inner Text inside Orb */}

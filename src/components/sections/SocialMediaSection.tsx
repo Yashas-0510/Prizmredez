@@ -2,7 +2,6 @@
 
 import RoomShell from "./RoomShell";
 import Reveal from "@/components/ui/Reveal";
-import { HyperText } from "@/components/ui/hyper-text";
 import { ZoomParallax, ZoomParallaxImage } from "@/components/ui/zoom-parallax";
 
 const socialImages: ZoomParallaxImage[] = [
@@ -63,20 +62,17 @@ const socialImages: ZoomParallaxImage[] = [
  */
 export default function SocialMediaSection() {
   return (
-    <RoomShell index="07" label="Social Systems" id="social" right="FEEDS THAT STOP THUMBS">
+    <RoomShell index="06" label="Social Systems" id="social" right="FEEDS THAT STOP THUMBS">
       <div className="relative pt-16 md:pt-24 min-h-screen">
-        {/* Centered top section heading — HyperText scramble animation */}
-        <Reveal className="text-center -mt-6 md:-mt-10 mb-6 md:mb-8 flex justify-center px-6">
-          <HyperText
-            as="h2"
-            startOnView
-            animateOnHover
-            interval={5000}
-            duration={1400}
-            className="font-heading font-extrabold uppercase text-[clamp(1.15rem,2.1vw,1.65rem)] tracking-[0.2em] text-dim"
-          >
-            SOCIAL  SYSTEMS
-          </HyperText>
+        {/* Centered top section heading — First word solid, second hollow */}
+        <Reveal className="text-center -mt-6 md:-mt-10 mb-6 md:mb-8 flex flex-col items-center justify-center px-6">
+          <div className="flex items-center justify-center gap-2 mb-2 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.24em] text-white/40">
+            <span className="w-1.5 h-1.5 rounded-full bg-spectrum animate-pulse shrink-0" />
+            <span>BRAND ARCHITECTURE · STRATEGY / CONTENT / COMMUNITY</span>
+          </div>
+          <h2 className="font-heading font-extrabold uppercase text-[clamp(1.75rem,4.5vw,3.6rem)] leading-[1.04] text-bone tracking-tight">
+            SOCIAL <span className="text-outline">SYSTEMS.</span>
+          </h2>
         </Reveal>
 
         {/* Narrative Copy Block: Split Layout (Headline Left, Subheadline Right) */}

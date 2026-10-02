@@ -54,7 +54,7 @@ export default function TubesCursor() {
 
       try {
         const loadTubesModule = new Function(
-          `return import("https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js")`
+          `return import("/scripts/tubes1.min.js")`
         );
 
         loadTubesModule()

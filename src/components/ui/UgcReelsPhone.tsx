@@ -147,6 +147,27 @@ export default function UgcReelsPhone() {
     });
   }, [isMuted, activeIndex, isPlaying]);
 
+  // Viewport observation: auto-pause all videos when scrolled out of view
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const inView = entry.isIntersecting;
+        const currentVid = videoRefs.current[activeIndex];
+        if (!currentVid) return;
+        if (!inView && !currentVid.paused) {
+          currentVid.pause();
+        } else if (inView && currentVid.paused && isPlaying) {
+          currentVid.play().catch(() => {});
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [activeIndex, isPlaying]);
+
   const handleNext = () => {
     setIsPlaying(true);
     setActiveIndex((prev) => (prev === UGC_REELS.length - 1 ? 0 : prev + 1));

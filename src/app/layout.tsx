@@ -33,7 +33,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://prizmstudio.in"),
   title: {
-    default: "PRIZM® — Creative Studio | Web, Ad Creatives & UGC",
+    default: "PRIZM® — Creative Studio | Web, Motion Design, Ad Creatives & UGC",
     template: "%s | PRIZM Studio",
   },
   description:
@@ -43,6 +43,10 @@ export const metadata: Metadata = {
     "Creative Studio",
     "Web Design Studio",
     "Next.js Development",
+    "Motion Design",
+    "3D Product Animation",
+    "UI Motion",
+    "Launch Films",
     "Motion Graphics",
     "Ad Creatives",
     "UGC Creator Engine",
@@ -59,7 +63,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://prizmstudio.in",
     siteName: "PRIZM Studio",
-    title: "PRIZM® — Creative Studio | Web, Ad Creatives & UGC",
+    title: "PRIZM® — Creative Studio | Web, Motion Design, Ad Creatives & UGC",
     description:
       "Dispersing light into digital brilliance. High-converting web experiences, motion design, paid ad creatives, and creator engines.",
     images: [
@@ -67,13 +71,13 @@ export const metadata: Metadata = {
         url: "/prizm_og1.jpg",
         width: 1200,
         height: 630,
-        alt: "PRIZM Studio — Web, Ad Creatives & UGC",
+        alt: "PRIZM Studio — Web, Motion Design, Ad Creatives & UGC",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "PRIZM® — Creative Studio | Web, Ad Creatives & UGC",
+    title: "PRIZM® — Creative Studio | Web, Motion Design, Ad Creatives & UGC",
     description:
       "High-converting web experiences, motion design, paid ad creatives, and creator engines.",
     images: ["/prizm_og1.jpg"],

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -268,13 +268,29 @@ export function GradientOrb({
   config?: GradientOrbConfig;
   className?: string;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(true);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { rootMargin: "200px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const configKey = JSON.stringify(configOverrides);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const config = useMemo(() => ({ ...defaults, ...configOverrides }), [configKey]);
 
   return (
-    <div className={`w-full h-full ${className}`} style={{ background: config.background }}>
-      <Canvas dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }}>
+    <div ref={containerRef} className={`w-full h-full ${className}`} style={{ background: config.background }}>
+      <Canvas frameloop={inView ? "always" : "never"} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }}>
         <GradientScene config={config} />
       </Canvas>
     </div>

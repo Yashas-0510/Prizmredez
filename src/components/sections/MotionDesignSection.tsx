@@ -8,7 +8,7 @@ import MotionDesignShowcase from "@/components/ui/MotionDesignShowcase";
  */
 export default function MotionDesignSection() {
   return (
-    <RoomShell index="04" label="Motion Design" id="motion" right="3D / LAUNCH FILMS / UI MOTION">
+    <RoomShell index="03" label="Motion Design" id="motion" right="3D / LAUNCH FILMS / UI MOTION">
       <MotionDesignShowcase />
     </RoomShell>
   );

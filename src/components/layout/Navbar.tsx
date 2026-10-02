@@ -80,6 +80,7 @@ export default function Navbar() {
             href="#contact"
             className="flex items-center justify-center p-1.5 text-white/70 hover:text-white transition-colors group"
             title="Get in touch"
+            aria-label="Get in touch"
             data-cursor
             data-cursor-text="MAIL"
           >
@@ -87,7 +88,7 @@ export default function Navbar() {
           </a>
 
           {/* Center: Logo */}
-          <a href="#" className="flex items-center" data-cursor data-cursor-text="TOP">
+          <a href="#" className="flex items-center" aria-label="PRIZM Studio Home" data-cursor data-cursor-text="TOP">
             <Image
               src="/prizmlogo-transparent.png"
               alt="Prizm Studio"

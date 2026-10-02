@@ -4,7 +4,6 @@ import RoomShell from "./RoomShell";
 import Reveal from "@/components/ui/Reveal";
 import WordReveal from "@/components/ui/WordReveal";
 import GsapSpinWord from "@/components/ui/GsapSpinWord";
-import { HyperText } from "@/components/ui/hyper-text";
 import TriangularPrism from "@/components/ui/TriangularPrism";
 
 const marquee = [
@@ -21,20 +20,17 @@ const marquee = [
  */
 export default function AboutSection() {
   return (
-    <RoomShell index="02" label="Studio" id="studio">
+    <RoomShell index="01" label="Studio" id="studio">
       <div className="relative min-h-screen flex flex-col justify-between px-4 sm:px-6 md:px-10 pt-16 md:pt-28 pb-12">
-        {/* Centered section heading — HyperText scramble animation */}
-        <Reveal className="text-center -mt-6 md:-mt-10 mb-10 md:mb-24 flex justify-center">
-          <HyperText
-            as="h2"
-            startOnView
-            animateOnHover
-            interval={5000}
-            duration={1400}
-            className="font-heading font-extrabold uppercase text-[clamp(1.15rem,2.1vw,1.65rem)] tracking-[0.2em] text-dim"
-          >
-            THE  STUDIO
-          </HyperText>
+        {/* Centered section heading — First word solid, second hollow */}
+        <Reveal className="text-center -mt-6 md:-mt-10 mb-10 md:mb-24 flex flex-col items-center justify-center">
+          <div className="flex items-center justify-center gap-2 mb-2 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.24em] text-white/40">
+            <span className="w-1.5 h-1.5 rounded-full bg-spectrum animate-pulse shrink-0" />
+            <span>CREATIVE PRACTICE · IMAGINATION / CRAFT / CODE</span>
+          </div>
+          <h2 className="font-heading font-extrabold uppercase text-[clamp(1.75rem,4.5vw,3.6rem)] leading-[1.04] text-bone tracking-tight">
+            THE <span className="text-outline">STUDIO.</span>
+          </h2>
         </Reveal>
 
         {/* ---- Main content: Manifesto left, 3D Triangular Prism right ---- */}
