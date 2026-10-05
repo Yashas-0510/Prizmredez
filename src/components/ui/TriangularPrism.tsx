@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo, useSyncExternalStore } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import * as THREE from "three";
@@ -224,9 +224,20 @@ function VolumetricCrystalMesh({
 }
 
 export default function TriangularPrism() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+  const isMobile = useSyncExternalStore(
+    (callback) => {
+      window.addEventListener("resize", callback);
+      return () => window.removeEventListener("resize", callback);
+    },
+    () => window.innerWidth < 768,
+    () => false
+  );
   const [isDragging, setIsDragging] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [inView, setInView] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -240,16 +251,6 @@ export default function TriangularPrism() {
   });
 
   const lastPointerRef = useRef({ x: 0, y: 0, time: 0 });
-
-  useEffect(() => {
-    setMounted(true);
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile, { passive: true });
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useEffect(() => {
     const el = containerRef.current;

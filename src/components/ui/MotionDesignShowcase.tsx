@@ -12,7 +12,6 @@ import {
   Tv,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
 } from "lucide-react";
 
 export interface MotionProject {
