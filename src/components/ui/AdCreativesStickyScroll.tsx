@@ -132,6 +132,7 @@ export default function AdCreativesStickyScroll() {
             src="/adbg.webp"
             alt="Ad Creatives Stage Background"
             fill
+            sizes="100vw"
             priority
             className="object-cover pointer-events-none select-none opacity-100"
           />
@@ -143,6 +144,7 @@ export default function AdCreativesStickyScroll() {
             src="/adbgmob.webp"
             alt="Ad Creatives Mobile Stage Background"
             fill
+            sizes="100vw"
             priority
             className="object-cover object-[center_30%] pointer-events-none select-none opacity-100"
           />

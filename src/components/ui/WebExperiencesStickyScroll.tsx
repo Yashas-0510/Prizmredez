@@ -212,7 +212,7 @@ export default function WebExperiencesStickyScroll() {
             className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
-              src="/posters/web-02.jpg"
+              src="/posters/web-02.webp"
               alt="Tattoo Sutra — Studio"
               width={1280}
               height={800}
@@ -258,7 +258,7 @@ export default function WebExperiencesStickyScroll() {
             className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
-              src="/posters/web-04.jpg"
+              src="/posters/web-04.webp"
               alt="GM Celebration — Catering"
               width={1280}
               height={800}
@@ -304,7 +304,7 @@ export default function WebExperiencesStickyScroll() {
             className="relative border border-white/20 p-2.5 bg-[#0c0c0e]/95 backdrop-blur-sm shadow-2xl rounded-sm group transition-transform duration-300 hover:scale-105 cursor-pointer overflow-hidden"
           >
             <Image
-              src="/posters/web-03.jpg"
+              src="/posters/web-03.webp"
               alt="Barbell Cartel — Gym & Fitness"
               width={1280}
               height={800}

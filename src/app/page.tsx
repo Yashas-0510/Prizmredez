@@ -14,6 +14,7 @@ import Preloader from "@/components/Preloader";
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-[#070708] overflow-x-clip">
+      <div className="film-grain" aria-hidden="true" />
       <Preloader />
       <Navbar />
       <TubesCursor />

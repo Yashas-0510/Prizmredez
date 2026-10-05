@@ -7,6 +7,7 @@ import { Mail, Menu, X } from "lucide-react";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const navLinks = [
     { index: "01", name: "Studio", href: "#studio" },
@@ -26,9 +27,14 @@ export default function Navbar() {
         const rect = studioEl.getBoundingClientRect();
         nextScrolled = rect.top <= window.innerHeight * 0.6;
       } else {
-        nextScrolled = window.scrollY > window.innerHeight * 3.8;
+        nextScrolled = window.scrollY > window.innerHeight * 2.6;
       }
       setScrolled((prev) => (prev !== nextScrolled ? nextScrolled : prev));
+
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxScroll > 0) {
+        setScrollProgress(Math.min(1, Math.max(0, window.scrollY / maxScroll)));
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -38,6 +44,17 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Global Viewport Top Spectrum Scroll Progress Indicator */}
+      <div className="fixed top-0 left-0 right-0 h-[2px] z-[95] pointer-events-none">
+        <div
+          className="h-full w-full origin-left will-change-transform"
+          style={{
+            background: "var(--spectrum)",
+            transform: `scaleX(${scrollProgress})`,
+          }}
+        />
+      </div>
+
       {/* State 1: Top / Hero Navbar — Logo in middle ONLY */}
       <header
         className={`fixed top-0 left-0 right-0 z-[90] pointer-events-none transition-all duration-500 ${

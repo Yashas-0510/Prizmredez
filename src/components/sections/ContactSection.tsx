@@ -3,7 +3,17 @@
 import { useState, useRef, useEffect } from "react";
 import RoomShell from "./RoomShell";
 import Reveal from "@/components/ui/Reveal";
-import { GradientOrb } from "@/components/ui/gradient-orb";
+import dynamic from "next/dynamic";
+
+const GradientOrb = dynamic(
+  () => import("@/components/ui/gradient-orb").then((mod) => mod.GradientOrb),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full rounded-full bg-radial from-violet-500/20 via-fuchsia-500/10 to-transparent animate-pulse" />
+    ),
+  }
+);
 
 const SERVICES = [
   "Web Design & Dev",
@@ -21,12 +31,29 @@ export default function ContactSection() {
   ]);
 
   const [isDesktop, setIsDesktop] = useState(false);
+  const [shouldLoadOrb, setShouldLoadOrb] = useState(false);
+  const contactRootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const check = () => setIsDesktop(window.innerWidth >= 1024);
     check();
     window.addEventListener("resize", check, { passive: true });
     return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    if (!contactRootRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadOrb(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "450px 0px" }
+    );
+    observer.observe(contactRootRef.current);
+    return () => observer.disconnect();
   }, []);
 
   // Copy feedback notification toast state
@@ -76,7 +103,7 @@ export default function ContactSection() {
 
   return (
     <RoomShell index="07" label="Contact" id="contact" right="INDIA · MUMBAI · WORLDWIDE">
-      <div className="relative min-h-[90vh] md:min-h-screen w-full flex flex-col items-center justify-between px-6 md:px-12 pt-10 pb-24 text-center overflow-hidden">
+      <div ref={contactRootRef} className="relative min-h-[90vh] md:min-h-screen w-full flex flex-col items-center justify-between px-6 md:px-12 pt-10 pb-24 text-center overflow-hidden">
 
         {/* Kinetic Ambient Marquee Banner (Background) */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center opacity-[0.035] select-none z-0">
@@ -117,7 +144,7 @@ export default function ContactSection() {
             >
               {/* 3D Shader Gradient Orb */}
               <div className="absolute inset-0 w-full h-full pointer-events-none mix-blend-screen opacity-90 transition-opacity duration-300 group-hover:opacity-100">
-                {!isDesktop && (
+                {!isDesktop && shouldLoadOrb && (
                   <GradientOrb config={{ background: "transparent", rotationSpeed: 0.5, noiseScale: 0.7 }} />
                 )}
               </div>
@@ -210,7 +237,7 @@ export default function ContactSection() {
               >
                 {/* 3D Shader Gradient Orb */}
                 <div className="absolute inset-0 w-full h-full pointer-events-none mix-blend-screen opacity-90 transition-opacity duration-300 group-hover:opacity-100">
-                  {isDesktop && (
+                  {isDesktop && shouldLoadOrb && (
                     <GradientOrb config={{ background: "transparent", rotationSpeed: 0.6, noiseScale: 0.8 }} />
                   )}
                 </div>

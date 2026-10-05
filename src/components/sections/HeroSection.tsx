@@ -11,7 +11,7 @@ const FRAME_TOTAL_MOBILE = 115;
 
 const getFrameSrc = (isMobile: boolean, i: number) => {
   if (isMobile) {
-    return `/prizmmobheroframes/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`;
+    return `/prizmmobheroframes/ezgif-frame-${String(i + 1).padStart(3, "0")}.webp`;
   }
   return `/prizmframes-hd/frame-${String(i + 1).padStart(3, "0")}.webp`;
 };
@@ -306,7 +306,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative h-[480vh] bg-[#070708]">
+    <section ref={sectionRef} className="relative h-[320vh] md:h-[350vh] bg-[#070708]">
       <div className="sticky top-0 h-screen w-full overflow-hidden select-none">
         {/* first frame as instant poster */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
