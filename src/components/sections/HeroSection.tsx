@@ -3,8 +3,8 @@
 import { useEffect, useSyncExternalStore, useRef } from "react";
 import { reportFrames } from "@/lib/loading";
 
-const INITIAL_BATCH_DESKTOP = 40;
-const INITIAL_BATCH_MOBILE = 20;
+const INITIAL_BATCH_DESKTOP = 24;
+const INITIAL_BATCH_MOBILE = 16;
 
 const FRAME_TOTAL_DESKTOP = 121;
 const FRAME_TOTAL_MOBILE = 115;
@@ -32,14 +32,21 @@ export default function HeroSection() {
   const isMobile = useIsMobile();
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const posterRef = useRef<HTMLImageElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const loadedRef = useRef<boolean[]>([]);
   const lastDrawnRef = useRef(-1);
   const loadedCountRef = useRef(0);
   const frameTotalRef = useRef(FRAME_TOTAL_DESKTOP);
+  const wakeRenderRef = useRef<(() => void) | null>(null);
 
   const scrollCueRef = useRef<HTMLDivElement>(null);
+  const beatOneTagRef = useRef<HTMLDivElement>(null);
+  const beatOneHeadRef = useRef<HTMLHeadingElement>(null);
+  const beatTwoTagRef = useRef<HTMLDivElement>(null);
+  const beatTwoHeadRef = useRef<HTMLHeadingElement>(null);
+  const darkVeilRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -60,8 +67,11 @@ export default function HeroSection() {
       if (!loadedRef.current[index]) {
         loadedRef.current[index] = true;
         loadedCountRef.current++;
-        lastDrawnRef.current = -1;
         reportFrames(loadedCountRef.current, total);
+        if (index === 0 || lastDrawnRef.current === -1) {
+          lastDrawnRef.current = -1;
+          wakeRenderRef.current?.();
+        }
       }
     };
 
@@ -92,12 +102,18 @@ export default function HeroSection() {
 
     // Smooth idle-priority chunk loading for remaining frames
     let current = initialCount;
-    const chunkSize = mobile ? 10 : 20;
+    const chunkSize = mobile ? 10 : 16;
 
     const scheduleNext = (fn: () => void) => {
       if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-        (window as unknown as { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number })
-          .requestIdleCallback(fn, { timeout: 250 });
+        (
+          window as unknown as {
+            requestIdleCallback: (
+              cb: () => void,
+              opts?: { timeout: number }
+            ) => number;
+          }
+        ).requestIdleCallback(fn, { timeout: 250 });
       } else {
         setTimeout(fn, mobile ? 32 : 16);
       }
@@ -125,66 +141,18 @@ export default function HeroSection() {
 
   useEffect(() => {
     let raf = 0;
-    let renderP = 0;
     let sectionTop = 0;
     let totalScroll = 1;
-
     let lastWidth = 0;
-
-    const updateBounds = () => {
-      const section = sectionRef.current;
-      const canvas = canvasRef.current;
-      const isMob = window.innerWidth < 768;
-
-      // Ignore address bar height toggling if screen width hasn't changed
-      if (lastWidth > 0 && Math.abs(window.innerWidth - lastWidth) < 10) {
-        if (section) {
-          sectionTop = section.offsetTop;
-          totalScroll = Math.max(1, section.offsetHeight - window.innerHeight);
-        }
-        return;
-      }
-      lastWidth = window.innerWidth;
-
-      if (section) {
-        sectionTop = section.offsetTop;
-        totalScroll = Math.max(1, section.offsetHeight - window.innerHeight);
-      }
-      if (canvas) {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const w = Math.round(window.innerWidth * dpr);
-
-        // Always compute canvas scale against expanded full screen height on mobile
-        const expandedH = isMob
-          ? Math.max(
-              window.innerHeight,
-              typeof window !== "undefined" && window.screen?.height
-                ? window.screen.height
-                : window.innerHeight
-            )
-          : window.innerHeight;
-        const h = Math.round(expandedH * dpr);
-
-        if (canvas.width !== w || canvas.height !== h) {
-          canvas.width = w;
-          canvas.height = h;
-          lastDrawnRef.current = -1;
-        }
-      }
-    };
+    let isHeroInView = true;
 
     const draw = (index: number) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
       if (!ctxRef.current) {
-        try {
-          ctxRef.current = canvas.getContext("2d", {
-            alpha: false,
-            colorSpace: "srgb",
-          }) as CanvasRenderingContext2D;
-        } catch {
-          ctxRef.current = canvas.getContext("2d", { alpha: false });
-        }
+        ctxRef.current = canvas.getContext("2d", {
+          alpha: false,
+        });
       }
       const ctx = ctxRef.current;
       if (!ctx) return;
@@ -220,62 +188,129 @@ export default function HeroSection() {
 
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = "high";
-      ctx.clearRect(0, 0, cw, ch);
       ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
       lastDrawnRef.current = pick;
-    };
 
-    let isHeroInView = true;
-
-    const startLoop = () => {
-      if (!raf && isHeroInView) {
-        raf = requestAnimationFrame(loop);
+      // Hide fallback <img> once canvas has painted its first frame
+      if (posterRef.current && posterRef.current.style.display !== "none") {
+        posterRef.current.style.display = "none";
       }
     };
 
-    const stopLoop = () => {
-      if (raf) {
-        cancelAnimationFrame(raf);
-        raf = 0;
-      }
-    };
+    const updateBounds = () => {
+      const section = sectionRef.current;
+      const canvas = canvasRef.current;
+      const isMob = window.innerWidth < 768;
 
-    const loop = () => {
-      if (!isHeroInView) {
-        raf = 0;
+      if (lastWidth > 0 && Math.abs(window.innerWidth - lastWidth) < 10) {
+        if (section) {
+          sectionTop = section.offsetTop;
+          totalScroll = Math.max(1, section.offsetHeight - window.innerHeight);
+        }
         return;
       }
+      lastWidth = window.innerWidth;
+
+      if (section) {
+        sectionTop = section.offsetTop;
+        totalScroll = Math.max(1, section.offsetHeight - window.innerHeight);
+      }
+      if (canvas) {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w = Math.round(window.innerWidth * dpr);
+        const expandedH = isMob
+          ? Math.max(
+              window.innerHeight,
+              typeof window !== "undefined" && window.screen?.height
+                ? window.screen.height
+                : window.innerHeight
+            )
+          : window.innerHeight;
+        const h = Math.round(expandedH * dpr);
+
+        if (canvas.width !== w || canvas.height !== h) {
+          canvas.width = w;
+          canvas.height = h;
+          lastDrawnRef.current = -1;
+        }
+      }
+    };
+
+    const tick = () => {
+      raf = 0;
+      if (!isHeroInView) return;
 
       const currentScroll = window.scrollY || window.pageYOffset || 0;
-      const targetP = Math.min(
+      // Direct 1:1 sync with Lenis smooth scroll (no double-lerp frame skipping!)
+      const renderP = Math.min(
         1,
         Math.max(0, (currentScroll - sectionTop) / totalScroll)
       );
 
-      // Smooth 60FPS Lerp Damping
-      renderP += (targetP - renderP) * 0.16;
-      if (Math.abs(targetP - renderP) < 0.0001) renderP = targetP;
-
       const total = frameTotalRef.current;
-      draw(Math.min(total - 1, Math.floor(renderP * total)));
+      const frameIdx = Math.min(total - 1, Math.floor(renderP * total));
+      draw(frameIdx);
 
-      // Scroll Cue Fade Out
+      // Scroll Cue Fade Out (0% -> 12%)
       if (scrollCueRef.current) {
-        const cueAlpha = Math.max(0, Math.min(1, 1 - renderP * 12));
+        const cueAlpha = Math.max(0, Math.min(1, 1 - renderP * 10));
         scrollCueRef.current.style.opacity = `${cueAlpha}`;
-        scrollCueRef.current.style.transform = `translate(-50%, ${
-          renderP * 40
-        }px)`;
+        scrollCueRef.current.style.transform = `translate3d(-50%, ${
+          renderP * 36
+        }px, 0)`;
+      }
+
+      // Beat 1 (14% -> 46%): "IMAGINATION UNLEASHED."
+      if (beatOneTagRef.current && beatOneHeadRef.current) {
+        const enter1 = Math.max(0, Math.min(1, (renderP - 0.14) / 0.09));
+        const exit1 = Math.max(0, Math.min(1, (0.46 - renderP) / 0.08));
+        const easeIn1 = 1 - Math.pow(1 - enter1, 3);
+        const alpha1 = easeIn1 * exit1;
+        const y1 = (1 - easeIn1) * 100 - (1 - exit1) * 45;
+
+        beatOneTagRef.current.style.opacity = `${alpha1}`;
+        beatOneTagRef.current.style.transform = `translate3d(0, ${y1}%, 0)`;
+
+        beatOneHeadRef.current.style.opacity = `${alpha1}`;
+        beatOneHeadRef.current.style.transform = `translate3d(0, ${y1}%, 0)`;
+      }
+
+      // Beat 2 (52% -> 84%): "ENGINEERED TO CAPTIVATE."
+      if (beatTwoTagRef.current && beatTwoHeadRef.current) {
+        const enter2 = Math.max(0, Math.min(1, (renderP - 0.52) / 0.09));
+        const exit2 = Math.max(0, Math.min(1, (0.84 - renderP) / 0.08));
+        const easeIn2 = 1 - Math.pow(1 - enter2, 3);
+        const alpha2 = easeIn2 * exit2;
+        const y2 = (1 - easeIn2) * 100 - (1 - exit2) * 45;
+
+        beatTwoTagRef.current.style.opacity = `${alpha2}`;
+        beatTwoTagRef.current.style.transform = `translate3d(0, ${y2}%, 0)`;
+
+        beatTwoHeadRef.current.style.opacity = `${alpha2}`;
+        beatTwoHeadRef.current.style.transform = `translate3d(0, ${y2}%, 0)`;
+      }
+
+      // Seamless atmospheric dark fade into Room 01 over the final 15% (85% -> 100%)
+      if (darkVeilRef.current) {
+        const veilAlpha = Math.max(0, Math.min(1, (renderP - 0.85) / 0.15));
+        darkVeilRef.current.style.opacity = `${veilAlpha * 0.92}`;
       }
 
       if (progressRef.current) {
         progressRef.current.style.transform = `scaleX(${renderP})`;
       }
-
-      raf = requestAnimationFrame(loop);
     };
 
+    const wakeLoop = () => {
+      if (!raf && isHeroInView) {
+        raf = requestAnimationFrame(tick);
+      }
+    };
+
+    wakeRenderRef.current = wakeLoop;
+
     updateBounds();
+    wakeLoop();
 
     let observer: IntersectionObserver | null = null;
     if (sectionRef.current && typeof IntersectionObserver !== "undefined") {
@@ -285,60 +320,141 @@ export default function HeroSection() {
           isHeroInView = entry?.isIntersecting ?? true;
           if (isHeroInView) {
             updateBounds();
-            startLoop();
-          } else {
-            stopLoop();
+            wakeLoop();
+          } else if (raf) {
+            cancelAnimationFrame(raf);
+            raf = 0;
           }
         },
         { rootMargin: "100px 0px" }
       );
       observer.observe(sectionRef.current);
-    } else {
-      startLoop();
     }
 
-    window.addEventListener("resize", updateBounds, { passive: true });
+    const onResize = () => {
+      updateBounds();
+      wakeLoop();
+    };
+
+    window.addEventListener("scroll", wakeLoop, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
     return () => {
-      stopLoop();
+      wakeRenderRef.current = null;
+      if (raf) cancelAnimationFrame(raf);
       observer?.disconnect();
-      window.removeEventListener("resize", updateBounds);
+      window.removeEventListener("scroll", wakeLoop);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 
   return (
     <section ref={sectionRef} className="relative h-[320vh] md:h-[350vh] bg-[#070708]">
       <div className="sticky top-0 h-screen w-full overflow-hidden select-none">
-        {/* first frame as instant poster */}
+        {/* first frame as instant poster until canvas paints frame 0 */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
+          ref={posterRef}
           src={getFrameSrc(isMobile, 0)}
           alt="PRIZM Visual Experience"
           loading="eager"
-          decoding="sync"
+          decoding="async"
           fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ filter: "contrast(1.08) saturate(1.15)" }}
         />
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full transform-gpu"
           style={{ filter: "contrast(1.08) saturate(1.15)" }}
         />
 
         {/* Accessible & SEO Semantic H1 — visually hidden (sr-only) so it does not block the cinematic hero */}
         <h1 className="sr-only">
-          PRIZM® — Creative Studio | Dispersing Light Into Digital Brilliance
+          PRIZM® — Creative Studio | Web Experiences, 3D Motion, Ad Creatives & AI UGC
         </h1>
+
+        {/* Scroll-Driven Dark Transition Veil (85% -> 100%) to eliminate hard cut into Room 01 */}
+        <div
+          ref={darkVeilRef}
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none z-15 bg-[#070708] opacity-0 will-change-opacity"
+        />
+
+        {/* Beat 1 (14% -> 46%): Signature Syne Solid + Outline ("IMAGINATION UNLEASHED.") */}
+        <div className="absolute bottom-14 md:bottom-20 left-1/2 -translate-x-1/2 z-25 pointer-events-none w-[94vw] max-w-5xl text-center flex flex-col items-center">
+          <div className="overflow-hidden py-1 mb-1.5">
+            <div
+              ref={beatOneTagRef}
+              className="flex items-center justify-center gap-2 font-mono text-[9.5px] sm:text-[10.5px] md:text-[11px] uppercase tracking-[0.28em] text-bone [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] opacity-0 will-change-transform"
+              style={{ transform: "translate3d(0, 100%, 0)" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-spectrum animate-pulse shrink-0" />
+              <span>PRIZM® — CREATIVE STUDIO</span>
+            </div>
+          </div>
+
+          <div className="overflow-hidden py-1.5">
+            <h2
+              ref={beatOneHeadRef}
+              className="font-heading font-extrabold uppercase text-[clamp(1.65rem,4.5vw,3.65rem)] leading-[1.04] tracking-tight text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.9)] opacity-0 will-change-transform"
+              style={{ transform: "translate3d(0, 100%, 0)" }}
+            >
+              IMAGINATION{" "}
+              <span
+                style={{
+                  WebkitTextStroke: "1.5px rgba(255, 255, 255, 0.92)",
+                  color: "transparent",
+                  filter: "drop-shadow(0 4px 16px rgba(0, 0, 0, 0.85))",
+                }}
+              >
+                UNLEASHED.
+              </span>
+            </h2>
+          </div>
+        </div>
+
+        {/* Beat 2 (52% -> 84%): Signature Syne Solid + Outline ("ENGINEERED TO CAPTIVATE.") */}
+        <div className="absolute bottom-14 md:bottom-20 left-1/2 -translate-x-1/2 z-25 pointer-events-none w-[94vw] max-w-5xl text-center flex flex-col items-center">
+          <div className="overflow-hidden py-1 mb-1.5">
+            <div
+              ref={beatTwoTagRef}
+              className="flex items-center justify-center gap-2 font-mono text-[9.5px] sm:text-[10.5px] md:text-[11px] uppercase tracking-[0.26em] text-bone [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] opacity-0 will-change-transform"
+              style={{ transform: "translate3d(0, 100%, 0)" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-spectrum animate-pulse shrink-0" />
+              <span>WEB · 3D MOTION · AD CREATIVES · AI UGC</span>
+            </div>
+          </div>
+
+          <div className="overflow-hidden py-1.5">
+            <h2
+              ref={beatTwoHeadRef}
+              className="font-heading font-extrabold uppercase text-[clamp(1.65rem,4.5vw,3.65rem)] leading-[1.04] tracking-tight text-white [text-shadow:0_4px_24px_rgba(0,0,0,0.9)] opacity-0 will-change-transform"
+              style={{ transform: "translate3d(0, 100%, 0)" }}
+            >
+              ENGINEERED TO{" "}
+              <span
+                style={{
+                  WebkitTextStroke: "1.5px rgba(255, 255, 255, 0.92)",
+                  color: "transparent",
+                  filter: "drop-shadow(0 4px 16px rgba(0, 0, 0, 0.85))",
+                }}
+              >
+                CAPTIVATE.
+              </span>
+            </h2>
+          </div>
+        </div>
 
         {/* Scroll Cue Indicator */}
         <div
           ref={scrollCueRef}
           className="absolute bottom-8 left-1/2 z-30 pointer-events-none flex flex-col items-center gap-2"
-          style={{ transform: "translate(-50%, 0px)" }}
+          style={{ transform: "translate3d(-50%, 0px, 0)" }}
         >
-          <div className="px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 flex items-center gap-2 md:gap-2.5 shadow-lg max-w-[92vw]">
+          <div className="px-3.5 py-1.5 md:px-4 md:py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 flex items-center gap-2 md:gap-2.5 shadow-lg max-w-[92vw]">
             <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-spectrum animate-pulse shrink-0" />
-            <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.16em] md:tracking-[0.3em] text-bone/80 whitespace-nowrap">
+            <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.16em] md:tracking-[0.3em] text-bone/85 whitespace-nowrap">
               SCROLL TO DISPERSE
             </span>
           </div>

@@ -6,69 +6,57 @@ import { motion, AnimatePresence, useScroll, useSpring, useTransform, useMotionV
 const UGC_REELS = [
   {
     id: "shoe",
-    handle: "@hyperrun.lab",
-    caption: "High-octane sportswear ads. No shoots, no retakes, pure performance. 👟 #Footwear #UGC",
-    likes: "320.1K",
-    comments: "8.7K",
-    brand: "HYPER RUN",
+    index: "01",
+    handle: "@brooks.run",
+    caption: "High-octane footwear unboxing & creator reels. Zero shoots, zero retakes, pure performance.",
+    brand: "BROOKS",
+    category: "FOOTWEAR & SPORT",
     src: "/UGC/shoeugc.mp4",
-    color: "#ef4444",
-    metric: "+5.2X ROAS",
   },
   {
     id: "dove",
-    handle: "@dovelle.skin",
-    caption: "Velvet hydration, AI-engineered. High-converting body care UGC reels delivered in hours. 🕊️ #Dovelle #SkinCare",
-    likes: "194.5K",
-    comments: "3.8K",
-    brand: "DOVELLE",
+    index: "02",
+    handle: "@dove.care",
+    caption: "Velvet hydration, AI-engineered. High-converting hair & body care UGC reels delivered in hours.",
+    brand: "DOVE",
+    category: "HAIR & BODY CARE",
     src: "/UGC/doveugc.mp4",
-    color: "#0284c7",
-    metric: "4.3X ROAS",
   },
   {
     id: "cera",
-    handle: "@ceraderm.labs",
-    caption: "Derma-grade AI UGC created in seconds. Zero camera crew needed. ✨ #DermaCare #SkincareAds",
-    likes: "148.2K",
-    comments: "3.4K",
-    brand: "CERADERM",
+    index: "03",
+    handle: "@cerave.skin",
+    caption: "SPF 50 Invisible Hydrating Fluid creator reel generated in hours. Zero camera crew needed.",
+    brand: "CERAVE",
+    category: "DERMA SKINCARE",
     src: "/UGC/ceraugc.mp4",
-    color: "#3b82f6",
-    metric: "4.8X ROAS",
   },
   {
     id: "wholetruth",
-    handle: "@puretruth.co",
-    caption: "Clean label nutrition ads generated overnight. Pure transparency. 🍫 #PureTruth #AIUGC",
-    likes: "189.6K",
-    comments: "4.9K",
-    brand: "PURE TRUTH",
+    index: "04",
+    handle: "@thewholetruth",
+    caption: "20g protein bar clean-label nutrition campaign generated overnight. Rapid hook testing at scale.",
+    brand: "THE WHOLE TRUTH",
+    category: "CLEAN NUTRITION",
     src: "/UGC/ugcwhole.mp4",
-    color: "#f97316",
-    metric: "+410% CONV",
   },
   {
     id: "jewellery",
+    index: "05",
     handle: "@lumina.atelier",
-    caption: "Luxury aesthetics engineered for high-converting social campaigns. 💎 #JewelryAds #PrizmAI",
-    likes: "212.9K",
-    comments: "5.1K",
+    caption: "Fine diamond jewelry aesthetics engineered for high-converting paid social campaigns.",
     brand: "LUMINA JEWELS",
+    category: "FINE JEWELRY",
     src: "/UGC/jewelleryugc.mp4",
-    color: "#eab308",
-    metric: "+320% CTR",
   },
   {
     id: "minimalist",
-    handle: "@minima.derm",
-    caption: "Clean, science-first skincare UGC reels. High performance guaranteed. ✨ #MinimaLab #BeautyAds",
-    likes: "175.4K",
-    comments: "4.2K",
-    brand: "MINIMA LAB",
+    index: "06",
+    handle: "@beminimalist",
+    caption: "Niacinamide 10% clinical skincare reels crafted for multi-variant paid social testing.",
+    brand: "MINIMALIST",
+    category: "CLINICAL BEAUTY",
     src: "/UGC/ugcminimalist.mp4",
-    color: "#a855f7",
-    metric: "4.1X ROAS",
   },
 ];
 
@@ -79,6 +67,7 @@ export default function UgcReelsPhone() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [likedMap, setLikedMap] = useState<{ [key: number]: boolean }>({});
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const isInViewRef = useRef(false);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -96,30 +85,24 @@ export default function UgcReelsPhone() {
   const shadowX = useSpring(shadowScaledX, { stiffness: 100, damping: 20 });
   const shadowScaleX = useSpring(shadowScaledY, { stiffness: 100, damping: 20 });
 
-  // Scroll Progress Tracking for 3D Docking & Text Sequence
+  // Scroll Progress Tracking for 3D Docking & Text Sequence (Lenis already smooths scroll)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "center center"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 220,
-    damping: 32,
-    restDelta: 0.001,
-  });
-
   // 3D Phone Docking Entrance Transforms
-  const phoneRotateY = useTransform(smoothProgress, [0.0, 0.75], [-24, 0]);
-  const phoneScale = useTransform(smoothProgress, [0.0, 0.75], [0.82, 1.0]);
-  const phoneOpacity = useTransform(smoothProgress, [0.0, 0.45], [0.15, 1.0]);
-  const phoneY = useTransform(smoothProgress, [0.0, 0.75], ["40px", "0px"]);
+  const phoneRotateY = useTransform(scrollYProgress, [0.0, 0.75], [-24, 0]);
+  const phoneScale = useTransform(scrollYProgress, [0.0, 0.75], [0.82, 1.0]);
+  const phoneOpacity = useTransform(scrollYProgress, [0.0, 0.45], [0.15, 1.0]);
+  const phoneY = useTransform(scrollYProgress, [0.0, 0.75], ["40px", "0px"]);
 
   // Staggered Right Side Text Sequence
-  const copyOpacity = useTransform(smoothProgress, [0.25, 0.75], [0, 1]);
-  const maskY1 = useTransform(smoothProgress, [0.30, 0.65], ["115%", "0%"]);
-  const maskY2 = useTransform(smoothProgress, [0.35, 0.70], ["115%", "0%"]);
-  const paragraphY = useTransform(smoothProgress, [0.40, 0.75], ["20px", "0px"]);
-  const metricsScale = useTransform(smoothProgress, [0.45, 0.80], [0.88, 1.0]);
+  const copyOpacity = useTransform(scrollYProgress, [0.25, 0.75], [0, 1]);
+  const maskY1 = useTransform(scrollYProgress, [0.30, 0.65], ["115%", "0%"]);
+  const maskY2 = useTransform(scrollYProgress, [0.35, 0.70], ["115%", "0%"]);
+  const paragraphY = useTransform(scrollYProgress, [0.40, 0.75], ["20px", "0px"]);
+  const metricsScale = useTransform(scrollYProgress, [0.45, 0.80], [0.88, 1.0]);
 
   // Explicit video playback management & sound lock (prevents stuck videos)
   useEffect(() => {
@@ -127,7 +110,7 @@ export default function UgcReelsPhone() {
       if (vid) {
         vid.muted = idx === activeIndex ? isMuted : true;
         if (idx === activeIndex) {
-          if (isPlaying) {
+          if (isPlaying && isInViewRef.current) {
             const playPromise = vid.play();
             if (playPromise !== undefined) {
               playPromise.catch(() => {});
@@ -154,6 +137,7 @@ export default function UgcReelsPhone() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         const inView = entry.isIntersecting;
+        isInViewRef.current = inView;
         const currentVid = videoRefs.current[activeIndex];
         if (!currentVid) return;
         if (!inView && !currentVid.paused) {
@@ -267,23 +251,25 @@ export default function UgcReelsPhone() {
               transition={{ type: "spring", stiffness: 120, damping: 20 }}
               className="w-full h-full flex flex-col pointer-events-none"
             >
-              {UGC_REELS.map((reel, idx) => (
+              {UGC_REELS.map((reel, idx) => {
+                const dist = Math.abs(idx - activeIndex);
+                const isNear = dist <= 1 || dist === UGC_REELS.length - 1;
+                return (
                 <div
                   key={reel.id}
                   onClick={() => idx === activeIndex && setIsPlaying(!isPlaying)}
                   className="relative w-full h-full shrink-0 overflow-hidden bg-black cursor-pointer"
                 >
-                  {/* Video Element */}
+                  {/* Video Element — Only attaches src for active & immediate adjacent reels to save GPU decoders */}
                   <video
                     ref={(el) => {
                       videoRefs.current[idx] = el;
                     }}
-                    src={reel.src}
-                    autoPlay
+                    src={isNear ? reel.src : undefined}
                     loop
                     muted={idx === activeIndex ? isMuted : true}
                     playsInline
-                    preload={idx === activeIndex ? "auto" : "none"}
+                    preload={idx === activeIndex ? "metadata" : "none"}
                     className="w-full h-full object-cover"
                   />
 
@@ -386,8 +372,8 @@ export default function UgcReelsPhone() {
                   <div className="absolute bottom-4 left-3 right-16 z-30 text-left pointer-events-none">
                     <div className="flex items-center space-x-1.5 mb-1">
                       <span className="text-xs font-bold text-white drop-shadow">{reel.handle}</span>
-                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/20 text-white font-mono uppercase">
-                        AI Creator
+                      <span className="text-[8.5px] px-1.5 py-0.5 rounded bg-white/15 border border-white/15 text-bone font-mono uppercase tracking-wider">
+                        {reel.category}
                       </span>
                     </div>
                     <p className="text-[10px] text-white/80 line-clamp-2 font-light leading-snug drop-shadow">
@@ -398,7 +384,8 @@ export default function UgcReelsPhone() {
                   {/* Inner Ambient Vignette */}
                   <div className="absolute inset-0 z-15 pointer-events-none shadow-[inset_0_0_60px_rgba(0,0,0,0.6)]" />
                 </div>
-              ))}
+                );
+              })}
             </motion.div>
           </motion.div>
 
@@ -417,30 +404,16 @@ export default function UgcReelsPhone() {
           style={{ opacity: copyOpacity }}
           className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl"
         >
-          {/* Headline with 3D Mask Clip & Lens Blur-In Reveal */}
+          {/* Headline with 3D Mask Clip Reveal */}
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-wider text-white uppercase font-sans leading-tight drop-shadow-md flex flex-col items-center lg:items-start">
             <span className="block overflow-hidden py-1">
-              <motion.span style={{ y: maskY1 }} className="block">
-                <motion.span
-                  whileInView={{ filter: "blur(0px)", opacity: 1, scale: 1 }}
-                  initial={{ filter: "blur(14px)", opacity: 0, scale: 1.08 }}
-                  transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-                  className="inline-block"
-                >
-                  <span className="spectrum-text">COMPUTE</span> IS
-                </motion.span>
+              <motion.span style={{ y: maskY1 }} className="block will-change-transform">
+                <span className="spectrum-text">COMPUTE</span> IS
               </motion.span>
             </span>
             <span className="block overflow-hidden py-1">
-              <motion.span style={{ y: maskY2 }} className="block text-white">
-                <motion.span
-                  whileInView={{ filter: "blur(0px)", opacity: 1, scale: 1 }}
-                  initial={{ filter: "blur(14px)", opacity: 0, scale: 1.08 }}
-                  transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-                  className="inline-block text-white"
-                >
-                  THE NEW CAMERA.
-                </motion.span>
+              <motion.span style={{ y: maskY2 }} className="block text-white will-change-transform">
+                THE NEW CAMERA.
               </motion.span>
             </span>
           </h2>
@@ -474,12 +447,12 @@ export default function UgcReelsPhone() {
             </span>
           </motion.div>
 
-          {/* Feed Controls (Up / Down & Reel Pagination) */}
+          {/* Feed Controls (Up / Down & Direct Brand Selector Grid) */}
           <div className="flex flex-col items-center lg:items-start space-y-4 mt-8 w-full">
             <div className="flex items-center space-x-3">
               <button
                 onClick={handlePrev}
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer active:scale-95 shadow-lg"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-lg"
                 aria-label="Previous Reel Feed"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -488,21 +461,22 @@ export default function UgcReelsPhone() {
               </button>
 
               <AnimatePresence mode="wait">
-                <motion.span
+                <motion.div
                   key={currentReel.id}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.2 }}
-                  className="text-xs font-mono text-white/90 font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full bg-black/60 border border-white/20 backdrop-blur-md shadow-md"
+                  className="flex items-center gap-2 text-xs font-mono text-white/90 font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full bg-[#0b0b0e] border border-white/20 shadow-md"
                 >
-                  {currentReel.brand}
-                </motion.span>
+                  <span className="spectrum-text font-bold">[{currentReel.index}/06]</span>
+                  <span>{currentReel.brand}</span>
+                </motion.div>
               </AnimatePresence>
 
               <button
                 onClick={handleNext}
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer active:scale-95 shadow-lg"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-lg"
                 aria-label="Next Reel Feed"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -511,18 +485,27 @@ export default function UgcReelsPhone() {
               </button>
             </div>
 
-            {/* Pagination Indicators */}
-            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-md">
-              {UGC_REELS.map((reel, idx) => (
-                <button
-                  key={reel.id}
-                  onClick={() => setActiveIndex(idx)}
-                  className={`transition-all duration-300 rounded-full cursor-pointer ${
-                    idx === activeIndex ? "w-4 h-1.5 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]" : "w-1.5 h-1.5 bg-white/30 hover:bg-white/60"
-                  }`}
-                  aria-label={`Jump to ${reel.brand}`}
-                />
-              ))}
+            {/* Direct 6-Brand Selector Pills */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 pt-1">
+              {UGC_REELS.map((reel, idx) => {
+                const isSelected = idx === activeIndex;
+                return (
+                  <button
+                    key={reel.id}
+                    onClick={() => {
+                      setIsPlaying(true);
+                      setActiveIndex(idx);
+                    }}
+                    className={`px-3 py-1 rounded-full font-mono text-[9.5px] uppercase tracking-[0.16em] transition-all duration-200 cursor-pointer border ${
+                      isSelected
+                        ? "bg-white text-black border-white font-bold shadow-md"
+                        : "bg-white/[0.03] border-white/10 text-white/55 hover:text-white hover:border-white/25"
+                    }`}
+                  >
+                    {reel.index} {reel.brand}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </motion.div>

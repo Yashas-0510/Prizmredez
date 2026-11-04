@@ -1,7 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { ReactNode } from "react";
-import { motion } from "framer-motion";
 
 interface AuroraBackgroundProps extends React.HTMLProps<HTMLDivElement> {
   children: ReactNode;
@@ -17,42 +16,26 @@ export const AuroraBackground = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col items-center justify-center bg-[#070708] text-slate-950 transition-bg",
+        "relative flex flex-col items-center justify-center bg-[#070708] text-slate-950",
         className
       )}
       {...props}
     >
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <motion.div
-          animate={{
-            backgroundPosition: [
-              "50% 50%, 50% 50%",
-              "180% 50%, 180% 50%",
-              "50% 50%, 50% 50%",
-            ],
-          }}
-          transition={{
-            duration: 42,
-            ease: "linear",
-            repeat: Infinity,
-          }}
+      {/* Zero-repaint GPU-composited ambient light atmosphere */}
+      <div
+        className="fixed inset-0 overflow-hidden pointer-events-none z-0"
+        style={{ contain: "strict" }}
+      >
+        <div
           className={cn(
-            `
-          [--white-gradient:repeating-linear-gradient(100deg,#ffffff_0%,#ffffff_7%,transparent_10%,transparent_12%,#ffffff_16%)]
-          [--dark-gradient:repeating-linear-gradient(100deg,#000000_0%,#000000_7%,transparent_10%,transparent_12%,#000000_16%)]
-          [--aurora:repeating-linear-gradient(100deg,#3b82f6_10%,#a5b4fc_15%,#93c5fd_20%,#ddd6fe_25%,#60a5fa_30%)]
-          [background-image:var(--dark-gradient),var(--aurora)]
-          [background-size:200%,_150%]
-          filter blur-[24px]
-          after:content-[""] after:absolute after:inset-0 after:[background-image:var(--dark-gradient),var(--aurora)] 
-          after:[background-size:150%,_100%] 
-          after:mix-blend-difference
-          pointer-events-none
-          absolute -inset-[10px] opacity-[0.13] will-change-transform`,
-
+            "absolute -inset-[10%] opacity-[0.11] pointer-events-none transform-gpu",
             showRadialGradient &&
-              `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,transparent_70%)]`
+              "[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,transparent_70%)]"
           )}
+          style={{
+            background:
+              "radial-gradient(60% 50% at 20% 25%, rgba(165, 180, 252, 0.28) 0%, transparent 70%), radial-gradient(55% 45% at 80% 65%, rgba(96, 165, 250, 0.22) 0%, transparent 70%), radial-gradient(45% 40% at 50% 90%, rgba(201, 156, 255, 0.18) 0%, transparent 70%)",
+          }}
         />
       </div>
       <div className="relative z-10 w-full">{children}</div>

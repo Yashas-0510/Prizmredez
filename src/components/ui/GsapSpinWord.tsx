@@ -25,10 +25,11 @@ export default function GsapSpinWord({
     const letters = lettersRef.current.filter(Boolean);
     if (letters.length === 0) return;
 
-    // Trigger animation when scrolled into view
+    // Trigger animation once cleanly when scrolled into view
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          observer.disconnect();
           playSpin();
         }
       },

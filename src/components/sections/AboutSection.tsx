@@ -56,46 +56,49 @@ export default function AboutSection() {
                 />
               </div>
 
-              {/* Studio Pillars Micro-Grid */}
-              <div className="mt-8 pt-6 border-t border-white/5 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 max-w-[36rem]">
-                <div>
-                  <div className="font-mono text-[9px] tracking-[0.22em] text-white/40 uppercase mb-1 flex items-center gap-1.5">
-                    <span className="text-white/75 font-semibold">01</span>
-                    <span className="text-white/20">/</span>
+              {/* Studio Pillars Architectural Cards */}
+              <div className="mt-8 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 max-w-[40rem]">
+                <div className="group relative p-4 sm:p-5 rounded-xl bg-white/[0.02] hover:bg-white/[0.045] border border-white/10 hover:border-white/25 transition-all duration-300 overflow-hidden">
+                  <div className="absolute inset-x-0 top-0 h-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 spectrum-line" />
+                  <div className="font-mono text-[9px] sm:text-[10px] tracking-[0.22em] text-white/45 uppercase mb-2 flex items-center gap-1.5">
+                    <span className="spectrum-text font-bold">01</span>
+                    <span className="text-white/25">/</span>
                     <span>BESPOKE</span>
                   </div>
-                  <h4 className="font-heading text-[12px] sm:text-[13px] font-bold text-bone tracking-tight uppercase leading-snug mb-1">
+                  <h4 className="font-heading text-[13px] sm:text-[14px] font-bold text-bone tracking-tight uppercase leading-snug mb-1.5">
                     Zero Templates
                   </h4>
-                  <p className="text-[11px] text-white/50 leading-relaxed font-sans">
+                  <p className="text-[11.5px] sm:text-[12px] text-white/60 leading-relaxed font-sans">
                     Custom digital architecture engineered from ground zero.
                   </p>
                 </div>
 
-                <div>
-                  <div className="font-mono text-[9px] tracking-[0.22em] text-white/40 uppercase mb-1 flex items-center gap-1.5">
-                    <span className="text-white/75 font-semibold">02</span>
-                    <span className="text-white/20">/</span>
+                <div className="group relative p-4 sm:p-5 rounded-xl bg-white/[0.02] hover:bg-white/[0.045] border border-white/10 hover:border-white/25 transition-all duration-300 overflow-hidden">
+                  <div className="absolute inset-x-0 top-0 h-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 spectrum-line" />
+                  <div className="font-mono text-[9px] sm:text-[10px] tracking-[0.22em] text-white/45 uppercase mb-2 flex items-center gap-1.5">
+                    <span className="spectrum-text font-bold">02</span>
+                    <span className="text-white/25">/</span>
                     <span>SYNTHESIS</span>
                   </div>
-                  <h4 className="font-heading text-[12px] sm:text-[13px] font-bold text-bone tracking-tight uppercase leading-snug mb-1">
+                  <h4 className="font-heading text-[13px] sm:text-[14px] font-bold text-bone tracking-tight uppercase leading-snug mb-1.5">
                     Full Spectrum
                   </h4>
-                  <p className="text-[11px] text-white/50 leading-relaxed font-sans">
+                  <p className="text-[11.5px] sm:text-[12px] text-white/60 leading-relaxed font-sans">
                     Web, 3D motion, and viral content acting as one engine.
                   </p>
                 </div>
 
-                <div>
-                  <div className="font-mono text-[9px] tracking-[0.22em] text-white/40 uppercase mb-1 flex items-center gap-1.5">
-                    <span className="text-white/75 font-semibold">03</span>
-                    <span className="text-white/20">/</span>
+                <div className="group relative p-4 sm:p-5 rounded-xl bg-white/[0.02] hover:bg-white/[0.045] border border-white/10 hover:border-white/25 transition-all duration-300 overflow-hidden">
+                  <div className="absolute inset-x-0 top-0 h-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 spectrum-line" />
+                  <div className="font-mono text-[9px] sm:text-[10px] tracking-[0.22em] text-white/45 uppercase mb-2 flex items-center gap-1.5">
+                    <span className="spectrum-text font-bold">03</span>
+                    <span className="text-white/25">/</span>
                     <span>OUTCOME</span>
                   </div>
-                  <h4 className="font-heading text-[12px] sm:text-[13px] font-bold text-bone tracking-tight uppercase leading-snug mb-1">
+                  <h4 className="font-heading text-[13px] sm:text-[14px] font-bold text-bone tracking-tight uppercase leading-snug mb-1.5">
                     High Impact
                   </h4>
-                  <p className="text-[11px] text-white/50 leading-relaxed font-sans">
+                  <p className="text-[11.5px] sm:text-[12px] text-white/60 leading-relaxed font-sans">
                     Aesthetic mastery calibrated to drive measurable revenue.
                   </p>
                 </div>
@@ -124,7 +127,11 @@ export default function AboutSection() {
                 >
                   {[...marquee, ...marquee].map((item, idx) => (
                     <span key={`${item}-${idx}`} className="flex items-center gap-8 md:gap-12">
-                      <span className="font-heading font-extrabold uppercase leading-none text-[clamp(2.2rem,5.5vw,5rem)] text-outline whitespace-nowrap">
+                      <span
+                        className={`font-heading font-extrabold uppercase leading-none text-[clamp(2.2rem,5.5vw,5rem)] whitespace-nowrap ${
+                          idx % 2 === 0 ? "text-bone/90" : "text-outline"
+                        }`}
+                      >
                         {item}
                       </span>
                       <span className="spectrum-text text-[clamp(1rem,2vw,1.8rem)]">

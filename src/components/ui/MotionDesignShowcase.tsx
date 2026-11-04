@@ -19,8 +19,8 @@ export interface MotionProject {
   index: string;
   title: string;
   tagline: string;
-  category: "3D Launch Film" | "UI Motion" | "Product Teaser" | "Identity Reveal" | "Brand Commercial";
-  categoryKey: "3d-launch" | "ui-motion" | "teaser" | "identity" | "commercial";
+  category: "SaaS Launch Film" | "Brand Showreel" | "UI Motion Study" | "Kinetic Telemetry" | "Micro-Interactions";
+  categoryKey: "saas-launch" | "showreel" | "ui-study" | "telemetry" | "micro-ui";
   src: string;
   poster: string;
   durationStr: string;
@@ -32,100 +32,100 @@ export interface MotionProject {
 
 const MOTION_PROJECTS: MotionProject[] = [
   {
-    id: "chrono-launch",
+    id: "unified-chat",
     index: "01",
-    title: "CHRONO X — 3D PRODUCT LAUNCH",
-    tagline: "Precision hardware unveiled through photoreal CAD choreography & macro optics.",
-    category: "3D Launch Film",
-    categoryKey: "3d-launch",
+    title: "UNIFIEDCHAT — SAAS LAUNCH FILM",
+    tagline: "Turning multi-app notification chaos into one calm, AI-powered workspace.",
+    category: "SaaS Launch Film",
+    categoryKey: "saas-launch",
     src: "/motion-design/motiondesign5.mp4",
     poster: "/motion-design/posters/motiondesign5.webp",
     durationStr: "00:40",
-    specs: "4K DCI · 60 FPS",
-    tools: "Octane · Cinema 4D · After Effects",
+    specs: "4K · 60 FPS",
+    tools: "Opus 5.5 · Remotion · HyperFrames",
     description:
-      "A flagship launch film for high-performance hardware. Engineered with dynamic exploded assemblies, ray-traced anisotropic metal lighting, and physics-driven particle illumination.",
-    deliverables: ["Exploded Assemblies", "Anisotropic Shading", "Spatial Audio", "Social Launch Cuts"],
+      "A narrative SaaS product launch film for UnifiedChat. Choreographs floating Slack, WhatsApp, LinkedIn, and Gmail notifications converging into a single AI-assisted inbox workflow rendered entirely in code.",
+    deliverables: ["Product Launch Film", "UI Choreography", "Kinetic Typography", "Multi-Channel Cutdowns"],
   },
   {
-    id: "nexus-os",
+    id: "claude-reel",
     index: "02",
-    title: "NEXUS OS — INTERACTION MOTION",
-    tagline: "Zero-latency fluid micro-interactions engineered for spatial operating systems.",
-    category: "UI Motion",
-    categoryKey: "ui-motion",
+    title: "CLAUDE — GENERATIVE IDENTITY REEL",
+    tagline: "Rhythmic 128 BPM brand identity and Truchet wave systems engineered in pure code.",
+    category: "Brand Showreel",
+    categoryKey: "showreel",
     src: "/motion-design/motiondesign2.mp4",
     poster: "/motion-design/posters/motiondesign2.webp",
     durationStr: "00:15",
     specs: "1080P · 60 FPS",
-    tools: "Figma · After Effects · Rive",
+    tools: "Opus 5.5 · Remotion · HyperFrames",
     description:
-      "Spatial interface choreography demonstrating tactile layout morphing, seamless elevation shifts, and intuitive touch feedback for next-generation digital applications.",
-    deliverables: ["Micro-interactions", "Design System Specs", "Lottie/Rive Assets", "Gesture Physics"],
+      "An audio-reactive generative motion reel exploring radial logomark geometry, procedural Truchet tile waves, and beat-synced typographic systems at a locked 60 frames per second.",
+    deliverables: ["Generative Identity", "Truchet Wave System", "128 BPM Sync", "Programmatic Motion"],
   },
   {
-    id: "aether-reveal",
+    id: "develop-study",
     index: "03",
-    title: "AETHER — SPATIAL IDENTITY REVEAL",
-    tagline: "Sculptural logomark revelation through holographic glass dispersion & caustics.",
-    category: "Identity Reveal",
-    categoryKey: "identity",
+    title: "DEVELOP — CROSS-DEVICE UI STUDY",
+    tagline: "Tactile liquid-glass controls and seamless mobile-to-desktop spatial handoff.",
+    category: "UI Motion Study",
+    categoryKey: "ui-study",
     src: "/motion-design/motiondesign3.mp4",
     poster: "/motion-design/posters/motiondesign3.webp",
     durationStr: "00:29",
     specs: "1440P · 60 FPS",
-    tools: "Blender · Cycles · Davinci Resolve",
+    tools: "Opus 5.5 · Remotion · HyperFrames",
     description:
-      "An avant-garde sonic and visual brand revelation. Light rays refract through beveled prism geometry, revealing the sculptural identity through volumetric fog and spectral dispersion.",
-    deliverables: ["3D Logomark Revelation", "Glass Caustic Simulation", "Sonic Branding", "Brand Bumper Suite"],
+      "A programmatic interface motion study demonstrating refractive glass sliders, real-time golden-hour lighting shifts, and fluid drag-and-drop asset continuity between iOS and macOS.",
+    deliverables: ["Liquid Glass UI", "Cross-Device Continuity", "Cursor Choreography", "Interactive Walkthrough"],
   },
   {
-    id: "kinetic-demo",
+    id: "claude-telemetry",
     index: "04",
-    title: "KINETIC — PRODUCT PROTOTYPE DEMO",
-    tagline: "Dynamic UI showcase illustrating responsive modular architecture.",
-    category: "UI Motion",
-    categoryKey: "ui-motion",
+    title: "CLAUDE — PHYSICS & PARTICLE SYSTEMS",
+    tagline: "Mathematical squash-and-stretch telemetry and high-density orbital particle rings.",
+    category: "Kinetic Telemetry",
+    categoryKey: "telemetry",
     src: "/motion-design/motiondesign4.mp4",
     poster: "/motion-design/posters/motiondesign4.webp",
     durationStr: "00:15",
     specs: "1080P · 60 FPS",
-    tools: "Principle · After Effects · WebGL",
+    tools: "Opus 5.5 · Remotion · HyperFrames",
     description:
-      "Interactive prototype demo created to communicate complex multi-state product features to investors and end users with kinetic velocity and mathematical motion curves.",
-    deliverables: ["Interactive Prototype", "Feature Walkthrough", "Keynote Video", "Marketing Clips"],
+      "A technical motion study visualizing live velocity vectors, spring-damped collision physics, and thousands of procedural particles locking into orbital ring formations.",
+    deliverables: ["Physics Simulation", "Live HUD Telemetry", "Particle Ring Engine", "Timecode Choreography"],
   },
   {
-    id: "vapor-teaser",
+    id: "tactile-ui",
     index: "05",
-    title: "VAPOR SPECS — PRODUCT TEASER",
-    tagline: "High-octane trailer engineered to generate viral pre-launch hype.",
-    category: "Product Teaser",
-    categoryKey: "teaser",
+    title: "TACTILE UI — MICRO-INTERACTION LAB",
+    tagline: "Spring-loaded sliders, elastic cursor physics, and keystroke-level tactile feedback.",
+    category: "Micro-Interactions",
+    categoryKey: "micro-ui",
     src: "/motion-design/motiondesign1.mp4",
     poster: "/motion-design/posters/motiondesign1.webp",
     durationStr: "00:10",
     specs: "1080P · 60 FPS",
-    tools: "Octane · Cinema 4D · Redshift",
+    tools: "Opus 5.5 · Remotion · HyperFrames",
     description:
-      "A fast-paced teaser trailer designed for high-conversion social drops. Extreme depth of field, rapid camera orbits, and metallic surface glints capture audience intrigue instantly.",
-    deliverables: ["Hype Teaser", "9:16 & 16:9 Cuts", "Audio Sound Design", "Drop Countdown Assets"],
+      "A high-precision component interaction reel highlighting elastic slider momentum, toast notifications, and mechanical key-press choreography on a dark dot-matrix stage.",
+    deliverables: ["Component Physics", "Elastic Sliders", "Keystroke Motion", "Design System Specs"],
   },
   {
-    id: "spectrum-commercial",
+    id: "cluely-launch",
     index: "06",
-    title: "SPECTRUM — BRAND COMMERCIAL",
-    tagline: "Full-scale cinematic commercial synthesizing virtual production with editorial pace.",
-    category: "Brand Commercial",
-    categoryKey: "commercial",
+    title: "CLUELY — AI MEETING INTELLIGENCE",
+    tagline: "All the context, one clear answer — unifying calls, docs, and chats into instant briefs.",
+    category: "SaaS Launch Film",
+    categoryKey: "saas-launch",
     src: "/motion-design/apcRUlrKwThJuS9g.mp4",
     poster: "/motion-design/posters/apcRUlrKwThJuS9g.webp",
     durationStr: "00:36",
     specs: "4K UHD · 60 FPS",
-    tools: "Unreal Engine 5 · Premiere · Sound Design",
+    tools: "Opus 5.5 · Remotion · HyperFrames",
     description:
-      "A comprehensive brand campaign film fusing high-fidelity virtual 3D sets, sweeping cinematic camera motion, and a driving sonic rhythm that embodies the studio's aesthetic standard.",
-    deliverables: ["Brand Film Master", "Broadcast Cuts", "Color Grade", "Master Stereo Audio"],
+      "A flagship product launch film for Cluely. Showcases 3D device rotation, orbiting ecosystem integrations (Slack, Zoom, Meet, Teams), and automated QBR action-item synthesis.",
+    deliverables: ["Flagship Launch Film", "3D Device Choreography", "Ecosystem Orbit UI", "Editorial Typography"],
   },
 ];
 
@@ -165,7 +165,7 @@ function MultiCamCard({
           ref={cardVideoRef}
           src={proj.src}
           poster={proj.poster}
-          preload="metadata"
+          preload="none"
           muted
           playsInline
           loop
@@ -203,7 +203,7 @@ function MultiCamCard({
       {/* Content Card Body */}
       <div className="p-5 flex flex-col justify-between flex-1">
         <div>
-          <div className="font-mono text-[9px] tracking-[0.22em] text-spectrum uppercase mb-1">
+          <div className="font-mono text-[9px] tracking-[0.22em] spectrum-text uppercase mb-1">
             {proj.category}
           </div>
           <h4 className="font-heading font-extrabold uppercase text-[15px] sm:text-[16px] text-bone tracking-tight leading-snug mb-2">
@@ -229,16 +229,18 @@ export default function MotionDesignShowcase() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
-  const [progress, setProgress] = useState(0);
-  const [currentTimeStr, setCurrentTimeStr] = useState("00:00");
   const [viewMode, setViewMode] = useState<"theater" | "grid">("theater");
   const [showControls, setShowControls] = useState(true);
 
   const showcaseContainerRef = useRef<HTMLDivElement>(null);
   const mainVideoRef = useRef<HTMLVideoElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const scrubberFillRef = useRef<HTMLDivElement>(null);
+  const activeStripFillRef = useRef<HTMLDivElement>(null);
+  const timecodeSpanRef = useRef<HTMLSpanElement>(null);
   const theaterContainerRef = useRef<HTMLDivElement>(null);
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isInViewRef = useRef(false);
 
   const activeProject = MOTION_PROJECTS[activeIndex];
 
@@ -249,6 +251,7 @@ export default function MotionDesignShowcase() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         const inView = entry.isIntersecting;
+        isInViewRef.current = inView;
         if (!inView && mainVideoRef.current && !mainVideoRef.current.paused) {
           mainVideoRef.current.pause();
         } else if (inView && mainVideoRef.current && isPlaying) {
@@ -268,7 +271,7 @@ export default function MotionDesignShowcase() {
     if (!video.src.endsWith(activeProject.src)) {
       video.src = activeProject.src;
       video.load();
-      if (isPlaying) {
+      if (isPlaying && isInViewRef.current) {
         video.play().catch(() => {});
       }
     }
@@ -281,13 +284,24 @@ export default function MotionDesignShowcase() {
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  // Video Time Update & Progress Tracking
+  // Video Time Update & Progress Tracking via direct DOM refs (zero React re-renders during playback!)
+  const updateProgressDOM = (pct: number, timeText: string) => {
+    if (scrubberFillRef.current) {
+      scrubberFillRef.current.style.width = `${Math.max(1.5, pct)}%`;
+    }
+    if (activeStripFillRef.current) {
+      activeStripFillRef.current.style.width = `${Math.max(4, pct)}%`;
+    }
+    if (timecodeSpanRef.current && timecodeSpanRef.current.textContent !== timeText) {
+      timecodeSpanRef.current.textContent = timeText;
+    }
+  };
+
   const handleTimeUpdate = () => {
     if (!mainVideoRef.current) return;
     const current = mainVideoRef.current.currentTime;
     const dur = mainVideoRef.current.duration || 1;
-    setProgress((current / dur) * 100);
-    setCurrentTimeStr(formatTime(current));
+    updateProgressDOM((current / dur) * 100, formatTime(current));
   };
 
   // Toggle Play / Pause
@@ -324,16 +338,16 @@ export default function MotionDesignShowcase() {
     if (!progressBarRef.current || !mainVideoRef.current) return;
     const rect = progressBarRef.current.getBoundingClientRect();
     const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    mainVideoRef.current.currentTime = pos * (mainVideoRef.current.duration || 0);
-    setProgress(pos * 100);
+    const newTime = pos * (mainVideoRef.current.duration || 0);
+    mainVideoRef.current.currentTime = newTime;
+    updateProgressDOM(pos * 100, formatTime(newTime));
   };
 
   // Switch Project
   const selectProject = (idx: number) => {
     setActiveIndex(idx);
     setIsPlaying(true);
-    setProgress(0);
-    setCurrentTimeStr("00:00");
+    updateProgressDOM(0, "00:00");
     if (viewMode === "grid") {
       setViewMode("theater");
     }
@@ -361,15 +375,12 @@ export default function MotionDesignShowcase() {
     nextProject();
   };
 
-  // Keyboard navigation
+  // Keyboard navigation (scoped to when Motion Design section is in view)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Avoid if user is in an input
-      if (["INPUT", "TEXTAREA"].includes((e.target as HTMLElement).tagName)) return;
-      if (e.key === " " || e.code === "Space") {
-        e.preventDefault();
-        togglePlay();
-      } else if (e.key === "ArrowRight") {
+      if (!isInViewRef.current) return;
+      if (["INPUT", "TEXTAREA", "BUTTON"].includes((e.target as HTMLElement).tagName)) return;
+      if (e.key === "ArrowRight") {
         nextProject();
       } else if (e.key === "ArrowLeft") {
         prevProject();
@@ -391,7 +402,7 @@ export default function MotionDesignShowcase() {
         <div>
           <div className="flex items-center gap-2 mb-2 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.24em] text-white/40">
             <span className="w-1.5 h-1.5 rounded-full bg-spectrum animate-pulse shrink-0" />
-            <span>CINEMATIC CRAFT · 3D / PRODUCT / UI</span>
+            <span>PROGRAMMATIC MOTION · OPUS 5.5 / REMOTION / HYPERFRAMES</span>
           </div>
           <h2 className="font-heading font-extrabold uppercase text-[clamp(1.75rem,4.5vw,3.6rem)] leading-[1.04] text-bone tracking-tight">
             MOTION <span className="text-outline">DESIGN.</span>
@@ -451,8 +462,7 @@ export default function MotionDesignShowcase() {
                   ref={mainVideoRef}
                   src={activeProject.src}
                   poster={activeProject.poster}
-                  preload="auto"
-                  autoPlay
+                  preload="metadata"
                   loop={false}
                   muted={isMuted}
                   playsInline
@@ -540,21 +550,21 @@ export default function MotionDesignShowcase() {
                   </div>
                 </div>
 
-                {/* Bottom Overlay: Timecode Scrubber Bar & Playback Controls */}
-                <div
-                  className={`absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 pt-12 bg-gradient-to-t from-black/85 via-black/40 to-transparent transition-opacity duration-300 ${
-                    showControls ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  {/* Interactive Scrub Timeline */}
+                {/* Bottom Overlay: Always-Visible Timecode Scrubber Bar & Playback Controls */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 pt-12 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-20">
+                  {/* Interactive Scrub Timeline (Always visible while playing!) */}
                   <div
                     ref={progressBarRef}
                     onClick={handleScrub}
-                    className="group/scrub relative w-full h-1.5 sm:h-2 bg-white/15 rounded-full cursor-pointer overflow-hidden mb-3 hover:h-2.5 transition-all"
+                    className="group/scrub relative w-full h-2 sm:h-2.5 bg-white/25 rounded-full cursor-pointer overflow-hidden mb-3 hover:h-3 transition-all shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
                   >
                     <div
-                      className="h-full bg-spectrum rounded-full relative transition-[width] duration-100"
-                      style={{ width: `${progress}%` }}
+                      ref={scrubberFillRef}
+                      className="h-full rounded-full relative transition-[width] duration-150"
+                      style={{
+                        width: "1.5%",
+                        background: "var(--spectrum)",
+                      }}
                     />
                   </div>
 
@@ -563,18 +573,20 @@ export default function MotionDesignShowcase() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={togglePlay}
-                        className="hover:text-white text-white/80 transition-colors cursor-pointer"
+                        className="hover:text-white text-white/90 transition-colors cursor-pointer"
                       >
                         {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
                       </button>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-white font-bold">{currentTimeStr}</span>
-                        <span className="text-white/30">/</span>
-                        <span className="text-white/50">{activeProject.durationStr}</span>
+                      <div className="flex items-center gap-1.5 tabular-nums">
+                        <span ref={timecodeSpanRef} className="text-white font-bold">
+                          00:00
+                        </span>
+                        <span className="text-white/40">/</span>
+                        <span className="text-white/70">{activeProject.durationStr}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 text-[9px] sm:text-[10px] text-white/50">
+                    <div className="flex items-center gap-4 text-[9px] sm:text-[10px] text-white/70">
                       <span className="hidden md:inline">{activeProject.tools}</span>
                       <div className="flex items-center gap-2">
                         <button
@@ -597,6 +609,54 @@ export default function MotionDesignShowcase() {
                 </div>
               </div>
 
+              {/* Interactive 6-Reel Cinema Filmstrip Bar */}
+              <div className="w-full max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+                {MOTION_PROJECTS.map((proj, idx) => {
+                  const isSelected = idx === activeIndex;
+                  const shortTitle = proj.title.split("—")[0].trim();
+                  return (
+                    <button
+                      key={proj.id}
+                      onClick={() => selectProject(idx)}
+                      className={`group relative flex flex-col justify-between text-left p-3 sm:p-3.5 rounded-xl border transition-all duration-300 cursor-pointer overflow-hidden ${
+                        isSelected
+                          ? "bg-white/[0.07] border-white/35 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+                          : "bg-white/[0.02] hover:bg-white/[0.045] border-white/10 hover:border-white/20"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between w-full font-mono text-[9px] tracking-[0.2em] uppercase mb-1.5">
+                        <span className={isSelected ? "spectrum-text font-bold" : "text-white/40"}>
+                          [{proj.index}]
+                        </span>
+                        <span className="text-white/35">{proj.durationStr}</span>
+                      </div>
+
+                      <div className="font-heading font-bold text-[11px] sm:text-[12px] uppercase tracking-tight text-bone truncate w-full">
+                        {shortTitle}
+                      </div>
+
+                      <div className="font-mono text-[8.5px] tracking-[0.14em] uppercase text-white/45 truncate w-full mt-0.5">
+                        {proj.category}
+                      </div>
+
+                      {/* Active Reel Live Playback Progress Bar */}
+                      <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/10 overflow-hidden">
+                        {isSelected && (
+                          <div
+                            ref={activeStripFillRef}
+                            className="h-full transition-[width] duration-150"
+                            style={{
+                              width: "4%",
+                              background: "var(--spectrum)",
+                            }}
+                          />
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
               {/* Project Details Console & Cinema Navigation */}
               <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 {/* Left (lg:col-span-8): Active Project Title, Description & Deliverables */}
@@ -604,7 +664,7 @@ export default function MotionDesignShowcase() {
                   <div className="flex flex-wrap items-center gap-2.5 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.24em] text-white/45 mb-3">
                     <span className="text-white/80 font-semibold">REEL [{activeProject.index} / 06]</span>
                     <span>·</span>
-                    <span className="text-spectrum font-semibold">{activeProject.category}</span>
+                    <span className="spectrum-text font-semibold">{activeProject.category}</span>
                     <span>·</span>
                     <span className="text-white/40">{activeProject.specs}</span>
                   </div>
@@ -730,13 +790,13 @@ export default function MotionDesignShowcase() {
           <div className="font-mono text-[9px] tracking-[0.22em] text-white/40 uppercase mb-1 flex items-center gap-1.5">
             <span className="text-white/75 font-semibold">01</span>
             <span className="text-white/20">/</span>
-            <span>SIMULATION</span>
+            <span>PROGRAMMATIC</span>
           </div>
           <div className="font-heading font-bold text-[13px] text-bone uppercase tracking-tight">
-            3D CGI & CAD Motion
+            Code-Driven Motion
           </div>
           <div className="text-[11px] text-white/45 font-sans mt-0.5">
-            Octane, Cinema 4D & raytraced physics.
+            Opus 5.5, Remotion &amp; HyperFrames.
           </div>
         </div>
 
@@ -747,10 +807,10 @@ export default function MotionDesignShowcase() {
             <span>INTERACTION</span>
           </div>
           <div className="font-heading font-bold text-[13px] text-bone uppercase tracking-tight">
-            UI & Spatial Motion
+            UI &amp; Spatial Choreography
           </div>
           <div className="text-[11px] text-white/45 font-sans mt-0.5">
-            Micro-interactions, Figma to Rive/Lottie.
+            Liquid glass, tactile sliders &amp; cursor physics.
           </div>
         </div>
 
@@ -758,13 +818,13 @@ export default function MotionDesignShowcase() {
           <div className="font-mono text-[9px] tracking-[0.22em] text-white/40 uppercase mb-1 flex items-center gap-1.5">
             <span className="text-white/75 font-semibold">03</span>
             <span className="text-white/20">/</span>
-            <span>BROADCAST</span>
+            <span>LAUNCH FILMS</span>
           </div>
           <div className="font-heading font-bold text-[13px] text-bone uppercase tracking-tight">
-            Launch Films & Teasers
+            SaaS &amp; Product Reveals
           </div>
           <div className="text-[11px] text-white/45 font-sans mt-0.5">
-            Cinematic master cuts for product drops.
+            High-converting product stories &amp; teasers.
           </div>
         </div>
 
@@ -772,13 +832,13 @@ export default function MotionDesignShowcase() {
           <div className="font-mono text-[9px] tracking-[0.22em] text-white/40 uppercase mb-1 flex items-center gap-1.5">
             <span className="text-white/75 font-semibold">04</span>
             <span className="text-white/20">/</span>
-            <span>SONIC</span>
+            <span>GENERATIVE</span>
           </div>
           <div className="font-heading font-bold text-[13px] text-bone uppercase tracking-tight">
-            Bespoke Sound Design
+            Audio-Reactive Systems
           </div>
           <div className="text-[11px] text-white/45 font-sans mt-0.5">
-            Spatial audio synthesis and identity SFX.
+            Beat-synced typography &amp; particle engines.
           </div>
         </div>
       </div>

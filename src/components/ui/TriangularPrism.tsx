@@ -155,15 +155,15 @@ function VolumetricCrystalMesh({
       transparent: true,
       roughness: 0.03,
       metalness: 0.04,
-      transmission: 0.92, // Optical high-clarity crystal glass (no milky frost)
+      transmission: 0.92,
       thickness: 1.4,
-      ior: 1.68, // Brilliant diamond refractive index
+      ior: 1.68,
       reflectivity: 1.0,
       normalMap: facetNormalTexture,
-      normalScale: new THREE.Vector2(1.2, 1.2), // Prominent diamond facet cuts
+      normalScale: new THREE.Vector2(1.2, 1.2),
       iridescence: 1.0,
       iridescenceIOR: 1.52,
-      iridescenceThicknessRange: [250, 650], // Prismatic rainbow dispersion sheen
+      iridescenceThicknessRange: [250, 650],
       clearcoat: 1.0,
       clearcoatRoughness: 0.02,
       specularIntensity: 3.0,
@@ -211,8 +211,6 @@ function VolumetricCrystalMesh({
         ref={meshRef}
         geometry={geometry}
         material={materials}
-        castShadow
-        receiveShadow
       />
 
       {/* Internal Rotating Caustic Diamond Glints */}
@@ -263,7 +261,7 @@ export default function TriangularPrism() {
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [mounted]);
 
   // Pointer Down — start drag/grab
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -347,6 +345,8 @@ export default function TriangularPrism() {
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
+        data-cursor
+        data-cursor-text="DRAG 360°"
         className={`relative w-full aspect-square flex items-center justify-center touch-none select-none ${
           isDragging ? "cursor-grabbing" : "cursor-grab"
         }`}

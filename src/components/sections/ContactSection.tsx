@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import RoomShell from "./RoomShell";
 import Reveal from "@/components/ui/Reveal";
 import dynamic from "next/dynamic";
+import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
 
 const GradientOrb = dynamic(
   () => import("@/components/ui/gradient-orb").then((mod) => mod.GradientOrb),
@@ -58,6 +60,18 @@ export default function ContactSection() {
 
   // Copy feedback notification toast state
   const [copyToast, setCopyToast] = useState<string | null>(null);
+  const [briefModalOpen, setBriefModalOpen] = useState(false);
+  const [clientName, setClientName] = useState("");
+  const [projectNotes, setProjectNotes] = useState("");
+
+  useEffect(() => {
+    if (!briefModalOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setBriefModalOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [briefModalOpen]);
 
   // Magnetic mouse position ref for 3D Orb on Desktop
   const orbContainerRef = useRef<HTMLDivElement>(null);
@@ -95,11 +109,29 @@ export default function ContactSection() {
     }
   };
 
+  const servicesListStr =
+    selectedServices.length > 0 ? selectedServices.join(", ") : "General Inquiry";
+
   const mailtoSubject = encodeURIComponent(
-    `Project Inquiry${selectedServices.length > 0 ? `: ${selectedServices.join(", ")}` : ""
+    `Project Inquiry${selectedServices.length > 0 ? `: ${selectedServices.join(", ")}` : ""}`
+  );
+  const mailtoBody = encodeURIComponent(
+    `Hi PRIZM Studio,\n\n${
+      clientName ? `Name / Brand: ${clientName}\n` : ""
+    }Services of Interest: ${servicesListStr}\n${
+      projectNotes ? `\nProject Details:\n${projectNotes}\n` : ""
+    }\nLet's connect!`
+  );
+  const mailtoUrl = `mailto:hello@prizmstudio.in?subject=${mailtoSubject}&body=${mailtoBody}`;
+
+  const whatsappMessage = encodeURIComponent(
+    `Hi PRIZM Studio!${
+      clientName ? ` I'm ${clientName}.` : ""
+    } I'd love to discuss a project.\n\n• Services: ${servicesListStr}${
+      projectNotes ? `\n• Details: ${projectNotes}` : ""
     }`
   );
-  const mailtoUrl = `mailto:hello@prizmstudio.in?subject=${mailtoSubject}`;
+  const whatsappUrl = `https://wa.me/917975323635?text=${whatsappMessage}`;
 
   return (
     <RoomShell index="07" label="Contact" id="contact" right="INDIA · MUMBAI · WORLDWIDE">
@@ -138,8 +170,9 @@ export default function ContactSection() {
 
           {/* Interactive Grand 3D Gradient Orb CTA */}
           <Reveal delay={200} className="relative flex items-center justify-center mt-1 sm:mt-2 md:mt-3 z-20">
-            <a
-              href="mailto:hello@prizmstudio.in"
+            <button
+              type="button"
+              onClick={() => setBriefModalOpen(true)}
               className="group relative flex items-center justify-center w-80 h-80 sm:w-[384px] sm:h-[384px] md:w-[420px] md:h-[420px] rounded-full overflow-hidden transition-transform duration-500 hover:scale-110 cursor-pointer"
             >
               {/* 3D Shader Gradient Orb */}
@@ -154,7 +187,7 @@ export default function ContactSection() {
                 Let&apos;s work
                 <span className="group-hover:translate-x-1.5 transition-transform duration-300">↗</span>
               </span>
-            </a>
+            </button>
           </Reveal>
         </div>
 
@@ -201,8 +234,8 @@ export default function ContactSection() {
               </div>
             </Reveal>
 
-            {/* Direct Email Copy Button (Pure clean outline) */}
-            <Reveal delay={200} className="flex items-center gap-4 pt-2">
+            {/* Direct Email Copy Button + 1-Click WhatsApp Dispatch */}
+            <Reveal delay={200} className="flex flex-wrap items-center gap-3.5 pt-2">
               <button
                 onClick={() => handleCopy("hello@prizmstudio.in", "Email")}
                 className="group flex items-center gap-3 px-5 py-3 rounded-2xl border border-white/20 hover:border-white bg-transparent transition-all duration-300 text-xs font-mono tracking-wider text-white/80 hover:text-white cursor-pointer"
@@ -215,6 +248,16 @@ export default function ContactSection() {
                 <span>hello@prizmstudio.in</span>
                 <span className="text-[10px] text-white/40 group-hover:text-white/80 uppercase ml-1">COPY</span>
               </button>
+
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2.5 px-5 py-3 rounded-2xl border border-white/20 hover:border-emerald-400/60 bg-white/[0.03] hover:bg-emerald-500/10 transition-all duration-300 text-xs font-mono tracking-wider text-white/85 hover:text-white cursor-pointer"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>WHATSAPP DIRECT ↗</span>
+              </a>
             </Reveal>
 
           </div>
@@ -230,9 +273,12 @@ export default function ContactSection() {
               ref={orbWrapperRef}
               className="relative transition-transform duration-200 ease-out flex items-center justify-center"
             >
-              {/* Grand 3D Gradient Orb Link */}
-              <a
-                href={mailtoUrl}
+              {/* Grand 3D Gradient Orb Trigger */}
+              <button
+                type="button"
+                onClick={() => setBriefModalOpen(true)}
+                data-cursor
+                data-cursor-text="START BRIEF"
                 className="group relative flex items-center justify-center w-[400px] h-[400px] xl:w-[440px] xl:h-[440px] rounded-full overflow-hidden transition-transform duration-500 hover:scale-105 cursor-pointer"
               >
                 {/* 3D Shader Gradient Orb */}
@@ -254,7 +300,7 @@ export default function ContactSection() {
                     <span className="group-hover:translate-x-2 group-hover:-translate-y-1 transition-transform duration-300">↗</span>
                   </span>
                 </div>
-              </a>
+              </button>
             </div>
           </div>
 
@@ -318,6 +364,139 @@ export default function ContactSection() {
             </p>
           </div>
         </div>
+
+        {/* Interactive Quick Project Brief Modal */}
+        <AnimatePresence>
+          {briefModalOpen && (
+            <motion.div
+              data-lenis-prevent
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+              onClick={() => setBriefModalOpen(false)}
+              className="fixed inset-0 z-[120] bg-black/85 backdrop-blur-xl flex items-center justify-center p-4 sm:p-6"
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.94, y: 16 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.94, y: 16 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-xl rounded-2xl bg-[#0b0b0e] border border-white/15 p-6 sm:p-8 text-left shadow-[0_30px_90px_rgba(0,0,0,0.95)] overflow-hidden"
+              >
+                <div className="absolute inset-x-0 top-0 h-[2px] spectrum-line" />
+
+                <div className="flex items-start justify-between gap-4 mb-6">
+                  <div>
+                    <div className="font-mono text-[10px] tracking-[0.26em] uppercase text-white/45 flex items-center gap-2 mb-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-spectrum animate-pulse" />
+                      <span>INITIATE PROJECT BRIEF</span>
+                    </div>
+                    <h3 className="font-heading font-extrabold text-xl sm:text-2xl uppercase tracking-tight text-bone">
+                      START A CONVERSATION
+                    </h3>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setBriefModalOpen(false)}
+                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/75 hover:text-white transition-colors cursor-pointer shrink-0"
+                    aria-label="Close modal"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Service Pills inside Modal */}
+                <div className="mb-5">
+                  <label className="block font-mono text-[9.5px] tracking-[0.22em] uppercase text-white/45 mb-2">
+                    SELECT SERVICES
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {SERVICES.map((service) => {
+                      const isSelected = selectedServices.includes(service);
+                      return (
+                        <button
+                          key={service}
+                          type="button"
+                          onClick={() => toggleService(service)}
+                          className={`px-3 py-1.5 rounded-full text-[10px] font-mono tracking-wider uppercase transition-all cursor-pointer border ${
+                            isSelected
+                              ? "border-white text-black bg-white font-bold"
+                              : "border-white/15 text-white/60 hover:border-white/35 hover:text-white bg-white/[0.02]"
+                          }`}
+                        >
+                          {isSelected ? "✓ " : "+ "}
+                          {service}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Name / Brand Input */}
+                <div className="mb-4">
+                  <label className="block font-mono text-[9.5px] tracking-[0.22em] uppercase text-white/45 mb-1.5">
+                    YOUR NAME OR BRAND
+                  </label>
+                  <input
+                    type="text"
+                    value={clientName}
+                    onChange={(e) => setClientName(e.target.value)}
+                    placeholder="e.g. Aryan — Founder at Nova"
+                    className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/15 focus:border-white/45 text-sm text-white placeholder:text-white/30 outline-none transition-colors font-sans"
+                  />
+                </div>
+
+                {/* Project Notes Input */}
+                <div className="mb-6">
+                  <label className="block font-mono text-[9.5px] tracking-[0.22em] uppercase text-white/45 mb-1.5">
+                    PROJECT GOALS / TIMELINE (OPTIONAL)
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={projectNotes}
+                    onChange={(e) => setProjectNotes(e.target.value)}
+                    placeholder="Tell us what you're building or launching..."
+                    className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/15 focus:border-white/45 text-sm text-white placeholder:text-white/30 outline-none transition-colors font-sans resize-none"
+                  />
+                </div>
+
+                {/* Instant Dispatch Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-black hover:bg-bone font-mono text-xs font-bold uppercase tracking-[0.18em] transition-all cursor-pointer shadow-lg"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <span>SEND ON WHATSAPP ↗</span>
+                  </a>
+
+                  <a
+                    href={mailtoUrl}
+                    className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white/[0.07] hover:bg-white/[0.14] border border-white/20 text-white font-mono text-xs font-semibold uppercase tracking-[0.18em] transition-all cursor-pointer"
+                  >
+                    <span>SEND VIA EMAIL ↗</span>
+                  </a>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between font-mono text-[10px] text-white/45">
+                  <span>hello@prizmstudio.in</span>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy("hello@prizmstudio.in", "Email")}
+                    className="text-bone/80 hover:text-white underline underline-offset-4 uppercase tracking-wider cursor-pointer"
+                  >
+                    COPY EMAIL ADDRESS
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
     </RoomShell>

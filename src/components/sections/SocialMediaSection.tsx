@@ -27,33 +27,27 @@ const socialImages: ZoomParallaxImage[] = [
   {
     src: "/social/belvish1.webp",
     mobileSrc: "/social/belvishmob.webp",
-    alt: "Belvish — Visual Identity",
+    alt: "Belvish — Luxury Fragrance",
     title: "BELVISH",
-    category: "LUXURY AESTHETICS",
+    category: "LUXURY FRAGRANCE",
   },
   {
     src: "/social/vantara1.webp",
-    alt: "Vantara — Wildlife & Brand",
+    alt: "Vantara — Wildlife Conservation Initiative",
     title: "VANTARA",
     category: "CAMPAIGN SYSTEM",
   },
   {
     src: "/social/krossanmob.webp",
-    alt: "Krossan — Artisanal Bakery",
+    alt: "Krossan — Contemporary Menswear",
     title: "KROSSAN",
-    category: "ARTISANAL PATISSERIE",
+    category: "CONTEMPORARY APPAREL",
   },
   {
     src: "/social/auric1.webp",
-    alt: "Auric — Visual Systems",
+    alt: "Auric — Kesar Attar Heritage Perfumery",
     title: "AURIC",
-    category: "VISUAL SYSTEMS",
-  },
-  {
-    src: "/social/toxic.webp",
-    alt: "Toxic — Visual Direction",
-    title: "TOXIC",
-    category: "CREATIVE REEL",
+    category: "HERITAGE PERFUMERY",
   },
 ];
 
@@ -76,24 +70,24 @@ export default function SocialMediaSection() {
         </Reveal>
 
         {/* Narrative Copy Block: Split Layout (Headline Left, Subheadline Right) */}
-        <div className="relative z-20 grid grid-cols-12 gap-6 md:gap-8 items-end w-full mt-12 sm:mt-16 md:mt-24 mb-4 px-4 sm:px-8 md:px-12 lg:px-16 pointer-events-none">
+        <div className="relative z-20 max-w-6xl mx-auto grid grid-cols-12 gap-4 md:gap-8 items-end w-full mt-6 sm:mt-10 mb-8 md:mb-12 px-6 md:px-10">
           {/* Left Side: Headline */}
-          <div className="col-span-12 lg:col-span-7 text-left pointer-events-auto pl-4 sm:pl-8 lg:pl-12">
-            <h3 className="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-wider text-white uppercase font-sans leading-tight drop-shadow-md max-w-xl">
-              STRATEGY. CONTENT. COMMUNITY.
+          <div className="col-span-12 lg:col-span-7 text-left">
+            <h3 className="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-wider text-white uppercase font-sans leading-tight drop-shadow-md">
+              STRATEGY. CONTENT. <span className="spectrum-text">COMMUNITY.</span>
             </h3>
           </div>
 
           {/* Right Side: Subheadline */}
-          <div className="col-span-12 lg:col-span-5 text-left lg:text-right pb-1 pl-4 sm:pl-8 lg:pl-0 lg:pr-20 pointer-events-auto">
-            <p className="text-xs sm:text-sm md:text-base text-white/70 font-light leading-relaxed max-w-[280px] sm:max-w-[300px] lg:ml-auto translate-y-4 sm:translate-y-16 lg:translate-y-28">
-              Full-funnel social media management, campaign strategy, graphic design, bespoke content creation, and active community building engineered for cult followings.
+          <div className="col-span-12 lg:col-span-5 text-left lg:text-right">
+            <p className="text-xs sm:text-sm md:text-[15px] text-white/65 font-light leading-relaxed max-w-md lg:ml-auto">
+              Full-funnel social media management, campaign direction, bespoke visual systems, and community building engineered for cult followings.
             </p>
           </div>
         </div>
 
         {/* 3D Zoom Parallax Component (Desktop) & Kinetic Dual-Column Feed (Mobile) */}
-        <div className="mt-8 sm:-mt-16 md:-mt-32 relative z-10 w-full">
+        <div className="relative z-10 w-full">
           <ZoomParallax images={socialImages} />
         </div>
       </div>

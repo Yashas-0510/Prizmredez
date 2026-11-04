@@ -1,9 +1,42 @@
 export const FRAME_TOTAL = 121;
-export const READY_THRESHOLD = 60;
+export const READY_THRESHOLD = 40;
 
 let loaded = 0;
 let totalFrames = FRAME_TOTAL;
+let transitioning = false;
+let preloaderActive = true;
 const listeners = new Set<(count: number, total: number) => void>();
+const doneListeners = new Set<() => void>();
+
+export function setPreloaderTransitioning(active: boolean) {
+  transitioning = active;
+}
+
+export function isPreloaderTransitioning() {
+  return transitioning;
+}
+
+export function setPreloaderActive(active: boolean) {
+  preloaderActive = active;
+  if (!active) {
+    doneListeners.forEach((cb) => cb());
+  }
+}
+
+export function isPreloaderActive() {
+  return preloaderActive;
+}
+
+export function onPreloaderDone(cb: () => void) {
+  if (!preloaderActive) {
+    cb();
+    return () => {};
+  }
+  doneListeners.add(cb);
+  return () => {
+    doneListeners.delete(cb);
+  };
+}
 
 export function setFrameTotal(total: number) {
   if (total > 0 && total !== totalFrames) {
